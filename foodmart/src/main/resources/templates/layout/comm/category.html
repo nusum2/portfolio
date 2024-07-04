@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<div id="category_menu" th:fragment="categoryFragment">
+   <ul class="nav justify-content-center" id="first_category">
+     <li class="nav-item" th:each="category : ${user_cate_list}">
+       <a class="nav-link active" href="#" th:data-cate_code="${category.cate_code}" th:text="${category.cate_name}"></a>
+     </li>
+   </ul>
+</div>
+</html>

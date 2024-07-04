@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.food.basic.user.UserMapper">
+<select id="idCheck" parameterType="String" resultType="String">
+select u_id 
+from user_t
+where u_id = #{u_id}
+</select>
+
+<select id="nickCheck" parameterType="String" resultType="String">
+select u_nick 
+from user_t
+where u_nick = #{u_nick}
+</select>
+
+<insert id="join" parameterType="UserVO">
+insert into user_t(u_id, u_password, u_NAME, u_EMAIL, u_zipcode, u_ADDR, u_deaddr, u_PHONE, u_nick)
+VALUES(#{u_id}, #{u_password}, #{u_name}, #{u_email}, #{u_zipcode}, #{u_addr}, #{u_deaddr}, #{u_phone}, #{u_nick})
+</insert>
+
+<select id="login" resultType="UserVO">
+select u_id, u_password, u_name, u_email, u_zipcode, u_addr, u_deaddr, u_phone, u_nick, u_receive, u_point,
+u_lastlogin, u_regdate, u_update
+from user_t 
+where u_id = #{u_id}
+</select>
+
+<select id="idfind" resultType="String">
+select u_id
+from user_t
+where u_name = #{u_name}
+and u_email = #{u_email}
+</select>
+
+<select id="pwfind" resultType="String" parameterType="map">
+select u_email
+from user_t
+where u_id = #{u_id}
+and u_name = #{u_name}
+and u_email = #{u_email}
+</select>
+
+<update id="tempPwUpdate" parameterType="map">
+update user_t
+set u_password = #{enc_pw}
+where u_id = #{u_id}
+</update>
+
+<update id="modify" parameterType="UserVO">
+update user_t
+set u_email = #{u_email}, u_zipcode = #{u_zipcode}, u_addr = #{u_addr}, u_deaddr = #{u_deaddr}, u_phone = #{u_phone}
+where u_id = #{u_id}
+</update>
+
+<update id="changePw" parameterType="map">
+update user_t
+set u_password = #{new_pwd}
+where u_id = #{u_id}
+</update>
+
+<delete id="delete" parameterType="String">
+delete from user_t
+where u_id = #{u_id}
+</delete>
+
+<select id="existsUserInfo" resultType="String">
+select sns_login_type
+from user_t
+where u_email = #{sns_email}
+</select>
+
+<!-- sns 카카오, 네이버 사용자 중복체크 -->
+<select id="sns_user_check" parameterType="String" resultType="String">
+select email
+from sns_user_t
+where email = #{sns_email}
+</select>
+
+<insert id="sns_user_insert" parameterType="SNSUserDto">
+insert into sns_user_t (id, name, email, sns_type)
+values (#{id}, #{name}, #{email}, #{sns_type})
+</insert>
+
+</mapper>

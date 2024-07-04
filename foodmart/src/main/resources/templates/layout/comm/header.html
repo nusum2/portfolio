@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<th:block th:fragment="headerFragment">
+<div  class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
+  <h5 class="my-0 mr-md-auto font-weight-normal"><a th:href="@{/}">푸드마켓</a></h5>
+  <nav class="my-2 my-md-0 mr-md-3">
+  	<th:block th:if="${session.login_status == null and session.kakao_status == null and session.naver_status == null}">
+    <a class="p-2 text-dark" th:href="@{/user/login}">로그인</a>
+    <a class="p-2 text-dark" th:href="@{/user/join}">회원가입</a>
+    </th:block>
+    <th:block th:if="${session.login_status != null}">
+    <span th:text="${session.login_status.u_name}"></span>
+    <span>[[${session.login_status.u_email}]]</span>
+    <a class="p-2 text-dark" th:href="@{/user/logout}">로그아웃</a>
+    </th:block>
+    <th:block th:if="${session.kakao_status != null}">
+    <a class="p-2 text-dark" th:href="@{/oauth2/kakaologout}">로그아웃</a>
+    </th:block>
+    <th:block th:if="${session.naver_status != null}">
+    <a class="p-2 text-dark" th:href="@{/oauth2/naverlogout}">로그아웃</a>
+    </th:block>
+    <a class="p-2 text-dark" th:href="@{/user/mypage}">마이페이지</a>
+    <a class="p-2 text-dark" href="#">주문정보</a>
+    <a class="p-2 text-dark" href="#">장바구니</a>  
+  </nav>
+  </div>
+  <!-- <div>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="#">Navbar</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse subcategory" id="navbarNavDropdown">
+    <ul class="navbar-nav" th:each="CategoryVO : ${catelist}">
+    <th:block >
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle btncategory" role="button" data-toggle="dropdown" aria-expanded="false" th:text="${CategoryVO.cate_name}" th:href="@{/category/catelist(cate_code=${cate_code})}">
+          th:href="@{/category/catelist(cate_code=${vo.cate_code})}" 
+        </a>
+        <div class="dropdown-menu"></div>
+      </li>
+      </th:block>
+    </ul>
+  </div>
+</nav>
+  </div> -->
+</th:block>
+</html>
