@@ -25,7 +25,7 @@
 			</p>
               <div class="d-flex justify-content-between align-items-center">
                 <div class="btn-group">
-                  <button type="button" class="btn btn-sm btn-outline-secondary">구매하기</button>
+                  <button type="button" class="btn btn-sm btn-outline-secondary" name="btn_direct_order" th:data-pro_num="${product.pro_num}">구매하기</button>
                   <button type="button" class="btn btn-sm btn-outline-secondary" name="btn_cart_add" th:data-pro_num="${product.pro_num}">장바구니</button>
                 </div>
                 <small class="text-muted">9 mins</small>
@@ -131,6 +131,21 @@
     </div>
   </div>
 </div>
+<!-- modal2 -->
+<div class="modal fade" id="order_process_popup_2" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <!-- load()메소드를 이용하여 pro_info_2.html 파일이 실행된 내용이 삽입된다 -->
+      <div class="modal-body" id="popup_info"></div>
+		</div>
+	</div>
+</div>
 
 </th:block>
 
@@ -176,6 +191,38 @@
 			
 			});
 		
+		});
+		$("button[name='btn_direct_order']").on("click", function(){
+
+			$('#order_process_popup_2').modal('show');
+
+			let pro_num = $(this).data("pro_num");
+
+			console.log("상품코드", pro_num);
+
+			$("#popup_info").load("/product/pro_info_2?pro_num=" + pro_num);
+		});
+
+		//장바구니 추가 modal2 pro_info_2.html id="btn_cart_add"
+		$("#order_process_popup_2").on("click", "button#btn_cart_add" ,function() {
+			//정적                                  동적
+			let pro_num = $(this).data("pro_num");
+			let cart_amount = $("#btn_cart_amount").val();
+
+			$.ajax({
+				url : '/cart/cart_add',
+				type : 'get',
+				data : {pro_num : pro_num, cart_amount : cart_amount}, //변수 : 값
+				dataType : "text",
+				success : function(result) {
+					if(result == 'success') {
+						alert("장바구니에 등록되었습니다.");
+						if(confirm("장바구니로 이동하시겠습니까?")) {
+							location.href = "장바구니 주소";
+						}
+					}
+				}
+			});
 		});
 
 });

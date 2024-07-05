@@ -62,6 +62,7 @@ public class ProductController {
 		return FileManagerUtils.getFile(uploadPath + dateFolderName, fileName);
    }
 	
+	//상품정보
 	@GetMapping("pro_info")
 	public ResponseEntity<ProductVO> pro_info(int pro_num) throws Exception {
 		ResponseEntity<ProductVO> entity = null;
@@ -73,5 +74,19 @@ public class ProductController {
 		
 				
 		return entity;
+	}
+	
+	//상품정보2
+	@GetMapping("pro_info_2")
+	public void pro_info_2(int pro_num, Model model) throws Exception {
+		
+		log.info("상품코드 : " + pro_num);
+		
+		//db연동
+		ProductVO vo = productService.pro_info(pro_num);
+		vo.setPro_up_folder(vo.getPro_up_folder().replace("\\", "/"));
+		
+		model.addAttribute("product", vo);
+		
 	}
 }

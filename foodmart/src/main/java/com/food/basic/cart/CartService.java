@@ -9,4 +9,8 @@ import lombok.RequiredArgsConstructor;
 public class CartService {
 	
 	private final CartMapper cartMapper;
+	
+	public void cart_add(CartVO vo) {
+		cartMapper.cart_add(vo);
+	}
 }
