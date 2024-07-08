@@ -89,4 +89,21 @@ public class ProductController {
 		model.addAttribute("product", vo);
 		
 	}
+	
+	//상품화면
+	@GetMapping("pro_detail")
+	public void pro_detail(int pro_num, Model model) throws Exception {
+		
+		log.info("상품코드 : " + pro_num);
+		
+		//db연동
+		ProductVO vo = productService.pro_detail(pro_num);
+		vo.setPro_up_folder(vo.getPro_up_folder().replace("\\", "/"));
+		
+		model.addAttribute("product", vo);
+		
+		//상품리뷰 모델
+		
+		//qna 모델
+	}
 }

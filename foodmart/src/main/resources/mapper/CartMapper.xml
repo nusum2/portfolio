@@ -12,4 +12,30 @@ when not matched then
 insert (cart_code, pro_num, u_id, cart_amount)
 values (seq_cart_code.nextval, #{pro_num}, #{u_id}, #{cart_amount})
 </insert>
+
+<select id="cart_list" parameterType="String" resultType="CartProductVO">
+select c.u_id, p.pro_up_folder, p.pro_img, p.pro_price, p.pro_name, c.cart_code, p.pro_num, c.cart_amount
+from cart_t c
+inner join product_t p
+on c.pro_num = p.pro_num
+where c.u_id = #{u_id}
+</select>
+
+
+<delete id="cart_del" parameterType="Long">
+delete from cart_t
+where cart_code = #{cart_code}
+</delete>
+
+<update id="cart_change" parameterType="map">
+update cart_t
+set cart_amount = #{cart_amount}
+where cart_code = #{cart_code}
+</update>
+
+<delete id="cart_empty" parameterType="String">
+delete from cart_t
+where u_id = #{u_id}
+</delete>
+
 </mapper>

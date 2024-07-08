@@ -14,4 +14,6 @@ public interface ProductMapper {
 	int getCountProductByCategory(int cate_code);
 	
 	ProductVO pro_info(int pro_num);
+	
+	ProductVO pro_detail(int pro_num);
 }

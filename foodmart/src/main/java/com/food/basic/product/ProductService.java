@@ -32,4 +32,9 @@ public class ProductService {
 		return productMapper.pro_info(pro_num);
 	}
 	
+	public ProductVO pro_detail(int pro_num) {
+		
+		return productMapper.pro_detail(pro_num);
+	}
+	
 }

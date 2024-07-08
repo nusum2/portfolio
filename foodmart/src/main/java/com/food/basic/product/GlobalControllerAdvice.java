@@ -14,7 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @RequiredArgsConstructor
 @Slf4j
-@ControllerAdvice(basePackages = {"com.food.basic.product"}) //카테고리가 사용되는 컨트롤러의 패키지를 설정
+@ControllerAdvice(basePackages = {"com.food.basic.product", "com.food.basic.cart", "com.food.basic.order"}) //카테고리가 사용되는 컨트롤러의 패키지를 설정
 public class GlobalControllerAdvice {
 	
 	private final AdminCategoryService adminCategoryService;
