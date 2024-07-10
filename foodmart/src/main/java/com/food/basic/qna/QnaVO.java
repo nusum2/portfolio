@@ -19,4 +19,5 @@ public class QnaVO {
 	private String q_content;
 	private String q_writer;
 	private Date q_regdate;
+	private Date q_updatedate;
 }

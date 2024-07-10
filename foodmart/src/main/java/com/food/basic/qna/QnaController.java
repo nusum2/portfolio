@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -22,7 +23,7 @@ public class QnaController {
 	private final QnaService qnaService;
 	
 	@GetMapping("/qna_list")
-	public void qna_list(Criteria cri, Model model) {
+	public void qna_list(Criteria cri, Model model) throws Exception {
 		
 		cri.setAmount(5);
 		
@@ -43,11 +44,28 @@ public class QnaController {
 	}
 	
 	@PostMapping("/qna_write")
-	public String qna_write(QnaVO vo) {
+	public String qna_write(QnaVO vo) throws Exception {
 		
 		log.info("글쓰기 입력 데이터 : " + vo);
 		
 		qnaService.qna_write(vo);
-		return "redirect:/qna/qna_list";
+		return "redirect:/qna/qna_admin_list";
+	}
+	
+	//관리자 qna 내용
+	@GetMapping(value = {"qna_content", "qna_update"})
+	public void qna_content(int q_num, @ModelAttribute("cri") Criteria cri, Model model) throws Exception {
+		
+		QnaVO vo = qnaService.qna_content(q_num);
+		model.addAttribute("vo", vo);
+		
+	}
+	
+	@PostMapping("qna_update")
+	public String qna_update(QnaVO vo, Criteria cri) throws Exception{
+		
+		qnaService.qna_update(vo);
+		
+		return "redirect:/qna/qna_admin/list" + cri.getListLink();
 	}
 }

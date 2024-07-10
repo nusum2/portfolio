@@ -29,4 +29,14 @@ public class QnaService {
 		
 		return qnaMapper.getTotalCount(cri);
 	}
+	
+	public QnaVO qna_content(int q_num) {
+		
+		return qnaMapper.qna_content(q_num);
+	}
+	
+	public void qna_update(QnaVO vo) {
+		
+		qnaMapper.qna_update(vo);
+	}
 }
