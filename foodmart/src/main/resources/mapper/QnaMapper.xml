@@ -21,10 +21,10 @@ q_content like'%' || #{keyword} || '%'
 
 <!-- 검색조건추가 리스트 -->
 <select id="qna_list" resultType="com.food.basic.qna.QnaVO" parameterType="com.food.basic.common.dto.Criteria">
-select q_num, q_title, q_content
+select q_num, q_title, q_content, q_regdate, q_updatedate
 from(
 select /*+ index_desc(qna_t pk_q_num) */
-rownum as rn, q_num, q_title, q_content
+rownum as rn, q_num, q_title, q_content, q_regdate, q_updatedate
 from qna_t
 where --페이지 번호 * 페이지별 출력건수
 <include refid="criteria"></include>
@@ -46,5 +46,17 @@ q_num > 0
 insert into qna_t (q_num, q_title, q_content)
 values (seq_q_num.nextval, #{q_title}, #{q_content})
 </insert>
+
+<select id="qna_content" resultType="com.food.basic.qna.QnaVO" parameterType="int">
+select q_num, q_title, q_content, q_regdate, q_updatedate
+from qna_t
+where q_num = #{q_num}
+</select>
+
+<update id="qna_update" parameterType="com.food.basic.qna.QnaVO">
+update qna_t
+set q_title = #{q_title}, q_content = #{q_content}, q_updatedate = sysdate
+where q_num = #{q_num}
+</update>
 
 </mapper>

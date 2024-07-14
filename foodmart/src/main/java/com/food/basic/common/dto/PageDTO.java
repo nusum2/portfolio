@@ -23,7 +23,7 @@ public class PageDTO {
 		this.total = total;
 		
 		//블럭마다 보여줄 페이지 개수
-		int pageSize = 10;
+		int pageSize = 5;
 		int endPageInfo = pageSize - 1; // 10 - 1 = 9
 		
 		//현재 블럭에서 어떤 페이지 번호를 클릭하든 화면에 페이지 번호를 다시 출력하기 위하여

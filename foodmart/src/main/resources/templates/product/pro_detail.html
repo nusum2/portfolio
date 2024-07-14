@@ -2,7 +2,21 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/baselayout}">
 <th:block layout:fragment="css">
         <!-- 각 페이지의 css -->
-        <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.3/themes/base/jquery-ui.css">
+		<link rel="stylesheet" href="https://code.jquery.com/ui/1.13.3/themes/base/jquery-ui.css">
+		<style>
+			/*기본*/
+			p#star_re_rate a.re_rate {
+				font-size: 22px;
+				text-decoration: none;
+				color: lightgray;
+			}
+			/*클릭시*/
+			p#star_re_rate a.re_rate.on {
+				color: red;
+
+			}
+
+		 </style>
         <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
         <script id="review-template" type="text/x-handlebars-template">
         <table id="re_table" class="table">
@@ -93,21 +107,43 @@
 </div>
 <!-- Button trigger modal --> 
   <!-- 상품후기쓰기 Modal -->
-  <div class="modal fade" id="review_modal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal fade" id="review_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
 	  <div class="modal-content">
 		<div class="modal-header">
-		  <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+		  <h5 class="modal-title" id="exampleModalLabel">상품후기</h5>
 		  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 			<span aria-hidden="true">&times;</span>
 		  </button>
 		</div>
 		<div class="modal-body">
-		  ...
+		  <form id="review_form">
+			<div class="form-group">
+				<label for="message-text" class="col-form-label">제목</label>
+				<input type="text" class="form-control" id="re_title">
+				<input type="hidden" class="form-control" id="re_code">
+			  </div>
+			<div class="form-group">
+			  <label for="message-text" class="col-form-label">내용</label>
+			  <textarea class="form-control" id="re_content"></textarea>
+			</div>
+			<div class="form-group">
+			  <label for="recipient-name" class="col-form-label">별평점</label>
+			  <p id="star_re_rate">
+				<a class="re_rate" href="#">☆</a>
+				<a class="re_rate" href="#">☆</a>
+				<a class="re_rate" href="#">☆</a>
+				<a class="re_rate" href="#">☆</a>
+				<a class="re_rate" href="#">☆</a>
+			  </p>
+			</div>
+			
+		  </form>
 		</div>
 		<div class="modal-footer">
-		  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-		  <button type="button" class="btn btn-primary">Understood</button>
+		  <button type="button" id="btn_review_save" class="btn btn-primary" th:data-pro_num="${product.pro_num}">저장</button>
+		  <button type="button" id="btn_review_modify" class="btn btn-primary" th:data-pro_num="${product.pro_num}">저장</button>
+		  <button type="button" id="btn_review_close" class="btn btn-secondary" data-dismiss="modal">취소</button>
 		</div>
 	  </div>
 	</div>
@@ -171,26 +207,26 @@
 		}
 		//페이징 ui작업 - 로직으로 작업 pageData = pageMaker
 		let print_paging = function(pageData, target) {
-			let str = `<nav aria-label="Page navigation example">`;
+			let str = `<nav aria-label="Page navigation example" class="nav justify-content-center">`;
 				str += `<ul class="pagination">`;
 			
 			//이전 표시여부
 			if(pageData.prev) {
-				str += ` <li class="page-item">`;
+				str += `<li class="page-item">`;
 				str += `<a class="page-link" href="${pageData.startPage - 1}" aria-label="Previous">`;
 				str += `<span aria-hidden="true">&laquo;</span>`;
 				str += ` </a>`;
 			}
 
 			//번호 표시
-			for(let i=pageData.startPage; i<pageData.endPage; i++) {
+			for(let i=pageData.startPage; i<=pageData.endPage; i++) {
 				let className = pageData.cri.pageNum == i ? 'active' : '';
 				str += `<li class="page-item ${className}"><a class="page-link" href="${i}">${i}</a></li>`;
 			}
 
 			//다음 표시여부
 			if(pageData.next) {
-				str += ` <li class="page-item">`;
+				str += `<li class="page-item">`;
 				str += `<a class="page-link" href="${pageData.endPage + 1}" aria-label="Next">`;
 				str += `<span aria-hidden="true">&raquo;</span>`;
 				str += ` </a>`;
@@ -233,15 +269,26 @@
 		});
 		//핸들바 함수 : 작성자와 로그인 사용자가 일치되는 경우 수정, 삭제버튼 표시
 		Handlebars.registerHelper("authControlView", function(u_id, re_code){
-			let loginId = [[ ${session.login_status.u_id} ]];
+			
+			let loginVO = /*[[${session.login_status}]]*/;
+			
+			let loginId = "";
 
-			let str = "";
-			if(loginId == u_id) {
-				str += `<button type="button" class="btn btn-link" data-re_code="${re_code}">edit</button>`
-				str += `<button type="button" class="btn btn-link" data-re_code="${re_code}">delete</button>`
+			if(loginVO !== null) {
+				loginId = /*[[${session.login_status == null ? '' : session.login_status.u_id}]]*/;
 			}
 
-			return new Handlebars.SafeString(str);
+			let str = "";
+			if(loginVO !== null && loginId == u_id) {
+				str += `<button type="button" name="btn_review_edit" class="btn btn-link" data-re_code="${re_code}">수정</button>`
+				str += `<button type="button" name="btn_review_delete" class="btn btn-link" data-re_code="${re_code}">삭제</button>`
+			
+				return new Handlebars.SafeString(str);
+			}else{
+				return "";
+			}
+
+			
 		});
 		
 		//페이지 클릭 이벤트
@@ -256,8 +303,199 @@
 
 		//상품후기 modal
 		$("#btn_review_modal").on("click", function(){
+			$("#btn_review_save").show();
+			$("#btn_review_modify").hide();
 			$("#review_modal").modal('show');
 		});
+
+		//평점 클릭
+		$("p#star_re_rate a.re_rate").on("click", function(e){
+			e.preventDefault();
+			$(this).parent().children().removeClass("on"); //on 선택자 제거
+			$(this).addClass("on").prevAll("a").addClass("on"); //현재 선택한 별과 이전 별까지 on 선택자 추가
+
+		});
+		//취소버튼으로 비우기
+		$("button#btn_review_close").on("click", function(){
+			$("#re_title").val("");
+			$("#re_content").val("");
+			
+			
+		});
+
+		//상품후기저장
+		$("button#btn_review_save").on("click", function(){
+			let pro_num = $(this).data("pro_num");
+			//console.log(pro_num);
+			let re_title = $("#re_title").val();
+			let re_content = $("#re_content").val();
+			let re_rate = 0;
+
+			$("p#star_re_rate a.re_rate").each(function(){
+				if($(this).attr("class") == "re_rate on") {
+					re_rate += 1;
+				}
+			});
+			if(re_title == "") {
+				alert("제목을 입력하세요.");
+				return;
+			}
+
+			if(re_content == "") {
+				alert("내용을 입력하세요.");
+				return;
+			}
+
+			if(re_rate == 0) {
+				alert("평점을 선택하세요.");
+				return;
+			}
+
+			//자바스크립트 object문법
+			let review_data = {pro_num : pro_num, re_title : re_title, re_content : re_content, re_rate : re_rate};
+
+			$.ajax({
+				url : '/review/review_save',
+				//브라우저는 get post 지원
+				//rest api에서는 get post delete put patch 지원
+				//스프링 컨트롤러에서 rest api 매핑주소로 설정시
+				//아래와 같이"X-HTTP-Method-Override" : "요청방식" 으로 코드를 구성해줘야 정상적으로 주소 호출 가능해짐
+				headers : {
+					"Content-Type" : "application/json", "X-HTTP-Method-Override" : "POST"
+				},
+				type : 'post',
+				data : JSON.stringify(review_data), //자바스크립트 object문법을 json으로 변환
+				dataType : 'text',
+				success : function(result) {
+					alert("상품후기 등록완료");
+					//저장 후 모달창 비우기
+					$("#re_title").val("");
+					$("#re_content").val("");
+					$("#review_modal").modal('hide');
+					getReviewList(url); //상품후기목록과 페이징 정보를 갱신
+				}
+			});
+		});
+		
+		//리뷰 삭제
+		$("div#review_list").on("click", "button[name='btn_review_delete']", function(){
+			if(!confirm("리뷰를 삭제하시겠습니까?")) return;
+			let re_code = $(this).data("re_code");
+
+			$.ajax({
+				url : '/review/review_delete/' + re_code,
+				//브라우저는 get post 지원
+				//rest api에서는 get post delete put patch 지원
+				//스프링 컨트롤러에서 rest api 매핑주소로 설정시
+				//아래와 같이"X-HTTP-Method-Override" : "요청방식" 으로 코드를 구성해줘야 정상적으로 주소 호출 가능해짐
+				headers : {
+					"Content-Type" : "application/json", "X-HTTP-Method-Override" : "DELETE"
+				},
+				type : 'delete',
+				dataType : 'text',
+				success : function(result) {
+					alert("리뷰삭제완료");
+					getReviewList(url); //상품후기목록과 페이징 정보를 갱신
+				}
+			});
+		});
+		//리뷰 수정
+		$("div#review_list").on("click", "button[name='btn_review_edit']", function(){
+			if(!confirm("리뷰를 수정하시겠습니까?")) return;
+			let re_code = $(this).data("re_code");
+
+			$.ajax({
+				url : '/review/review_modify/' + re_code,
+				headers : {
+					"Content-Type" : "application/json", "X-HTTP-Method-Override" : "GET"
+				},
+				type : 'get',
+				dataType : 'json',
+				success : function(result) {
+					console.log(result);
+
+					//모달 내용에 리뷰 출력
+					$("#re_title").val(result.re_title);
+					$("#re_content").val(result.re_content);
+					$("#re_code").val(result.re_code); //input type="hidden"
+
+					//$("#btn_review_save").html("리뷰 수정");
+					
+					let re_rate = result.re_rate;
+					
+					$("p#star_re_rate a.re_rate").each(function(index, item){
+							
+						if(index < re_rate) {
+							$(this).addClass("on");
+						}
+					
+						});
+					//모달 보여주기
+					$("#btn_review_save").hide();
+					$("#btn_review_modify").show();
+					$("#review_modal").modal('show');	
+				}
+			});
+		});
+
+		//상품후기수정
+		$("button#btn_review_modify").on("click", function(){
+			let pro_num = $(this).data("pro_num");
+			//console.log(pro_num);
+			let re_title = $("#re_title").val();
+			let re_content = $("#re_content").val();
+			let re_code = $("#re_code").val();
+			let re_rate = 0;
+
+			$("p#star_re_rate a.re_rate").each(function(){
+				if($(this).attr("class") == "re_rate on") {
+					re_rate += 1;
+				}
+			});
+			if(re_title == "") {
+				alert("제목을 입력하세요.");
+				return;
+			}
+
+			if(re_content == "") {
+				alert("내용을 입력하세요.");
+				return;
+			}
+
+			if(re_rate == 0) {
+				alert("평점을 선택하세요.");
+				return;
+			}
+
+			//자바스크립트 object문법
+			let review_data = {pro_num : pro_num, re_title : re_title, re_content : re_content, re_rate : re_rate, re_code : re_code};
+
+			$.ajax({
+				url : '/review/review_modify',
+				headers : {
+					"Content-Type" : "application/json", "X-HTTP-Method-Override" : "PUT"
+				},
+				type : 'put',
+				data : JSON.stringify(review_data), //자바스크립트 object문법을 json으로 변환
+				dataType : 'text',
+				success : function(result) {
+					alert("수정완료");
+					//저장 후 모달창 비우기
+					$("#re_title").val("");
+					$("#re_content").val("");
+					$("#review_modal").modal('hide');
+					getReviewList(url); //상품후기목록과 페이징 정보를 갱신
+				}
+			});
+		});
+		//구매하기
+		$("button#btn_direct_order").on("click", function(){
+			let pro_num = $(this).data("pro_num");
+			let cart_amount = $("#btn_cart_amount").val();
+			let url = `/order/orderinfo?pro_num=${pro_num}&cart_amount=${cart_amount}`;
+
+			location.href = url;
+		}); 
 
 });
 

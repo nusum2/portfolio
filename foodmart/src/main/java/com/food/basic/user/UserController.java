@@ -39,7 +39,7 @@ public class UserController {
 	public String join(UserVO vo) throws Exception {
 		
 		//비밀번호 암호화
-				vo.setU_password(passwordEncoder.encode(vo.getU_password()));
+				//vo.setU_password(passwordEncoder.encode(vo.getU_password()));
 		
 		log.info("회원정보 : " + vo);
 		userService.join(vo);
@@ -98,7 +98,7 @@ public class UserController {
 			//dto로 묶어서 사용하면 재사용성 높음
 			@PostMapping("login") 
 			public String loginOk(LoginDTO dto, HttpSession session, RedirectAttributes rttr) throws Exception{
-				
+				//session.invalidate();
 				UserVO vo = userService.login(dto.getU_id());
 				
 				String msg = "";
@@ -113,6 +113,9 @@ public class UserController {
 						msg = "failPW";
 						url = "/user/login";
 					}
+//					session.setAttribute("login_status", vo);
+//					msg = "failPW";
+//					url = "/user/login";
 				}else { //아이디가 존재하지 않을 경우
 					msg = "failID";
 					url = "/user/login";
@@ -125,6 +128,7 @@ public class UserController {
 			public String logout(HttpSession session) {
 				
 				session.invalidate(); //세션형태로 관리되는 모든 메모리 소멸
+				
 				
 				return "redirect:/";
 			}
@@ -211,9 +215,9 @@ public class UserController {
 						String tempPw = userService.getTempPw(); // - 를 제거
 						
 						//암호화된 비밀번호
-						String enc_pw = passwordEncoder.encode(tempPw);
+						//String enc_pw = passwordEncoder.encode(tempPw);
 						
-						userService.tempPwUpdate(u_id, enc_pw);
+						//userService.tempPwUpdate(u_id, enc_pw);
 						
 						EmailDTO dto = new EmailDTO("Foodmart", "Foodmart", d_email, "임시 비밀번호입니다.", tempPw);
 						

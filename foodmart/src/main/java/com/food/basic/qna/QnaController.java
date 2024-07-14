@@ -22,6 +22,7 @@ public class QnaController {
 	
 	private final QnaService qnaService;
 	
+	//목록
 	@GetMapping("/qna_list")
 	public void qna_list(Criteria cri, Model model) throws Exception {
 		
@@ -52,7 +53,7 @@ public class QnaController {
 		return "redirect:/qna/qna_admin_list";
 	}
 	
-	//관리자 qna 내용
+	//관리자 qna 내용 불러오기
 	@GetMapping(value = {"qna_content", "qna_update"})
 	public void qna_content(int q_num, @ModelAttribute("cri") Criteria cri, Model model) throws Exception {
 		
@@ -60,12 +61,15 @@ public class QnaController {
 		model.addAttribute("vo", vo);
 		
 	}
-	
+	//qna 수정
 	@PostMapping("qna_update")
 	public String qna_update(QnaVO vo, Criteria cri) throws Exception{
 		
 		qnaService.qna_update(vo);
 		
-		return "redirect:/qna/qna_admin/list" + cri.getListLink();
+		return "redirect:/qna/qna_admin_list" + cri.getListLink();
 	}
+	
+	//qna 삭제
+	
 }

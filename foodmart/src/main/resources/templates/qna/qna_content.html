@@ -56,7 +56,8 @@
 	                <input type="text" class="form-control" name="q_title" id="q_title" th:value="${qna.q_title}" readonly>
 	              </div>
 	              <div class="col-sm-6">
-	                <input type="text" class="form-control" name="q_title" id="q_title" th:value="${#dates.format(qna.q_regdate, 'yyyy-MM-dd HH:mm:ss')}" readonly>
+	              <label for="q_title" class="col-sm-1 col-form-label">작성일</label>
+	                <input type="text" class="form-control" name="q_regdate" id="q_regdate" th:value="${#dates.format(qna.q_regdate, 'yyyy-MM-dd HH:mm:ss')}" readonly>
 	              </div>
 				</div>
 				<div class="form-group row">
@@ -67,6 +68,7 @@
 	            </div>
                 <div class="box-footer">
                   <button type="button" class="btn btn-info" id="btn_qna_update">수정</button>
+                  <button type="button" class="btn btn-danger" id="btn_qna_delete">삭제</button>
                   <button type="button" class="btn btn-primary pull-right" id="btn_qna_list">목록</button>
                 </div><!-- /.box-footer -->
               </form>
@@ -84,7 +86,14 @@ $(document).ready(function(){
 		actionForm.submit();
 	
 	});
-
+	//수정 버튼
+	$("button#btn_qna_update").on("click", function(){
+		location.href="/qna/qna_update";
+	});
+	//삭제버튼
+  $("button#btn_qna_delete").on("click", function(){
+    
+  });
 });
 </script>
 </th:block>
