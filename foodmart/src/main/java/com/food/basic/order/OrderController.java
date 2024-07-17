@@ -2,14 +2,18 @@ package com.food.basic.order;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.food.basic.cart.CartProductVO;
 import com.food.basic.cart.CartService;
 import com.food.basic.cart.CartVO;
+import com.food.basic.user.UserService;
 import com.food.basic.user.UserVO;
 
 import jakarta.servlet.http.HttpSession;
@@ -24,16 +28,22 @@ public class OrderController {
 	
 	private final OrderService orderService;
 	private final CartService cartService;
+	private final UserService userService;
 	
+	//1.pro_list.html 구매하기 2.pro_detail.html 구매하기 3.장바구니 구매하기
+	//1,2번은 cartvo 사용 3번은 미사용, 사용시 에러 발생
 	//주문정보
 	@GetMapping("/orderinfo")
-	public String orderinfo(CartVO vo, Model model, HttpSession session) throws Exception {
+	public String orderinfo(@RequestParam(value = "type", defaultValue = "direct") String type, CartVO vo, Model model, HttpSession session) throws Exception {
 		
 		String u_id = ((UserVO) session.getAttribute("login_status")).getU_id();
 		vo.setU_id(u_id);
 		
-		//장바구니 저장
-		cartService.cart_add(vo);
+		if(!type.equals("cartorder")) {
+			//장바구니 저장
+			cartService.cart_add(vo);
+		}
+		
 		
 		//주문내역
 		List<CartProductVO> cart_list = cartService.cart_list(u_id);
@@ -49,6 +59,20 @@ public class OrderController {
 		model.addAttribute("total_price", total_price);
 		
 		return "/order/orderinfo";
+	}
+	
+	//주문자와 동일
+	@GetMapping("/ordersame")
+	public ResponseEntity<UserVO> ordersame(HttpSession session) throws Exception {
+		ResponseEntity<UserVO> entity = null;
+		
+		String u_id = ((UserVO) session.getAttribute("login_status")).getU_id();
+		
+		//회원정보 받아오기
+		entity = new ResponseEntity<UserVO>(userService.login(u_id), HttpStatus.OK);
+		
+		
+		return entity;
 	}
 	
 }

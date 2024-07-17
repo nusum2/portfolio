@@ -206,16 +206,15 @@
 
 		});
 		
+		//구매하기
 		$("button[name='btn_direct_order']").on("click", function(){
 
-			$('#order_process_popup_2').modal('show');
-
 			let pro_num = $(this).data("pro_num");
-
-			console.log("상품코드", pro_num);
-
-			$("#popup_info").load("/product/pro_info_2?pro_num=" + pro_num);
-		});
+			let cart_amount = $("#btn_cart_amount").val();
+			let url = `/order/orderinfo?pro_num=${pro_num}&cart_amount=${cart_amount}`;
+			
+			location.href = url;	
+		}); 
 
 		//장바구니 추가 modal2 pro_info_2.html id="btn_cart_add"
 		$("#order_process_popup_2").on("click", "button#btn_cart_add" ,function() {

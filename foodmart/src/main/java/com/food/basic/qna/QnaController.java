@@ -38,6 +38,22 @@ public class QnaController {
 		log.info("qna리스트 : " + qna_list);
 	}
 	
+	//관리자 페이지 목록
+	@GetMapping("/qna_admin_list")
+	public void qna_admin_list(Criteria cri, Model model) throws Exception {
+		
+		cri.setAmount(5);
+		
+		List<QnaVO> qna_list = qnaService.qna_list(cri);
+		
+		int totalCount = qnaService.getTotalCount(cri);
+		//페이징
+		model.addAttribute("qna_list", qna_list);
+		model.addAttribute("pageMaker", new PageDTO(cri, totalCount));
+		
+		log.info("qna리스트 : " + qna_list);
+	}
+	
 	//qna추가
 	@GetMapping("/qna_write")
 	public void qna_writeForm() {
@@ -71,5 +87,11 @@ public class QnaController {
 	}
 	
 	//qna 삭제
-	
+	@GetMapping("qna_delete")
+	public String qna_delete(int q_num, Criteria cri) {
+		
+		qnaService.qna_delete(q_num);
+		
+		return "redirect:/qna/qna_admin_list" + cri.getListLink();
+	}
 }

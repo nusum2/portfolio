@@ -39,4 +39,9 @@ public class QnaService {
 		
 		qnaMapper.qna_update(vo);
 	}
+	
+	public void qna_delete(int q_num) {
+		
+		qnaMapper.qna_delete(q_num);
+	}
 }

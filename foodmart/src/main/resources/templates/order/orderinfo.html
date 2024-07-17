@@ -64,8 +64,8 @@
                 <div class="card-body">
                     
                     <div class="form-group form-check">
-                        <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                        <label class="form-check-label" for="exampleCheck1">주문자와 동일</label>
+                        <input type="checkbox" class="form-check-input" id="ordersame">
+                        <label class="form-check-label" for="ordersame">주문자와 동일</label>
                     </div>               
                     <div class="form-group row">
                         <label for="ord_name" class="col-sm-2 col-form-label">이름</label>
@@ -98,7 +98,7 @@
                         <div class="col-sm-10">
                             <input type="text" class="form-control" id="sample2_detailAddress" name="ord_deaddr" placeholder="상세주소를 입력하세요.">
                             <input type="hidden" id="sample2_extraAddress" placeholder="참고항목">
-                            <input type="hidden" th:value="${total_price}" name="ord_price">
+                            <input type="hidden" th:value="${total_price}" id="ord_price" name="ord_price">
                         </div>
                     </div>
                     <div class="form-group">
@@ -143,7 +143,7 @@
                 </div>
                 
                 <div class="card-footer text-center"> <!--  id="btnJoin"  -->
-                <button type="button" class="btn btn-info" id="btnJoin">주문및결제하기</button>
+                <button type="button" class="btn btn-info" id="btn_order_payment">주문및결제하기</button>
                 </div>
                 
                 </form>
@@ -260,6 +260,46 @@ $(document).ready(function(){
         }else if(paymethod == "kakaopay"){
             $("#nobank_info").hide();
         }
+    });
+
+    //주문자와 동일
+    $("input#ordersame").on("click", function(){
+        if($("input#ordersame").is(":checked")) {
+
+            $.ajax({
+                url : '/order/ordersame',
+                type : 'get',
+                dataType : 'json',
+                success : function(result) {
+                    $("input#ord_name").val(result.u_name);
+                    $("input#ord_phone").val(result.u_phone);
+                    $("input#sample2_postcode").val(result.u_zipcode);
+                    $("input#sample2_address").val(result.u_addr);
+                    $("input#sample2_detailAddress").val(result.u_deaddr);
+                }
+            });
+            
+        }else{
+            $("input#ord_name").val("");
+            $("input#ord_phone").val("");
+            $("input#sample2_postcode").val("");
+            $("input#sample2_address").val("");
+            $("input#sample2_detailAddress").val("");
+        }
+    });
+
+    //주문결제하기
+    $("button#btn_order_payment").on("click", function(){
+        $.ajax({
+            url : '/kakao/kakaoPay',
+            type : 'get',
+            data : {ord_name : $("#ord_name").val(), ord_zip_code : $("#sample2_postcode").val(), ord_addr : $("#sample2_address").val(), ord_deaddr : $("#sample2_detailAddress").val(), ord_phone : $("#ord_phone").val(), ord_price : $("#ord_price").val(), ord_desc : $("#ord_desc").val()},
+            dataType : 'json',
+            success : function(response) {
+                alert(response.next_redirect_pc_url);
+                location.href = response.next_redirect_pc_url; //결제QR코드 
+            }
+        });
     });
 
 });

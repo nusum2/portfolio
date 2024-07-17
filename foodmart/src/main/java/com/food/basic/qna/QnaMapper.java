@@ -15,4 +15,6 @@ public interface QnaMapper {
 	QnaVO qna_content(int q_num);
 	
 	void qna_update(QnaVO vo);
+	
+	void qna_delete(int q_num);
 }

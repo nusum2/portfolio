@@ -142,7 +142,7 @@ public class AdminProductController {
 		@GetMapping("pro_list")
 		public void pro_list(Criteria cri, Model model) throws Exception {
 			
-			cri.setAmount(5);
+			//cri.setAmount(5);
 			
 			log.info("Criteria : " + cri);
 			
@@ -154,6 +154,9 @@ public class AdminProductController {
 			
 			int totalCount = adminProductService.getTotalCount(cri);
 			//페이징
+			
+			
+			log.info("카운트:" + new PageDTO(cri, totalCount));
 			model.addAttribute("pro_list", pro_list);
 			model.addAttribute("pageMaker", new PageDTO(cri, totalCount));
 			

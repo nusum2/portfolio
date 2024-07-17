@@ -33,13 +33,13 @@ from(
 select /*+ index_desc(product_t pk_pro_num) */
 rownum as rn, pro_num, cate_code, pro_name, pro_price, pro_discount, pro_publisher, pro_content, pro_up_folder, pro_img, pro_amount, pro_buy, pro_date, pro_updatedate
 from product_t
-where --페이지 번호 * 페이지별 출력건수
+where 
 <include refid="criteria"></include>
 <![CDATA[
-rownum <= (#{pageNum} * #{amount})
+rownum <= (#{pageNum} * #{amount}) -- 페이지번호 * 페이지별 출력건수
 ]]>
 )
-where rn > (#{pageNum} - 1) * #{amount} --(페이지번호 - 1) * 페이지별 출력건수
+where rn > (#{pageNum} - 1) * #{amount} 
 </select>
 
 <select id="getTotalCount" resultType="int">

@@ -114,14 +114,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
 								<td><button type="button" class="btn btn-primary" name="btn_pro_edit" th:data-pro_num="${product.pro_num}">수정</button></td>
 								<td><button type="button" class="btn btn-danger" name="btn_pro_del" th:data-pro_num="${product.pro_num}">삭제</button></td>
 							</tr>
-							</c:forEach>
+							
 							</tbody></table>
 					</div>
 					<div class="box-footer clearfix">
 						<div class="row">
 							<div class="col-md-4">
 								<button type="button" class="btn btn-primary" id="btn_check_modify1" role="button">체크상품수정1</button>	
-                <button type="button" class="btn btn-primary" id="btn_check_modify2" role="button">체크상품수정2</button>	
+                				<button type="button" class="btn btn-primary" id="btn_check_modify2" role="button">체크상품수정2</button>	
 							<!--1)페이지번호 클릭할 때 사용  [이전]  1	2	3	4	5 [다음]  -->
 							<!--2)목록에서 상품이미지 또는 상품명 클릭할 때 사용   -->
 							<!-- Criteria 클래스 필드 사용목적 -->
@@ -148,11 +148,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
 										
 									<th:block th:with="pageMaker = ${pageMaker}">
 									<th:block th:each="num : *{#numbers.sequence(pageMaker.startPage, pageMaker.endPage)}">
-										<li class='page-item' th:classappend="${pageMaker.cri.pageNum ==  num ? 'active':'' }" aria-current="page">
-											<a class="page-link movepage " th:href="${num}" th:text="${num}"></a>
+										<li class='page-item' th:classappend="${pageMaker.cri.pageNum ==  num ? 'active': '' }" aria-current="page">
+											<a class="page-link movepage" th:href="${num}" th:text="${num}"></a>
 										</li>
 									</th:block>
-									
+									</th:block>
 									
 									<!--  다음 표시여부 -->
 									<th:block th:if="${pageMaker.next}">
@@ -212,11 +212,11 @@ $(document).ready(function(){
       //페이지 번호 클릭시 이전 1 2 3 4 5 다음 actionForm을 사용
 	  $(".movepage").on("click", function(e){
 		e.preventDefault(); //a태그의 href기능 제거
+		
+		//클릭한 페이지번호 작업
+		$("input[name='pageNum']").val($(this).attr("href"));
 		//주소변경
 		actionForm.attr("action", "/admin/product/pro_list");
-		//클릭한 페이지번호 작업
-		actionForm.find("input[name='pageNum']").val($(this).attr("href"));
-
 		actionForm.submit();
 	  });
 	  //수정버튼 클릭시 name="btn_pro_edit"

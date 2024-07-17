@@ -59,4 +59,9 @@ set q_title = #{q_title}, q_content = #{q_content}, q_updatedate = sysdate
 where q_num = #{q_num}
 </update>
 
+<delete id="qna_delete" parameterType="int">
+delete from qna_t
+where q_num = #{q_num}
+</delete>
+
 </mapper>
