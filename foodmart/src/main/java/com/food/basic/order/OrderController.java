@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -47,6 +48,7 @@ public class OrderController {
 		
 		//주문내역
 		List<CartProductVO> cart_list = cartService.cart_list(u_id);
+		//장바구니 주문가격 총합계
 		int total_price = 0;
 		cart_list.forEach(d_vo -> {
 			d_vo.setPro_up_folder(d_vo.getPro_up_folder().replace("\\", "/"));
@@ -73,6 +75,30 @@ public class OrderController {
 		
 		
 		return entity;
+	}
+	
+	//무통장입금
+	@PostMapping("/ordersave")
+	public String ordersave(OrderVO vo, String pay_nobank, String pay_nobank_user, HttpSession session) throws Exception {
+		
+		//무통장 입금 로그
+		log.info("주문정보: " + vo);
+		log.info("입금은행: " + pay_nobank);
+		log.info(("예금주:" + pay_nobank_user));
+		
+		String u_id = ((UserVO) session.getAttribute("login_status")).getU_id();
+		vo.setU_id(u_id);
+		//결제정보
+		String payinfo = pay_nobank + "/" + pay_nobank_user;
+		orderService.order_process(vo, u_id, "무통장입금", "미납", payinfo);
+		
+		return "redirect:/order/ordercomplete";
+	}
+	
+	//주문완료
+	@GetMapping("/ordercomplete")
+	public void ordercomplete() throws Exception {
+		
 	}
 	
 }

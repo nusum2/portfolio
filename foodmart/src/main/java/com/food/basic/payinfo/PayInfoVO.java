@@ -15,4 +15,5 @@ public class PayInfoVO {
 	private int p_price;
 	private String p_status;
 	private Date p_date;
+	private String payinfo;
 }

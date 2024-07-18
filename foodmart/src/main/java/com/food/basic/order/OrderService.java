@@ -20,7 +20,7 @@ public class OrderService {
 	private final CartMapper cartMapper;
 	
 	@Transactional
-	public void order_process(OrderVO vo, String u_id) {
+	public void order_process(OrderVO vo, String u_id, String paymethod, String p_status, String payinfo) {
 		
 		//주문테이블 insert
 		vo.setU_id(u_id);
@@ -31,8 +31,9 @@ public class OrderService {
 		PayInfoVO p_vo = PayInfoVO.builder()
 				.ord_code(vo.getOrd_code())
 				.p_price(vo.getOrd_price())
-				.paymethod("kakaopay")
-				.p_status("완납")
+				.paymethod(paymethod)
+				.payinfo(payinfo)
+				.p_status(p_status)
 				.build();
 		
 		payInfoMapper.payInfo_insert(p_vo);

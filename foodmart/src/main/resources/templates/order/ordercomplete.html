@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/baselayout}">
+<body>
+<th:block layout:fragment="content">
+    <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+        <h3 class="display-6">주문이 완료되었습니다.</h3>
+      </div>
+<div class="container" id="ordercomplete">
+    <div class="row">
+        <div class="col text-center">
+        	<button type="button" class="btn btn-secondary" id="btn_order_history">주문내역으로</button>
+        	<button type="button" class="btn btn-secondary" id="btn_cart_page">장바구니로</button>
+        	<button type="button" class="btn btn-secondary" id="btn_shoping">계속 쇼핑하기</button>
+        </div>
+    </div>
+    <div th:replace ="~{layout/comm/footer :: footerFragment}" ></div>
+</div> 
+</th:block>
+</body>
+</html>

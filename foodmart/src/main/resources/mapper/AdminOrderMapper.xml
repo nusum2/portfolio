@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.food.basic.admin.order.AdminOrderMapper">
+<!-- 검색조건 -->
+<sql id="criteria">
+<trim prefix="(" suffix=") AND" prefixOverrides="OR">
+<foreach collection="typeArr" item="type">
+<trim prefix="OR">
+<choose>
+<when test="type == 'N'.toString()">
+ord_name like '%' || #{keyword} || '%'
+</when>
+<when test="type == 'I'.toString()">
+u_id like '%' || #{keyword} || '%'
+</when>
+<when test="type == 'C'.toString()">
+ord_code like'%' || #{keyword} || '%'
+</when>
+</choose>
+</trim>
+</foreach>
+</trim>
+</sql>
+<!-- 검색조건추가 리스트 -->
+<select id="order_list" resultType="OrderVO" parameterType="com.food.basic.common.dto.Criteria">
+select ord_code, u_id, ord_name, ord_zip_code, ord_addr, ord_deaddr, ord_phone, ord_price, ord_regdate, ord_desc
+from(
+select /*+ index_desc(order_t pk_ord_code) */
+rownum as rn, ord_code, u_id, ord_name, ord_zip_code, ord_addr, ord_deaddr, ord_phone, ord_price, ord_regdate, ord_desc
+from order_t
+where 
+<include refid="criteria"></include>
+<![CDATA[
+rownum <= (#{pageNum} * #{amount}) -- 페이지번호 * 페이지별 출력건수
+]]>
+)
+where rn > (#{pageNum} - 1) * #{amount} 
+</select>
+
+<select id="getTotalCount" resultType="int">
+select count(*)
+from order_t
+where <include refid="criteria"></include>
+ord_code > 0
+</select>
+
+<select id="order_info" parameterType="Long" resultType="OrderVO">
+select ord_code, u_id, ord_name, ord_zip_code, ord_addr, ord_deaddr, ord_phone, ord_price, ord_regdate, ord_desc
+from order_t
+where ord_code = #{ord_code}
+</select>
+
+<select id="order_detail_info" parameterType="Long" resultType="OrderVO">
+select ot.ord_code, ot.pro_num, ot.dt_amount, ot.dt_price, p.pro_name, p.pro_up_folder, p.pro_img
+from ordt_t ot 
+inner join product_t p
+on ot.pro_num = p.pro_num
+where ot.ord_code = #{ord_code}
+</select>
+</mapper>

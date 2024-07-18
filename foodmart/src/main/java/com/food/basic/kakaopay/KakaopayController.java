@@ -88,7 +88,7 @@ public class KakaopayController {
 		
 		//트랜잭션으로 처리 : 주문테이블, 주문상세테이블, 결제테이블, 장바구니 비우기
 		if(approveResponse.contains("aid")) {
-			orderService.order_process(vo, u_id);
+			orderService.order_process(vo, u_id, "kakaopay", "완료", "kakaopay");
 		}
 		
 	}

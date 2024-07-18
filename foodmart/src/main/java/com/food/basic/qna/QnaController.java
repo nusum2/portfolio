@@ -22,8 +22,8 @@ public class QnaController {
 	
 	private final QnaService qnaService;
 	
-	//목록
-	@GetMapping("/qna_list")
+	//qna목록, 관리자 페이지 qna목록
+	@GetMapping(value = {"/qna_list", "/qna_admin_list"})
 	public void qna_list(Criteria cri, Model model) throws Exception {
 		
 		cri.setAmount(5);
@@ -39,20 +39,20 @@ public class QnaController {
 	}
 	
 	//관리자 페이지 목록
-	@GetMapping("/qna_admin_list")
-	public void qna_admin_list(Criteria cri, Model model) throws Exception {
-		
-		cri.setAmount(5);
-		
-		List<QnaVO> qna_list = qnaService.qna_list(cri);
-		
-		int totalCount = qnaService.getTotalCount(cri);
-		//페이징
-		model.addAttribute("qna_list", qna_list);
-		model.addAttribute("pageMaker", new PageDTO(cri, totalCount));
-		
-		log.info("qna리스트 : " + qna_list);
-	}
+//	@GetMapping("/qna_admin_list")
+//	public void qna_admin_list(Criteria cri, Model model) throws Exception {
+//		
+//		cri.setAmount(5);
+//		
+//		List<QnaVO> qna_list = qnaService.qna_list(cri);
+//		
+//		int totalCount = qnaService.getTotalCount(cri);
+//		//페이징
+//		model.addAttribute("qna_list", qna_list);
+//		model.addAttribute("pageMaker", new PageDTO(cri, totalCount));
+//		
+//		log.info("qna리스트 : " + qna_list);
+//	}
 	
 	//qna추가
 	@GetMapping("/qna_write")
