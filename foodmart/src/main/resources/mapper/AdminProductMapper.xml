@@ -1,6 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.food.basic.admin.product.AdminProductMapper">
+<!--  테이블의 컬럼명과 VO, DTO 클래스의 필드명이 다를때 사용한다. 현재는 컬럼명과필드명이 같은상태입니다. -->
+<resultMap type="ProductVO" id="productMap">
+<id property="pro_num" column="pro_num"/>
+	<result property="cate_code" column="cate_code"/>
+	<result property="pro_name" column="pro_name"/>
+	<result property="pro_price" column="pro_price"/>
+	<result property="pro_discount" column="pro_discount"/>
+	<result property="pro_publisher" column="pro_publisher"/>
+	<result property="pro_content" column="pro_content"/>
+	<result property="pro_up_folder" column="pro_up_folder"/>
+	<result property="pro_img" column="pro_img"/>
+	<result property="pro_amount" column="pro_amount"/>
+	<result property="pro_buy" column="pro_buy"/>
+	<result property="pro_date" column="pro_date"/>
+	<result property="pro_updatedate" column="pro_updatedate"/>
+</resultMap>
+
+
+
 <insert id="pro_insert" parameterType="com.food.basic.admin.product.ProductVO">
 insert into product_t (pro_num, cate_code, pro_name, pro_price, pro_discount, pro_publisher, pro_content, pro_up_folder, pro_img, pro_amount, pro_buy)
 values (seq_pro_num.nextval, #{cate_code}, #{pro_name}, #{pro_price}, #{pro_discount}, #{pro_publisher}, #{pro_content}, #{pro_up_folder}, #{pro_img}, #{pro_amount}, #{pro_buy})        
@@ -36,7 +55,7 @@ from product_t
 where 
 <include refid="criteria"></include>
 <![CDATA[
-rownum <= (#{pageNum} * #{amount}) -- 페이지번호 * 페이지별 출력건수
+rownum <= (#{pageNum} * #{amount}) -- 페이지번호 * 페이지별 출력건수, 추가 쿼리, 조건은 이 안쪽으로 추가
 ]]>
 )
 where rn > (#{pageNum} - 1) * #{amount} 

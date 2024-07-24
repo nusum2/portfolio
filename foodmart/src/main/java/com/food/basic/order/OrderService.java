@@ -30,10 +30,11 @@ public class OrderService {
 		//결제테이블 insert
 		PayInfoVO p_vo = PayInfoVO.builder()
 				.ord_code(vo.getOrd_code())
-				.p_price(vo.getOrd_price())
+				.u_id(u_id)
 				.paymethod(paymethod)
-				.payinfo(payinfo)
+				.p_price(vo.getOrd_price())
 				.p_status(p_status)
+				.payinfo(payinfo)
 				.build();
 		
 		payInfoMapper.payInfo_insert(p_vo);

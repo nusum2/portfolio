@@ -13,8 +13,10 @@ values(#{ord_code}, #{u_id}, #{ord_name}, #{ord_zip_code}, #{ord_addr}, #{ord_de
 
 <insert id="orderDetail_insert" parameterType="map">
 insert into ordt_t(ord_code, pro_num, dt_amount, dt_price)
-select #{ord_code}, pro_num, cart_amount, pro_num * cart_amount
-from cart_t
-where u_id = #{u_id}
+select #{ord_code}, p.pro_num, c.cart_amount, p.pro_price
+from cart_t c
+inner join product_t p
+on c.pro_num = p.pro_num
+where c.u_id = #{u_id}
 </insert>
 </mapper>

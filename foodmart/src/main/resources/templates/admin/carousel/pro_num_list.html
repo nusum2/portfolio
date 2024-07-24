@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<body>
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">상품번호</th>
+            <th scope="col">상품명</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="product : ${pro_num_list}">
+            <th scope="row"><a id="caro_pro_num">pro_num</a></th>
+            <td>pro_name</td>
+          </tr>
+        </tbody>
+      </table>
+</body>
+</html>

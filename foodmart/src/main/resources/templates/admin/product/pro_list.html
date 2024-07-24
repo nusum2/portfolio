@@ -176,6 +176,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         </section><!-- /.content -->
       </div><!-- /.content-wrapper -->
       </th:block>
+	</div>
       <!-- Main Footer -->
 
       <!-- Control Sidebar -->
@@ -290,7 +291,7 @@ $(document).ready(function(){
 			let pro_price_arr = []; //체크된 상품가격들이 저장될 배열
 			let pro_buy_arr = []; //체크된 상품진열정보들이 저장될 배열
 
-			//체크된 상태를
+			//체크된 상태를 접근
 			$("input[name='check']:checked").each(function(){
 				pro_num_arr.push($(this).val());
 				pro_price_arr.push($(this).parent().parent().find("input[name='pro_price']").val());

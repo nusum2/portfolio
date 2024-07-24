@@ -4,22 +4,30 @@
 <!-- 검색조건 -->
 <sql id="criteria">
 <trim prefix="(" suffix=") AND" prefixOverrides="OR">
-<foreach collection="typeArr" item="type">
+<foreach collection="cri.typeArr" item="type">
 <trim prefix="OR">
 <choose>
 <when test="type == 'N'.toString()">
-ord_name like '%' || #{keyword} || '%'
+ord_name like '%' || #{cri.keyword} || '%'
 </when>
 <when test="type == 'I'.toString()">
-u_id like '%' || #{keyword} || '%'
+u_id like '%' || #{cri.keyword} || '%'
 </when>
 <when test="type == 'C'.toString()">
-ord_code like'%' || #{keyword} || '%'
+ord_code like'%' || #{cri.keyword} || '%'
 </when>
 </choose>
 </trim>
 </foreach>
 </trim>
+</sql>
+<!-- 날짜 검색 -->
+<sql id="period">
+<if test="start_date != null and !start_date.equals('') and end_date != null and !end_date.equals('')">
+<![CDATA[
+ord_regdate >= to_date(#{start_date}) and ord_regdate < to_date(#{end_date}) + 1 and 
+]]>
+</if>
 </sql>
 <!-- 검색조건추가 리스트 -->
 <select id="order_list" resultType="OrderVO" parameterType="com.food.basic.common.dto.Criteria">
@@ -30,17 +38,19 @@ rownum as rn, ord_code, u_id, ord_name, ord_zip_code, ord_addr, ord_deaddr, ord_
 from order_t
 where 
 <include refid="criteria"></include>
+<include refid="period"></include>
 <![CDATA[
-rownum <= (#{pageNum} * #{amount}) -- 페이지번호 * 페이지별 출력건수
+rownum <= (#{cri.pageNum} * #{cri.amount}) -- 페이지번호 * 페이지별 출력건수
 ]]>
 )
-where rn > (#{pageNum} - 1) * #{amount} 
+where rn > (#{cri.pageNum} - 1) * #{cri.amount} 
 </select>
 
 <select id="getTotalCount" resultType="int">
 select count(*)
 from order_t
 where <include refid="criteria"></include>
+		<include refid="period"></include>
 ord_code > 0
 </select>
 
@@ -50,11 +60,33 @@ from order_t
 where ord_code = #{ord_code}
 </select>
 
-<select id="order_detail_info" parameterType="Long" resultType="OrderVO">
+<select id="order_detail_info" parameterType="Long" resultType="com.food.basic.admin.order.OrderDetailInfoVO">
 select ot.ord_code, ot.pro_num, ot.dt_amount, ot.dt_price, p.pro_name, p.pro_up_folder, p.pro_img
 from ordt_t ot 
 inner join product_t p
 on ot.pro_num = p.pro_num
 where ot.ord_code = #{ord_code}
 </select>
+
+<delete id="order_product_delete" parameterType="map">
+delete from ordt_t
+where ord_code = #{ord_code}
+and pro_num = #{pro_num}
+</delete>
+
+<insert id="order_basic_update" parameterType="OrderVO">
+update order_t
+set ord_name = #{ord_name}, ord_zip_code = #{ord_zip_code}, ord_addr = #{ord_addr},
+ord_deaddr = #{ord_deaddr}, ord_phone = #{ord_phone}, ord_desc = #{ord_desc}, ord_admin_memo = #{ord_admin_memo}
+where ord_code = #{ord_code}
+</insert>
+
+<update id="order_tot_price_change" parameterType="Long">
+update order_t
+set ord_price = (
+				select sum(dt_amount * dt_price) from ordt_t where ord_code = #{ord_code}
+                )
+where ord_code = #{ord_code}
+</update>
+
 </mapper>

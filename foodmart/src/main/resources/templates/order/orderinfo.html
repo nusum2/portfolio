@@ -290,11 +290,12 @@ $(document).ready(function(){
     $("button#btn_order_payment").on("click", function(){
 
         let paymethod = $("input[name='paymethod']:checked").val();
+        console.log("paymethod", paymethod);
 
         if(paymethod == "nobank") {
             let orderForm = $("#orderForm");
             orderForm.submit();
-            location.href = "/order/ordercomplete"
+            //location.href = "/order/ordercomplete"
         }else if(paymethod == "kakaopay") {
             $.ajax({
             url : '/kakao/kakaoPay',
@@ -302,6 +303,8 @@ $(document).ready(function(){
             data : {ord_name : $("#ord_name").val(), ord_zip_code : $("#sample2_postcode").val(), ord_addr : $("#sample2_address").val(), ord_deaddr : $("#sample2_detailAddress").val(), ord_phone : $("#ord_phone").val(), ord_price : $("#ord_price").val(), ord_desc : $("#ord_desc").val()},
             dataType : 'json',
             success : function(response) {
+                console.log("응답: " + response);
+
                 alert(response.next_redirect_pc_url);
                 location.href = response.next_redirect_pc_url; //결제QR코드 
             }

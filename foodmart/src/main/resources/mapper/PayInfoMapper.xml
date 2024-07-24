@@ -2,9 +2,22 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.food.basic.payinfo.PayInfoMapper">
 <insert id="payInfo_insert" parameterType="PayInfoVO">
-insert into payinfo(p_id, ord_code, paymethod, payinfo, p_price, p_status)
-values(seq_payinfo_id.nextval, #{ord_code}, #{paymethod}, #{payinfo}, #{p_price}, #{p_status})
+insert into payinfo(p_id, ord_code, u_id, paymethod, payinfo, p_price, p_status)
+values(seq_payinfo_id.nextval, #{ord_code}, #{u_id}, #{paymethod}, #{payinfo}, #{p_price}, #{p_status})
 </insert>
 
+<select id="ord_pay_info" parameterType="Long" resultType="PayInfoVO">
+select p_id, ord_code, u_id, paymethod, p_price, p_status, payinfo, p_date
+from payinfo
+where ord_code = #{ord_code}
+</select>
+
+<update id="pay_tot_price_change" parameterType="Long">
+update payinfo
+set p_price = (
+				select sum(dt_amount * dt_price) from ordt_t where ord_code = #{ord_code}
+                )
+where ord_code = #{ord_code}
+</update>
 
 </mapper>

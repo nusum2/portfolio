@@ -9,10 +9,27 @@
 <th:block layout:fragment="content">
 <!-- <div th:replace="~{/category/category :: catelist}"></div> -->
 <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+  <!--
+  
+  <ol class="carousel-indicators"> 첫번째 줄만 active 추가 data-slide는 0부터 증가
+    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li> 
+  </ol>
+  <th:block th:each="carousel : ${carousel_list}">
+  <div class="carousel-inner">
+    <div class="carousel-item" th:classappend="${carousel_list[0].caro_num == carousel.caro_num ? 'active' : ''}"> 첫번째 이미지에만 active 추가
+      <a class="move" th:href="@{/product/pro_detail(pro_num = ${carousel.pro_num})}">
+			<img th:src="${'/admin/carousel/image_display?dateFolderName=' + carousel.caro_up_folder + '&fileName=' + carousel.caro_img}" style="width: 300px; height: 300px;">
+		   </a>
+    </div>
+  </div>
+</th:block>
+  -->
   <ol class="carousel-indicators">
     <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
     <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
     <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+    <li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
+    <li data-target="#carouselExampleIndicators" data-slide-to="4"></li>
   </ol>
   <div class="carousel-inner">
     <div class="carousel-item active">

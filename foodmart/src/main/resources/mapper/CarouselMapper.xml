@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.food.basic.admin.carousel.CarouselMapper">
+<insert id="carousel_insert" parameterType="com.food.basic.admin.carousel.CarouselVO">
+insert into carousel_t (caro_num, pro_num, pro_name, caro_content, caro_up_folder, caro_img)
+values (seq_caro_num.nextval, #{pro_num}, #{pro_name}, #{caro_content}, {caro_up_folder}, #{caro_img})
+</insert>
+
+<!-- 검색조건 -->
+<sql id="criteria">
+<trim prefix="(" suffix=") AND" prefixOverrides="OR">
+<foreach collection="typeArr" item="type">
+<trim prefix="OR">
+<choose>
+<when test="type == 'N'.toString()">
+pro_name like '%' || #{keyword} || '%'
+</when>
+<when test="type == 'C'.toString()">
+caro_content like '%' || #{keyword} || '%'
+</when>
+</choose>
+</trim>
+</foreach>
+</trim>
+</sql>
+
+<select id="carousel_list" resultType="com.food.basic.admin.carousel.CarouselVO" parameterType="com.food.basic.common.dto.Criteria">
+select caro_num, pro_name, caro_content, caro_up_folder, caro_img, caro_date, caro_up_date
+from(
+select /*+ index_desc(carousel_t pk_caro_num) */
+rownum as rn, caro_num, pro_name, caro_content, caro_up_folder, caro_img, caro_date, caro_up_date
+from carousel_t
+where 
+<include refid="criteria"></include>
+<![CDATA[
+rownum <= (#{pageNum} * #{amount}) -- 페이지번호 * 페이지별 출력건수, 추가 쿼리, 조건은 이 안쪽으로 추가
+]]>
+)
+where rn > (#{pageNum} - 1) * #{amount}
+</select>
+
+<select id="getTotalCount" resultType="int">
+select count(*)
+from carousel_t
+where <include refid="criteria"></include>
+caro_num > 0
+</select>
+
+<delete id="carousel_delete" parameterType="Integer">
+delete from carousel_t
+where caro_num = #{caro_num}
+</delete>
+
+</mapper>
