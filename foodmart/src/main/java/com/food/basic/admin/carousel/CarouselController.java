@@ -57,10 +57,21 @@ public class CarouselController {
 	
 	//캐러셀 등록폼
 	@GetMapping("/carousel_insert")
-	public void carousel_insertForm(Criteria cri, Model model) {
+	public void carousel_insertForm(Criteria cri, Model model) throws Exception {
 		
+		//상품리스트
 		List<ProductVO> pro_list = adminProductService.pro_list(cri);
+		//슬래시 변환
+		pro_list.forEach(vo -> {
+			vo.setPro_up_folder(vo.getPro_up_folder().replace("\\", "/"));
+		});
+		
+		int totalCount = adminProductService.getTotalCount(cri);
+		
+		//페이징
 		model.addAttribute("pro_list", pro_list);
+		model.addAttribute("pageMaker", new PageDTO(cri, totalCount));
+		log.info("상품리스트 : " + pro_list);
 	}
 	
 	//캐러셀 등록

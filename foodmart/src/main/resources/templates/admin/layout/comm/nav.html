@@ -36,7 +36,7 @@
           <a href="#"><i class="fa fa-link"></i> <span>회원관리</span> <i class="fa fa-angle-left pull-right"></i></a>
           <ul class="treeview-menu">
             <li><a href="#">회원목록</a></li>
-            <li><a href="#">Link in level 2</a></li>
+            <li><a href="/admin/user/mailinglist">메일관리</a></li>
           </ul>
         </li>
         <li class="treeview">
@@ -61,6 +61,13 @@
           </ul>
         </li>
         <li class="treeview">
+          <a href="#"><i class="fa fa-link"></i> <span>리뷰/문의</span> <i class="fa fa-angle-left pull-right"></i></a>
+          <ul class="treeview-menu">
+            <li><a th:href="@{/admin/order/order_list}">상품리뷰목록</a></li>
+            <li><a href="#">상품문의목록</a></li>
+          </ul>
+        </li>
+        <li class="treeview">
           <a href="#"><i class="fa fa-link"></i> <span>통계분석</span> <i class="fa fa-angle-left pull-right"></i></a>
           <ul class="treeview-menu">
             <li><a href="#">Link in level 2</a></li>
@@ -70,9 +77,9 @@
         <li class="treeview">
           <a href="#"><i class="fa fa-link"></i> <span>게시판관리</span> <i class="fa fa-angle-left pull-right"></i></a>
           <ul class="treeview-menu">
-            <li><a th:href="@{/qna/qna_write}">QnA 등록</a></li>
-            <li><a th:href="@{/qna/qna_admin_list}">QnA 목록</a></li>
-            <li><a href="#">Link in level 2</a></li>
+            <li><a th:href="@{/admin/qna/qna_write}">QnA 등록</a></li>
+            <li><a th:href="@{/admin/qna/qna_admin_list}">QnA 목록</a></li>
+            <li><a th:href="@{/admin/carousel/carousel_list}">홈화면 배너 목록</a></li>
           </ul>
         </li>
       </ul><!-- /.sidebar-menu -->

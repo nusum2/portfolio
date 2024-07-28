@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.food.basic.qna.QnaMapper">
+<mapper namespace="com.food.basic.admin.qna.AdminQnaMapper">
 <!-- 검색조건 -->
 <sql id="criteria">
 <trim prefix="(" suffix=") AND" prefixOverrides="OR">
@@ -41,5 +41,27 @@ from qna_t
 where <include refid="criteria"></include>
 q_num > 0
 </select>
+
+<insert id="qna_write" parameterType="com.food.basic.qna.QnaVO">
+insert into qna_t (q_num, q_title, q_content)
+values (seq_q_num.nextval, #{q_title}, #{q_content})
+</insert>
+
+<select id="qna_content" resultType="com.food.basic.qna.QnaVO" parameterType="int">
+select q_num, q_title, q_content, q_regdate, q_updatedate
+from qna_t
+where q_num = #{q_num}
+</select>
+
+<update id="qna_update" parameterType="com.food.basic.qna.QnaVO">
+update qna_t
+set q_title = #{q_title}, q_content = #{q_content}, q_updatedate = sysdate
+where q_num = #{q_num}
+</update>
+
+<delete id="qna_delete" parameterType="int">
+delete from qna_t
+where q_num = #{q_num}
+</delete>
 
 </mapper>

@@ -75,68 +75,68 @@ public class AdminProductController {
 	
 	//ckeditor 상품설명 이미지 업로드
 	//ckeditor 업로드
-		//MultipartFile 변수는 파일선택 버튼의 name= 참조
-		//req : 클라이언트의 요청 정보를 가지고 있는 객체
-		//res : 서버에서 클라이언트에게 보낼 정보를 응답하는 객체
-		@PostMapping("/imageupload")
-		public void imageupload(HttpServletRequest req, HttpServletResponse res, MultipartFile upload) {
+	//MultipartFile 변수는 파일선택 버튼의 name= 참조
+	//req : 클라이언트의 요청 정보를 가지고 있는 객체
+	//res : 서버에서 클라이언트에게 보낼 정보를 응답하는 객체
+	@PostMapping("/imageupload")
+	public void imageupload(HttpServletRequest req, HttpServletResponse res, MultipartFile upload) {
+		
+		OutputStream out = null;
+		PrintWriter printWriter = null; //서버에서 클라이언트에게 응답정보를 보낼때 사용 (업로드한 이미지정보를 브라우저에게 보내는 작업용도)
+		
+		try {
+			String fileName = upload.getOriginalFilename(); //업로드할 클라이언트 파일 이름
+			byte[] bytes = upload.getBytes(); //업로드할 파일의 바이트배열
 			
-			OutputStream out = null;
-			PrintWriter printWriter = null; //서버에서 클라이언트에게 응답정보를 보낼때 사용 (업로드한 이미지정보를 브라우저에게 보내는 작업용도)
+			String ckUploadPath = uploadCKPath + fileName; //"C:\\Dev\\upload\\ckeditor\\" + "abc.gif"
+			
+			out = new FileOutputStream(ckUploadPath); //0byte 파일생성 
+			out.write(bytes); //스트림의 공간에 업로드 할 파일의 바이트배열을 채운 상태
+			out.flush(); //0byte에서 크기가 채워진 정상적인 파일로 인식
+			
+			//업로드 할 이미지파일에 대한 정보를 클라이언트에게 보내는 작업
+			
+			printWriter = res.getWriter();
+			
+			String fileUrl = "/admin/product/display/" + fileName;
+			//String fileUrl = fileName;
+			
+			//CKeditor 4.12에서는 파일정보를 다음과 같이 만들어 보내야함.
+			//{"fileName : "abc.gif", "uploaded" : 1, "url" : "/ckupload/abc.gif"}
+			//{"fileName : "변수", "uploaded" : 1, "url" : "변수"}
+			printWriter.println("{\"fileName\" :\"" + fileName + "\", \"uploaded\":1, \"url\":\"" + fileUrl + "\"}");
+			printWriter.flush();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}finally {
+			if(out != null) {
+				try {
+					out.close();
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
+			}
+			if(printWriter != null) printWriter.close();
+		}
+		
+	}
+	//<img src="매핑주소">
+		@GetMapping("/display/{fileName}")
+		public ResponseEntity<byte[]> getFile(@PathVariable("fileName")String fileName) {
+			
+			log.info("파일이미지 : " + fileName);
+			
+			ResponseEntity<byte[]> entity = null;
 			
 			try {
-				String fileName = upload.getOriginalFilename(); //업로드할 클라이언트 파일 이름
-				byte[] bytes = upload.getBytes(); //업로드할 파일의 바이트배열
+				entity = FileManagerUtils.getFile(uploadCKPath, fileName);
+			} catch (Exception e) {
 				
-				String ckUploadPath = uploadCKPath + fileName; //"C:\\Dev\\upload\\ckeditor\\" + "abc.gif"
-				
-				out = new FileOutputStream(ckUploadPath); //0byte 파일생성 
-				out.write(bytes); //스트림의 공간에 업로드 할 파일의 바이트배열을 채운 상태
-				out.flush(); //0byte에서 크기가 채워진 정상적인 파일로 인식
-				
-				//업로드 할 이미지파일에 대한 정보를 클라이언트에게 보내는 작업
-				
-				printWriter = res.getWriter();
-				
-				String fileUrl = "/admin/product/display/" + fileName;
-				//String fileUrl = fileName;
-				
-				//CKeditor 4.12에서는 파일정보를 다음과 같이 만들어 보내야함.
-				//{"fileName : "abc.gif", "uploaded" : 1, "url" : "/ckupload/abc.gif"}
-				//{"fileName : "변수", "uploaded" : 1, "url" : "변수"}
-				printWriter.println("{\"fileName\" :\"" + fileName + "\", \"uploaded\":1, \"url\":\"" + fileUrl + "\"}");
-				printWriter.flush();
-			} catch (Exception ex) {
-				ex.printStackTrace();
-			}finally {
-				if(out != null) {
-					try {
-						out.close();
-					} catch (Exception ex) {
-						ex.printStackTrace();
-					}
-				}
-				if(printWriter != null) printWriter.close();
+				e.printStackTrace();
 			}
-			
-		}
-		//<img src="매핑주소">
-			@GetMapping("/display/{fileName}")
-			public ResponseEntity<byte[]> getFile(@PathVariable("fileName")String fileName) {
-				
-				log.info("파일이미지 : " + fileName);
-				
-				ResponseEntity<byte[]> entity = null;
-				
-				try {
-					entity = FileManagerUtils.getFile(uploadCKPath, fileName);
-				} catch (Exception e) {
-					
-					e.printStackTrace();
-				}
 
-				return entity;
-			}
+			return entity;
+		}
 			
 		 //상품리스트
 		@GetMapping("pro_list")
