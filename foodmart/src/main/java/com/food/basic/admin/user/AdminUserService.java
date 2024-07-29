@@ -19,26 +19,32 @@ public class AdminUserService {
 	}
 	
 	public String[] getALLMailAddress() {
+		
 		return adminUserMapper.getAllMailAddress();
 	}
 	
 	public void mailSendCountUpdate(int idx) {
+		
 		adminUserMapper.mailSendCountUpdate(idx);
 	}
 	
 	public List<MailMngVO> getMailInfoList(Criteria cri, String title) {
+		
 		return adminUserMapper.getMailInfoList(cri, title);
 	}
 	
 	public int getMailListCount(String title) {
+		
 		return adminUserMapper.getMailListCount(title);
 	}
 	
 	public MailMngVO getMailSendInfo(int idx) {
+		
 		return adminUserMapper.getMailSendInfo(idx);
 	}
 	
 	public void mailingedit(MailMngVO vo) {
+		
 		adminUserMapper.mailingedit(vo);
 	}
 }

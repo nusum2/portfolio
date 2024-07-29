@@ -64,12 +64,12 @@ public class AdminUserController {
 	// 주소에 의하여 호출되는 메서드는 파라미터를 스프링이 관여하여, 객체를 먼저 생성한다. 그리고 사용자가 입력한 값이 setter메서드에의하여 객체에 저장된다.
 	//매일발송 폼 (CKEditor 사용) - 구분 1.광고/이벤트 2.일반
 	@GetMapping("/mailingform")
-	public void mailform(@ModelAttribute("vo") MailMngVO vo) {
+	public void mailingform(@ModelAttribute("vo") MailMngVO vo) {
 		
 	}
 	
 	//메일발송 프로세스
-	@PostMapping("/mailingprocess")
+	@PostMapping("/mailingsend")
 	public String mailprocess(MailMngVO vo, RedirectAttributes rttr) throws Exception {
 		
 		log.info("메일내용 : " + vo);
@@ -77,7 +77,7 @@ public class AdminUserController {
 		// 1.1)회원테이블에서 전체회원 메일정보를 읽어오는 작업 
 		String[] emailArr = adminUserService.getALLMailAddress();
 		
-		EmailDTO dto = new EmailDTO("DocMall", "DocMall", "", vo.getTitle(), vo.getContent());
+		EmailDTO dto = new EmailDTO("Foodmart", "Foodmart", "", vo.getTitle(), vo.getContent());
 		
 		emailService.sendMail(dto, emailArr);
 		

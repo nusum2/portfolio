@@ -63,11 +63,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <div class="form-group row">
 						  <label for="title" class="col-sm-1 col-form-label">구분</label>
 			              <div class="col-sm-11">
-                        <input class="form-check-input" type="radio" name="gubun" id="gubun1" value="광고/이벤트" th:checked="{$vo.gubun eq '광고/이벤트'}">
+                        <input class="form-check-input" type="radio" name="gubun" id="gubun1" value="광고/이벤트" th:checked="|{$vo.gubun eq '광고/이벤트'}|">
                         <label class="form-check-label" for="gubun1">
                           광고/이벤트
                         </label>
-                        <input class="form-check-input" type="radio" name="gubun" id="gubun2" value="일반" th:checked="${vo.gubun eq '일반'}">
+                        <input class="form-check-input" type="radio" name="gubun" id="gubun2" value="일반" th:checked="|${vo.gubun eq '일반'}|">
                         <label class="form-check-label" for="gubun2">
                           일반
                         </label>

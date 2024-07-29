@@ -12,7 +12,7 @@
 
 
 <insert id="mailing_save" parameterType="MailMngVO">
-<selectKey>
+<selectKey keyProperty="idx" resultType="Integer" order="BEFORE">
 select seq_m_idx.nextval
 from dual
 </selectKey>
