@@ -55,6 +55,7 @@ public class AdminProductController {
 		model.addAttribute("cate_list", cate_list);
 	}
 	
+	//상품등록
 	@PostMapping("pro_insert")
 	public String pro_insertOk(ProductVO vo, MultipartFile uploadFile) throws Exception {
 		
@@ -138,7 +139,7 @@ public class AdminProductController {
 			return entity;
 		}
 			
-		 //상품리스트
+		//상품리스트
 		@GetMapping("pro_list")
 		public void pro_list(Criteria cri, Model model) throws Exception {
 			

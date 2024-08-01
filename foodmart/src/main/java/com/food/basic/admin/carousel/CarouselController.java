@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
@@ -40,6 +41,10 @@ public class CarouselController {
 		cri.setAmount(5);
 		
 		List<CarouselVO> carousel_list = carouselService.carousel_list(cri);
+		carousel_list.forEach(vo -> {
+			vo.setCaro_up_folder(vo.getCaro_up_folder().replace("\\", "/"));
+		});
+		
 		int totalCount = carouselService.getTotalCount(cri);
 		
 		//페이징
@@ -91,6 +96,52 @@ public class CarouselController {
 		carouselService.carousel_insert(vo);
 		
 		return "redirect:/admin/carousel/carousel_list";
+	}
+	
+	//캐러셀 수정폼
+	@GetMapping("/carousel_update")
+	public void carousel_updateForm(@ModelAttribute("cri") Criteria cri, Integer caro_num, Model model) throws Exception {
+		
+		//model명 : caro
+		CarouselVO caro_vo = carouselService.carousel_updateForm(caro_num);
+		caro_vo.setCaro_up_folder(caro_vo.getCaro_up_folder().replace("\\", "/"));
+		model.addAttribute("caro", caro_vo);
+		//상품리스트
+		List<ProductVO> pro_list = adminProductService.pro_list(cri);
+		//슬래시 변환
+		pro_list.forEach(vo -> {
+			vo.setPro_up_folder(vo.getPro_up_folder().replace("\\", "/"));
+		});
+		
+		int totalCount = adminProductService.getTotalCount(cri);
+		
+		//페이징
+		model.addAttribute("pro_list", pro_list);
+		model.addAttribute("pageMaker", new PageDTO(cri, totalCount));
+		log.info("상품리스트 : " + pro_list);
+	}
+	
+	//캐러셀 수정
+	@PostMapping("/carousel_update")
+	public String carousel_update(CarouselVO vo, MultipartFile uploadFile, Criteria cri) throws Exception {
+		
+		log.info("상품수정정보 : " + vo);
+		
+		//상품 이미지 변경(업로드) 유무
+		if(!uploadFile.isEmpty()) {
+			//상품 기존 이미지삭제
+			FileManagerUtils.delete(uploadPath, vo.getCaro_up_folder(), vo.getCaro_img(), "image");
+			//변경이미지 업로드
+			String dateFolder = FileManagerUtils.getDateFolder();
+			String saveFileName = FileManagerUtils.uploadFile(uploadPath, dateFolder, uploadFile);
+			//새로운 파일명, 날짜폴더명
+			vo.setCaro_img(saveFileName);
+			vo.setCaro_up_folder(dateFolder);	
+		}
+		//db저장
+		carouselService.carousel_update(vo);
+		
+		return "redirect:/admin/carousel/carousel_list" + cri.getListLink();
 	}
 	
 	//캐러셀 삭제

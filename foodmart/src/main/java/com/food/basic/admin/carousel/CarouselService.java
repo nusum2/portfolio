@@ -33,4 +33,14 @@ public class CarouselService {
 		
 		carouselMapper.carousel_delete(caro_num);
 	}
+	
+	public CarouselVO carousel_updateForm(Integer caro_num) {
+		
+		return carouselMapper.carousel_updateForm(caro_num);
+	}
+	
+	public void carousel_update(CarouselVO vo) {
+		
+		carouselMapper.carousel_update(vo);
+	}
 }

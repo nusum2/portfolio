@@ -2,7 +2,6 @@ package com.food.basic.common.interceptor;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.food.basic.user.UserVO;
 
@@ -43,7 +42,7 @@ public class LoginInterceptor implements HandlerInterceptor{
 			}else {
 				//원래 요청한 주소를 세션으로 저장
 				getTargetUrl(request);
-				response.sendRedirect("/userinfo/login");
+				response.sendRedirect("/user/login");
 			}
 		}else {
 			result = true;
@@ -51,25 +50,6 @@ public class LoginInterceptor implements HandlerInterceptor{
 		return result;
 	}
 	
-	//컨트롤러의 URL주소에 해당하는 메서드의 실행이 끝나고 return 값의 뷰(View) 화면을 처리하기 전에 이 메서드가 호출(실행)된다.
-	@Override
-	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
-			ModelAndView modelAndView) throws Exception {
-		
-		log.info("postHandle");
-		
-		HandlerInterceptor.super.postHandle(request, response, handler, modelAndView);
-	}
-	
-	//컨트롤러의 URI에 해당하는 메서드에서 참조하는 뷰(View) 화면처리가 완료된 후 호출된다.
-	@Override
-	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)
-			throws Exception {
-		
-		log.info("afterCompletion");
-		
-		HandlerInterceptor.super.afterCompletion(request, response, handler, ex);
-	}
 	//원래 요청한 주소
 	private void getTargetUrl(HttpServletRequest req) {
 		String uri = req.getRequestURI(); // /userinfo/mypage 같은 주소들

@@ -235,6 +235,13 @@
 						}
 						$('#order_process_popup_2').modal('hide');
 					}
+				},
+				beforeSend : function(xhr) {
+					xhr.setRequestHeader("AJAX", "true");
+				},
+				error : function(xhr, status, error) {
+					console.log(xhr);
+					location.href = "/user/login";
 				}
 			});
 		});

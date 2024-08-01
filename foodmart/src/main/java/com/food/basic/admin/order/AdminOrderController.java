@@ -59,6 +59,21 @@ public class AdminOrderController {
 		log.info("리스트 : " + order_list);
 	}
 	
+	//주문목록 hashmap사용
+	@GetMapping("/order_list2")
+	public String order_list2(Model model) throws Exception {
+		
+		
+		List<Map<String, Object>> order_list2 = adminOrderService.order_list2();
+		
+		//페이징
+		model.addAttribute("order_list2", order_list2);
+		
+		log.info("리스트 : " + order_list2.get(0));
+		
+		return "/admin/order/order_list_map";
+	}
+	
 	//주문상세정보 http://www.manual.oneware.co.kr/official.php/home/info/2037 참고
 	@GetMapping("/order_detail_info")
 	public ResponseEntity<Map<String, Object>> order_detail_info(Long ord_code) throws Exception {

@@ -46,6 +46,17 @@ rownum <= (#{cri.pageNum} * #{cri.amount}) -- 페이지번호 * 페이지별 출
 where rn > (#{cri.pageNum} - 1) * #{cri.amount} 
 </select>
 
+<select id="order_list2" resultType="hashmap">
+select o.ord_code, o.u_id, o.ord_name, o.ord_zip_code, o.ord_addr, o.ord_deaddr, o.ord_phone, o.ord_price,
+ot.pro_num, ot.dt_amount, ot.dt_price,
+p.pro_name, p.pro_up_folder, p.pro_img
+from order_t o 
+inner join ordt_t ot
+on o.ord_code = ot.ord_code
+inner join product_t p
+on ot.pro_num = p.pro_num
+</select>
+
 <select id="getTotalCount" resultType="int">
 select count(*)
 from order_t

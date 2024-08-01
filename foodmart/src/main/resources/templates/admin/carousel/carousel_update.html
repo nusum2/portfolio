@@ -50,41 +50,45 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <!-- Your Page Content Here -->
 			<div class="box box-info">
                 <div class="box-header with-border">
-                  <h3 class="box-title">캐러셀 등록</h3>
+                  <h3 class="box-title">캐러셀 수정</h3>
                 </div><!-- /.box-header -->
                 <!-- form start -->
-                <form class="form-horizontal" action="carousel_insert" method="post" enctype="multipart/form-data">
+                <form class="form-horizontal" action="carousel_update" method="post" enctype="multipart/form-data">
                   <div class="box-body">
                     <div class="form-group row">
 						  <label for="title" class="col-sm-1 col-form-label">상품번호</label>
 			              <div class="col-sm-3">
-			                <input type="text" class="form-control" name="pro_num" id="pro_num" placeholder="상품번호 입력...">
+			                <input type="text" class="form-control" name="pro_num" id="pro_num" th:value="${caro.pro_num}" placeholder="상품번호 입력...">
 			              </div>
 			              <label for="title" class="col-sm-1 col-form-label">상품명</label>
 			              <div class="col-sm-3">
-			                <input type="text" class="form-control" name="pro_name" id="pro_name" placeholder="상품명 입력...">
+			                <input type="text" class="form-control" name="pro_name" id="pro_name" th:value="${caro.pro_name}" placeholder="상품명 입력...">
 			              </div>
 						</div>
 						<div class="form-group row">
 						  <label for="title" class="col-sm-1 col-form-label">상품이미지</label>
 			              <div class="col-sm-3">
+                      <!--폴더, 파일명 히든-->
+                      <input type="hidden" name="caro_up_folder" id="caro_up_folder" th:value="${caro.caro_up_folder}">
+                      <input type="hidden" name="caro_img" id="caro_img" th:value="${caro.caro_img}">
+
 			                <input type="file" class="form-control" name="uploadFile" id="uploadFile">
 			              </div>
 			              <label for="title" class="col-sm-1 col-form-label">미리보기 이미지</label>
 			              <div class="col-sm-3">
-			               	<img id="img_preview" style="width:200px;height:200px;">
+			               	<img id="img_preview" style="width:200px;height:200px;" th:src="${'/admin/carousel/image_display?dateFolderName=' + caro.caro_up_folder + '&fileName=' + caro.caro_img}">
 			              </div>
 						</div>
 						<div class="form-group row">
 						  <label for="title" class="col-sm-1 col-form-label">상품설명</label>
 			              <div class="col-sm-10">
-			                <textarea class="form-control" name="caro_content" id="caro_content" rows="3"style="width:650px"></textarea>
+			                <textarea class="form-control" name="caro_content" id="caro_content" th:text="${caro.caro_content}" rows="3"style="width:650px"></textarea>
 			              </div>
 			            </div>
                   <!-- 등록할 상품 검색 -->
                   <div class="form-group row">
                     <div>
-                      <form action="/admin/carousel/carousel_insert" method="get" >
+                      <form action="/admin/carousel/carousel_update" method="get" >
                           <select name="type">
                             <option th:selected="${''} == ${pageMaker.cri.type}">검색종류선택</option>
                             <option value="N" th:selected="${'N'} == ${pageMaker.cri.type}">상품명</option>
@@ -98,16 +102,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       <table class="table">
                           <thead>
                             <tr>
-                              <th scope="col" class="col-md-2">이미지</th>
-                              <th scope="col" class="col-md-2">상품번호</th>
-                              <th scope="col" class="col-md-2">상품명</th>
+                              <th scope="col">이미지</th>
+                              <th scope="col">상품번호</th>
+                              <th scope="col">상품명</th>
                             </tr>
                           </thead>
                           <tbody>
                             <tr th:each="product : ${pro_list}">
-                              <td><img th:src="${'/product/image_display?dateFolderName=' + product.pro_up_folder + '&fileName=s_' + product.pro_img}" style="width: 150px;height: 150px;"></td>
+                              <td><img th:src="${'/product/image_display?dateFolderName=' + product.pro_up_folder + '&fileName=s_' + product.pro_img}" style="width: 100%;height: 100px;"></td>
                               <td scope="row"><a id="caro_pro_num" th:text="${product.pro_num}"></a></td>
-                              <td id="caro_pro_name" th:text="${product.pro_name}"></td>
+                              <td>[[${product.pro_name}]]</td>
                             </tr>
                           </tbody>
                         </table>
@@ -198,15 +202,6 @@ $(document).ready(function(){
     
         actionForm.submit();
         });
-
-      $("#caro_pro_num").on("click", function(e){
-        e.preventDefault(); //a태그의 href기능 제거
-        let list_pro_num = $("#caro_pro_num").html();
-        let list_pro_name = $("#caro_pro_name").html();
-        
-        $("#pro_num").val(list_pro_num);
-        $("#pro_name").val(list_pro_name);
-      })
 });//ready 끝
 
       </script>

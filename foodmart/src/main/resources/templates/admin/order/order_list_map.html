@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<table class="table">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">주문번호</th>
+      <th scope="col">아이디</th>
+      <th scope="col">주문금액</th>
+      <th scope="col">상품명</th>
+    </tr>
+  </thead>
+  <tbody>
+  <!-- 대문자로 사용 -->
+    <tr th:each="order : ${order_list2}">
+      <th th:text="${order['ORD_CODE']}">1</th>
+      <th th:text="${order['U_ID']}">1</th>
+      <th th:text="${order['ORD_PRICE']}">1</th>
+      <th th:text="${order['PRO_NAME']}">1</th>
+    </tr>
+  </tbody>
+</table>
+</body>
+</html>

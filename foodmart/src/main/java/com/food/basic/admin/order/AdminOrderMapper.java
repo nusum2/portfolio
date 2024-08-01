@@ -1,6 +1,7 @@
 package com.food.basic.admin.order;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -10,6 +11,8 @@ import com.food.basic.order.OrderVO;
 public interface AdminOrderMapper {
 	
 	List<OrderVO> order_list(@Param("cri")Criteria cri, @Param("start_date")String start_date, @Param("end_date")String end_date);
+	
+	List<Map<String, Object>> order_list2(); //key(String)가 컬럼명이 되고, value(Object)는 컬럼명의 데이터
 	
 	int getTotalCount(@Param("cri")Criteria cri, @Param("start_date")String start_date, @Param("end_date")String end_date);
 	

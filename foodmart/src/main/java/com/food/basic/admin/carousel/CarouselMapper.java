@@ -17,4 +17,10 @@ public interface CarouselMapper {
 	
 	//캐러셀 삭제
 	void carousel_delete(Integer caro_num);
+	
+	//캐러셀 수정폼
+	CarouselVO carousel_updateForm(Integer caro_num);
+	
+	//캐러셀 수정
+	void carousel_update(CarouselVO vo);
 }
