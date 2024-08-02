@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.food.basic.common.dto.Criteria;
+import com.food.basic.user.UserVO;
 
 import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
@@ -46,5 +47,15 @@ public class AdminUserService {
 	public void mailingedit(MailMngVO vo) {
 		
 		adminUserMapper.mailingedit(vo);
+	}
+	
+	public List<UserVO> user_list(Criteria cri) {
+		
+		return adminUserMapper.user_list(cri);
+	}
+	
+	public int userCount(Criteria cri) {
+		
+		return adminUserMapper.userCount(cri);
 	}
 }

@@ -77,6 +77,7 @@ public class CarouselController {
 		model.addAttribute("pro_list", pro_list);
 		model.addAttribute("pageMaker", new PageDTO(cri, totalCount));
 		log.info("상품리스트 : " + pro_list);
+		
 	}
 	
 	//캐러셀 등록

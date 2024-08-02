@@ -52,12 +52,92 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <div class="box-header with-border">
                   <h3 class="box-title">캐러셀 수정</h3>
                 </div><!-- /.box-header -->
+                <!-- 등록할 상품 검색 -->
+                <div class="form-group row">
+                  <div>
+                    <form action="/admin/carousel/carousel_update" method="get" >
+                        <select name="type">
+                          <option th:selected="${''} == ${pageMaker.cri.type}">전체검색</option>
+                          <option value="N" th:selected="${'N'} == ${pageMaker.cri.type}">상품명</option>
+                        </select>
+                        <input type="text" name="keyword" th:value="${pageMaker.cri.keyword}" />
+                        <input type="hidden" name="pageNum" th:value="${pageMaker.cri.pageNum}" />
+                        <input type="hidden" name="amount" th:value="${pageMaker.cri.amount}" />
+                        <input type="hidden" name="caro_num" th:value="${caro.caro_num}"/>
+                        <button type="submit" class="btn btn-primary">검색</button>
+                    </form>
+                  </div>
+                    <table class="table">
+                        <thead>
+                          <tr>
+                            <th scope="col" class="col-md-2">이미지</th>
+                            <th scope="col" class="col-md-2">상품번호</th>
+                            <th scope="col" class="col-md-2">상품명</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr th:each="product : ${pro_list}">
+                            <td><img th:src="${'/product/image_display?dateFolderName=' + product.pro_up_folder + '&fileName=s_' + product.pro_img}" style="width: 150px;height: 150px;"></td>
+                            <td scope="row"><a id="list_pro_num">[[${product.pro_num}]]</a></td>
+                            <td id="list_pro_name">[[${product.pro_name}]]</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                </div>
+                <div class="row">
+                  <div class="col-md-4">
+                
+                  <!--  Criteria 클래스 필드사용목적 -->
+                  <!--1)페이지번호 클릭할 때 사용  [이전]  1	 2	3	4	5 [다음]  -->
+                  <!--2)목록에서 상품이미지 또는 상품명 클릭할 때 사용   -->
+                    <form id="actionForm" action="" method="get">
+                    <input type="hidden" name="pageNum" id="pageNum" th:value="${pageMaker.cri.pageNum}" />
+                    <input type="hidden" name="amount"  id="amount" th:value="${pageMaker.cri.amount}" />
+                    <input type="hidden" name="type" id="type" th:value="${pageMaker.cri.type}" />
+                    <input type="hidden" name="keyword" id="keyword" th:value="${pageMaker.cri.keyword}" />
+                    </form>
+                  </div>
+                  <div class="col-md-6 text-center justify-content-center">
+                    <nav aria-label="...">
+                    <ul class="pagination">
+                      <!-- 이전 표시여부 -->
+                      
+                      <th:block th:if="${pageMaker.prev }">
+                        <li class="page-item">
+                          <a th:href="${pageMaker.startPage - 1 }" class="page-link movepage">Previous</a>
+                        </li>
+                      </th:block>
+                      
+                      <!-- https://jbground.tistory.com/40 페이지번호 출력 -->
+                      <!-- 1	2	3	4	5 6	7	8	9	10  [다음] -->
+                      <!-- [이전] 11	12	13	14	15 16	17	18	19	20   -->
+              
+                      <th:block th:with="pageMaker = ${pageMaker}">
+                        <th:block th:each="num : *{#numbers.sequence(pageMaker.startPage, pageMaker.endPage)}">
+                        <li class='page-item' th:classappend="${pageMaker.cri.pageNum ==  num ? 'active': '' }" aria-current="page">
+                          <a class="page-link movepage" th:href="${num }" th:text="${num }"></a>
+                        </li>
+                        </th:block>
+                      </th:block>
+              
+                      <!--  다음 표시여부 -->
+                      <th:block th:if="${pageMaker.next }">
+                        <li class="page-item">
+                        <a th:href="${pageMaker.endPage + 1 }" class="page-link movepage">Next</a>
+                        </li>
+                      </th:block>
+                      
+                    </ul>
+                    </nav>
+                  </div>
+                </div>
                 <!-- form start -->
                 <form class="form-horizontal" action="carousel_update" method="post" enctype="multipart/form-data">
                   <div class="box-body">
                     <div class="form-group row">
 						  <label for="title" class="col-sm-1 col-form-label">상품번호</label>
 			              <div class="col-sm-3">
+                      <input type="hidden" name="caro_num" id="caro_num" th:value="${caro.caro_num}">
 			                <input type="text" class="form-control" name="pro_num" id="pro_num" th:value="${caro.pro_num}" placeholder="상품번호 입력...">
 			              </div>
 			              <label for="title" class="col-sm-1 col-form-label">상품명</label>
@@ -68,10 +148,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
 						<div class="form-group row">
 						  <label for="title" class="col-sm-1 col-form-label">상품이미지</label>
 			              <div class="col-sm-3">
-                      <!--폴더, 파일명 히든-->
-                      <input type="hidden" name="caro_up_folder" id="caro_up_folder" th:value="${caro.caro_up_folder}">
-                      <input type="hidden" name="caro_img" id="caro_img" th:value="${caro.caro_img}">
-
+                      <!-- 날짜폴더명, 파일명 hidden으로 숨김 -->
+			              <input type="hidden" name="caro_up_folder" id="caro_up_folder" th:value="${caro.caro_up_folder}">
+			              <input type="hidden" name="caro_img" id="caro_img" th:value="${caro.caro_img}">
 			                <input type="file" class="form-control" name="uploadFile" id="uploadFile">
 			              </div>
 			              <label for="title" class="col-sm-1 col-form-label">미리보기 이미지</label>
@@ -85,84 +164,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
 			                <textarea class="form-control" name="caro_content" id="caro_content" th:text="${caro.caro_content}" rows="3"style="width:650px"></textarea>
 			              </div>
 			            </div>
-                  <!-- 등록할 상품 검색 -->
-                  <div class="form-group row">
-                    <div>
-                      <form action="/admin/carousel/carousel_update" method="get" >
-                          <select name="type">
-                            <option th:selected="${''} == ${pageMaker.cri.type}">검색종류선택</option>
-                            <option value="N" th:selected="${'N'} == ${pageMaker.cri.type}">상품명</option>
-                          </select>
-                          <input type="text" name="keyword" th:value="${pageMaker.cri.keyword}" />
-                          <input type="hidden" name="pageNum" th:value="${pageMaker.cri.pageNum}" />
-                          <input type="hidden" name="amount" th:value="${pageMaker.cri.amount}" />
-                          <button type="submit" class="btn btn-primary">검색</button>
-                      </form>
-                    </div>
-                      <table class="table">
-                          <thead>
-                            <tr>
-                              <th scope="col">이미지</th>
-                              <th scope="col">상품번호</th>
-                              <th scope="col">상품명</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr th:each="product : ${pro_list}">
-                              <td><img th:src="${'/product/image_display?dateFolderName=' + product.pro_up_folder + '&fileName=s_' + product.pro_img}" style="width: 100%;height: 100px;"></td>
-                              <td scope="row"><a id="caro_pro_num" th:text="${product.pro_num}"></a></td>
-                              <td>[[${product.pro_name}]]</td>
-                            </tr>
-                          </tbody>
-                        </table>
-                  </div>
-                  <div class="row">
-                    <div class="col-md-4">
-                  
-                    <!--  Criteria 클래스 필드사용목적 -->
-                    <!--1)페이지번호 클릭할 때 사용  [이전]  1	 2	3	4	5 [다음]  -->
-                    <!--2)목록에서 상품이미지 또는 상품명 클릭할 때 사용   -->
-                      <form id="actionForm" action="" method="get">
-                      <input type="hidden" name="pageNum" id="pageNum" th:value="${pageMaker.cri.pageNum}" />
-                      <input type="hidden" name="amount"  id="amount" th:value="${pageMaker.cri.amount}" />
-                      <input type="hidden" name="type" id="type" th:value="${pageMaker.cri.type}" />
-                      <input type="hidden" name="keyword" id="keyword" th:value="${pageMaker.cri.keyword}" />
-                      </form>
-                    </div>
-                    <div class="col-md-6 text-center justify-content-center">
-                      <nav aria-label="...">
-                      <ul class="pagination">
-                        <!-- 이전 표시여부 -->
-                        
-                        <th:block th:if="${pageMaker.prev }">
-                          <li class="page-item">
-                            <a th:href="${pageMaker.startPage - 1 }" class="page-link movepage">Previous</a>
-                          </li>
-                        </th:block>
-                        
-                        <!-- https://jbground.tistory.com/40 페이지번호 출력 -->
-                        <!-- 1	2	3	4	5 6	7	8	9	10  [다음] -->
-                        <!-- [이전] 11	12	13	14	15 16	17	18	19	20   -->
-                
-                        <th:block th:with="pageMaker = ${pageMaker}">
-                          <th:block th:each="num : *{#numbers.sequence(pageMaker.startPage, pageMaker.endPage)}">
-                          <li class='page-item' th:classappend="${pageMaker.cri.pageNum ==  num ? 'active': '' }" aria-current="page">
-                            <a class="page-link movepage" th:href="${num }" th:text="${num }"></a>
-                          </li>
-                          </th:block>
-                        </th:block>
-                
-                        <!--  다음 표시여부 -->
-                        <th:block th:if="${pageMaker.next }">
-                          <li class="page-item">
-                          <a th:href="${pageMaker.endPage + 1 }" class="page-link movepage">Next</a>
-                          </li>
-                        </th:block>
-                        
-                      </ul>
-                      </nav>
-                    </div>
-                  </div>
                   <div class="box-footer">
                     <button type="reset" class="btn btn-default">Cancel</button>
                     <button type="submit" class="btn btn-info pull-right">Sign in</button>
@@ -202,6 +203,22 @@ $(document).ready(function(){
     
         actionForm.submit();
         });
+
+      //https://blog.naver.com/10hsb04/221665740294
+      //상품 리스트에서 상품번호 클릭시 상품번호, 상품명 자동 입력
+      $("a#list_pro_num").on("click", function(e){
+        e.preventDefault(); //a태그의 href기능 제거
+        let pro_row = $(this).closest('tr');
+        let row_pro_num = pro_row.find('td:eq(1)').text();
+        let row_pro_name = pro_row.find('td:eq(2)').text();
+
+        //console.log(row_pro_num, row_pro_name);
+        
+        $("#pro_num").val(row_pro_num);
+        $("#pro_name").val(row_pro_name);
+
+        $("#pro_num").focus();
+      });
 });//ready 끝
 
       </script>

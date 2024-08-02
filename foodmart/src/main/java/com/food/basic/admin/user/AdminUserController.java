@@ -23,6 +23,7 @@ import com.food.basic.common.dto.PageDTO;
 import com.food.basic.common.util.FileManagerUtils;
 import com.food.basic.mail.EmailDTO;
 import com.food.basic.mail.EmailService;
+import com.food.basic.user.UserVO;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -45,6 +46,19 @@ public class AdminUserController {
 	//https://www.onedaynet.co.kr 참고
 	
 	//회원목록
+	@GetMapping("/user_list")
+	public void user_list(Criteria cri, Model model) {
+		
+		List<UserVO> user_list = adminUserService.user_list(cri);
+		
+		int userCount = adminUserService.userCount(cri);
+		
+		//페이징
+		model.addAttribute("user_list", user_list);
+		model.addAttribute("pageMaker", new PageDTO(cri, userCount));
+		log.info("회원 목록 : " + user_list);
+	}
+	
 	
 	//회원조회 및 수정
 	
