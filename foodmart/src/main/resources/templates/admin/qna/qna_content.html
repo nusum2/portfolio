@@ -25,14 +25,14 @@
                 <h3 class="box-title">QnA 수정</h3>
               </div><!-- /.box-header -->
               <!-- form start -->
-              <form id="actionForm" th:action="@{/qna/qna_admin_list}" method="get">
+              <form id="actionForm" th:action="@{/admin/qna/qna_admin_list}" method="get">
 								<input type="hidden" name="q_num" id="q_num" th:value="${vo.q_num}" />
 								<input type="hidden" name="pageNum" id="pageNum" th:value="${cri.pageNum}" />
 								<input type="hidden" name="amount"  id="amount" th:value="${cri.amount}" />
 								<input type="hidden" name="type" id="type" th:value="${cri.type}" />
 								<input type="hidden" name="keyword" id="keyword" th:value="${cri.keyword}" />
 							  </form>
-              <form class="form-horizontal" th:action="@{/qna/qna_content}" method="post">
+              <form class="form-horizontal" th:action="@{/admin/qna/qna_content}" method="post">
                 <div class="box-body">
                   <!-- <div class="form-group"> -->
                   
@@ -88,7 +88,7 @@ $(document).ready(function(){
 	});
 	//수정 버튼
 	$("button#btn_qna_update").on("click", function(){
-		actionForm.attr("action", "/qna/qna_update");
+		actionForm.attr("action", "/admin/qna/qna_update");
     
     actionForm.submit();
     
@@ -97,7 +97,7 @@ $(document).ready(function(){
   $("button#btn_qna_delete").on("click", function(){
 	  if(!confirm("삭제하시겠습니까?")) return;
 		
-		actionForm.attr("action", "/qna/qna_delete");
+		actionForm.attr("action", "/admin/qna/qna_delete");
     
 		actionForm.submit();
   });

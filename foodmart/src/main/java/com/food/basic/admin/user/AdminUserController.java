@@ -47,7 +47,7 @@ public class AdminUserController {
 	
 	//회원목록
 	@GetMapping("/user_list")
-	public void user_list(Criteria cri, Model model) {
+	public void user_list(Criteria cri, Model model) throws Exception {
 		
 		List<UserVO> user_list = adminUserService.user_list(cri);
 		
@@ -58,9 +58,23 @@ public class AdminUserController {
 		model.addAttribute("pageMaker", new PageDTO(cri, userCount));
 		log.info("회원 목록 : " + user_list);
 	}
+
+	//회원조회
+	@GetMapping("/user_info")
+	public void user_info(@ModelAttribute("cri") Criteria cri, String u_id, Model model) throws Exception {
+		
+		UserVO vo = adminUserService.user_info(u_id);
+		model.addAttribute("user", vo);
+	}
 	
-	
-	//회원조회 및 수정
+	//회원탈퇴
+	@PostMapping("/user_delete")
+	public String user_delete(Criteria cri, String u_id) throws Exception {
+		
+		adminUserService.user_delete(u_id);
+		
+		return "redirect:/admin/user/user_list" + cri.getListLink();
+	}
 	
 	//메일발송 목록
 	@GetMapping("/mailinglist")

@@ -10,6 +10,26 @@
 	<result property="regDate" column="reg_date" />
 </resultMap>
 
+<!-- 검색조건 -->
+<sql id="criteria">
+<trim prefix="(" suffix=") AND" prefixOverrides="OR">
+<foreach collection="typeArr" item="type">
+<trim prefix="OR">
+<choose>
+<when test="type == 'N'.toString()">
+u_name like '%' || #{keyword} || '%'
+</when>
+<when test="type == 'I'.toString()">
+u_id like '%' || #{keyword} || '%'
+</when>
+<when test="type == 'K'.toString()">
+u_nick like'%' || #{keyword} || '%'
+</when>
+</choose>
+</trim>
+</foreach>
+</trim>
+</sql>
 
 <insert id="mailing_save" parameterType="MailMngVO">
 <selectKey keyProperty="idx" resultType="Integer" order="BEFORE">
@@ -68,5 +88,39 @@ update mailing_t
 set m_title = #{title}, m_content = #{content}, m_gubun = #{gubun}, reg_date = sysdate
 where m_idx = #{idx}
 </update>
+
+<select id="user_list" resultType="UserVO" parameterType="com.food.basic.common.dto.Criteria">
+select u_id, u_name, u_email, u_zipcode, u_addr, u_deaddr, u_phone, u_nick, u_receive, u_point, u_lastlogin, u_regdate, u_update
+from(
+select /*+ index_desc(user_t pk_u_id) */
+rownum as rn, u_id, u_name, u_email, u_zipcode, u_addr, u_deaddr, u_phone, u_nick, u_receive, u_point, u_lastlogin, u_regdate, u_update
+from user_t
+where 
+<include refid="criteria"></include>
+<![CDATA[
+rownum <= (#{pageNum} * #{amount}) -- 페이지번호 * 페이지별 출력건수, 추가 쿼리, 조건은 이 안쪽으로 추가
+]]>
+)
+where rn > (#{pageNum} - 1) * #{amount} 
+</select>
+
+<select id="userCount" resultType="int">
+select count(*)
+from user_t
+where <include refid="criteria"></include>
+u_id = u_id
+</select>
+
+<select id="user_info" parameterType="String" resultType="UserVO">
+select u_id, u_password, u_name, u_email, u_zipcode, u_addr, u_deaddr, u_phone, u_nick, u_receive, u_point,
+u_lastlogin, u_regdate, u_update
+from user_t
+where u_id = #{u_id}
+</select>
+
+<delete id="user_delete" parameterType="String">
+delete from user_t
+where u_id = #{u_id}
+</delete>
 
 </mapper>

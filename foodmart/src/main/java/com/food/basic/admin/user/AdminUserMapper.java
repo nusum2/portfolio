@@ -27,4 +27,8 @@ public interface AdminUserMapper {
 	List<UserVO> user_list(Criteria cri);
 	//총 회원수
 	int userCount(Criteria cri);
+	//회원정보
+	UserVO user_info(String u_id);
+	//회원탈퇴
+	void user_delete(String u_id);
 }

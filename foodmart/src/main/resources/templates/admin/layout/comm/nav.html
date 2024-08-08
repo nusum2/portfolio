@@ -71,11 +71,12 @@
           <a href="#"><i class="fa fa-link"></i> <span>통계분석</span> <i class="fa fa-angle-left pull-right"></i></a>
           <ul class="treeview-menu">
             <li><a th:href="@{/admin/analysis/orderStats}">카테고리별 매출 현황</a></li>
-            <li><a href="#">Link in level 2</a></li>
+            <li><a th:href="@{/admin/analysis/orderCount}">카테고리별 판매 현황</a></li>
+            <li><a th:href="@{/admin/analysis/userCountChart}">회원 가입현황</a></li>
           </ul>
         </li>
         <li class="treeview">
-          <a href="#"><i class="fa fa-link"></i> <span>게시판관리</span> <i class="fa fa-angle-left pull-right"></i></a>
+          <a href="#"><i class="fa fa-link"></i> <span>부가요소관리</span> <i class="fa fa-angle-left pull-right"></i></a>
           <ul class="treeview-menu">
             <li><a th:href="@{/admin/qna/qna_write}">QnA 등록</a></li>
             <li><a th:href="@{/admin/qna/qna_admin_list}">QnA 목록</a></li>

@@ -66,7 +66,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 					<div class="box-body">
 						<div>
 							<!-- 검색폼 -->
-							<form action="/qna/qna_admin_list" method="get" id="search">
+							<form action="/admin/qna/qna_admin_list" method="get" id="search">
 									<select name="type">
 										<option th:selected="${''} == ${pageMaker.cri.type}">검색종류선택</option>
 										<option value="T" th:selected="${'T'} == ${pageMaker.cri.type}">제목</option>
@@ -174,7 +174,7 @@ $(document).ready(function(){
 		e.preventDefault(); //a태그의 href기능 제거
 		
 		//주소변경
-		actionForm.attr("action", "/qna/qna_admin_list");
+		actionForm.attr("action", "/admin/qna/qna_admin_list");
 		//클릭한 페이지번호 작업
 		actionForm.find("input[name='pageNum']").val($(this).attr("href"));
 		
@@ -189,7 +189,7 @@ $(document).ready(function(){
 		//뒤로버튼 클릭시 발생하는 문제 방지 목적
 		actionForm.find("input[name='q_num']").remove();
 
-		location.href = "/qna/qna_delete?q_num=" + q_num;
+		location.href = "/admin/qna/qna_delete?q_num=" + q_num;
 		actionForm.submit();
 	  });
       

@@ -204,8 +204,8 @@ $(document).ready(function(){
       $("a#list_pro_num").on("click", function(e){
         e.preventDefault(); //a태그의 href기능 제거
         let pro_row = $(this).closest('tr');
-        let row_pro_num = pro_row.find('td:eq(1)').text();
-        let row_pro_name = pro_row.find('td:eq(2)').text();
+        let row_pro_num = pro_row.find('td:eq(1)').text(); //상품번호
+        let row_pro_name = pro_row.find('td:eq(2)').text(); //상품명
 
         //console.log(row_pro_num, row_pro_name);
         

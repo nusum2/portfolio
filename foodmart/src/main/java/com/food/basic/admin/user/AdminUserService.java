@@ -58,4 +58,14 @@ public class AdminUserService {
 		
 		return adminUserMapper.userCount(cri);
 	}
+	
+	public UserVO user_info(String u_id) {
+		
+		return adminUserMapper.user_info(u_id);
+	}
+	
+	public void user_delete(String u_id) {
+		
+		adminUserMapper.user_delete(u_id);
+	}
 }

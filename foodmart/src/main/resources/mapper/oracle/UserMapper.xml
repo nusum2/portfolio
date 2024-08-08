@@ -25,6 +25,12 @@ from user_t
 where u_id = #{u_id}
 </select>
 
+<update id="user_lastlogin" parameterType="UserVO">
+update user_t
+set u_lastlogin = sysdate
+where u_id = #{u_id}
+</update>
+
 <select id="idfind" resultType="String">
 select u_id
 from user_t

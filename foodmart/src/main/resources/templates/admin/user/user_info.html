@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+                xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+                layout:decorate="~{admin/layout/adminlayout}">
+<body class="hold-transition skin-blue sidebar-mini">
+    <div class="wrapper">
+        <th:block layout:fragment = "content">
+            <div class="content-wrapper">
+                <!-- Content Header (Page header) -->
+                <section class="content-header">
+                  <h1>
+                    Page Header
+                    <small>Optional description</small>
+                  </h1>
+                  <ol class="breadcrumb">
+                    <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
+                    <li class="active">Here</li>
+                  </ol>
+                </section>
+        
+                <!-- Main content -->
+                <section class="content">
+                
+                  <!-- Your Page Content Here -->
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">회원 정보</h3>
+                </div><!-- /.box-header -->
+                <!-- list start -->
+                <div class="row">
+            <div class="col-md-12">
+                <div class="box">
+                    <div class="box-header with-border">
+                    <h3 class="box-title">User info</h3>
+                    </div>
+                <div class="box-body">
+                    <form id="user_info_form" th:action="@{/admin/user/user_info}" method="post">
+                        <div class="form-group row">
+                            <label for="u_regdate" class="col-sm-2 col-form-label">가입일</label>
+                            <div class="col-sm-4"><!-- date에는 id, name 사용x-->
+                            <input type="text" th:value="${#dates.format(user.u_regdate, 'yyyy-MM-dd HH:mm:ss')}" class="form-control"  readonly>
+                        </div>
+                            <label for="u_lastlogin" class="col-sm-2 col-form-label">마지막 접속일</label>
+                            <div class="col-sm-4"><!-- date에는 id, name 사용x-->
+                            <input type="text" th:value="${#dates.format(user.u_lastlogin, 'yyyy-MM-dd HH:mm:ss')}" class="form-control"  readonly>
+                        </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="u_id" class="col-sm-2 col-form-label">아이디</label>
+                            <div class="col-sm-4">
+                            <input type="text" class="form-control" id="u_id" name="u_id"  readonly th:value="${user.u_id}">
+                        </div>
+                            <label for="u_nick" class="col-sm-2 col-form-label">닉네임</label>
+                            <div class="col-sm-4">
+                            <input type="text" class="form-control" id="u_nick" name="u_nick"  readonly th:value="${user.u_nick}">
+                        </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="u_name" class="col-sm-2 col-form-label">이름</label>
+                            <div class="col-sm-4">
+                            <input type="text" class="form-control" id="u_name" name="u_name"  readonly th:value="${user.u_name}">
+                        </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="u_email" class="col-sm-2 col-form-label">이메일</label>
+                            <div class="col-sm-10">
+                            <input type="text" class="form-control" id="u_email" name="u_email" readonly th:value="${user.u_email}">
+                        </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="u_zipcode" class="col-sm-2 col-form-label">우편번호</label>
+                            <div class="col-sm-4">
+                            <input type="text" class="form-control" id="sample2_postcode" name="u_zipcode" th:value="${user.u_zipcode}" readonly>
+                        </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="u_addr" class="col-sm-2 col-form-label">주소</label>
+                            <div class="col-sm-10">
+                            <input type="text" class="form-control" id="sample2_address" name="u_addr" th:value="${user.u_addr}" readonly>
+                        </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="u_deaddr" class="col-sm-2 col-form-label">상세주소</label>
+                            <div class="col-sm-10">
+                            <input type="text" class="form-control" id="sample2_detailAddress" readonly name="u_deaddr" th:value="${user.u_deaddr}">
+                            <input type="hidden" id="sample2_extraAddress" placeholder="참고항목">
+                        </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="u_phone" class="col-sm-2 col-form-label">전화번호</label>
+                            <div class="col-sm-10">
+                            <input type="text" class="form-control" id="u_phone" name="u_phone" readonly th:value="${user.u_phone}">
+                        </div>
+                        </div>
+                        </div>
+                        <div class="card-footer"> <!-- id="btnJoin" -->
+                            <button type="button" class="btn btn-danger btn-block" id="btn_user_list">목록으로</button>
+                        </div>
+                    </form>
+                            </div>      
+                            </div>
+                       </div>
+                    </div>
+                </div>
+                </div>        
+                </section><!-- /.content -->
+        </th:block>
+    <th:block layout:fragment="script">  
+    <script>
+        //목록으로 뒤로가기 이동
+        document.getElementById("btn_user_list").addEventListener("click", () => {
+            window.history.back();
+          });
+$(document).ready(function(){
+
+      
+      
+});//ready 끝
+
+
+      </script>
+    </th:block>
+</body>
+</html>

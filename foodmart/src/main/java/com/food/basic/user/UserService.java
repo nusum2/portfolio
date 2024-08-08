@@ -84,4 +84,9 @@ public class UserService {
 		
 		userMapper.sns_user_insert(dto);
 	}
+	
+	public void user_lastlogin(UserVO lastlogin) {
+		
+		userMapper.user_lastlogin(lastlogin);
+	}
 }
