@@ -76,11 +76,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
 							<div class="col-md-4">
 								
 							
-							</div>
-							
-							
-						</div>
-						
+							</div>							
+						</div>						
 					</div>
 			   </div>
     		</div>
@@ -88,18 +85,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </div>
           	</div>
           </div>
-          
-
         </section><!-- /.content -->
       </div><!-- /.content-wrapper -->
-      
-    
-
-
-  
-  
-	
-	
     </th:block>
 
       <!-- Main Footer -->
@@ -130,10 +117,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
 				//자바스크립트 배열
 				let labelNames = [];
 			    let salesPriceData = [];
-
+				let salesAmountData = [];
 				$.each(result, function() {
-					labelNames.push(this['PRIMARY_CD']);
-					salesPriceData.push(this['SALES_P']);
+					labelNames.push(this['PRIMARY_CD']); //카테고리명
+					salesPriceData.push(this['SALES_P']); //판매액 합산
+					salesAmountData.push(this['SALES_A']); //판매량
 				});
 				
 				/*
@@ -151,7 +139,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 				console.log("x축: ", labelNames);
 				console.log("y축: ", salesPriceData);
-				
+				console.log("라인: ", salesAmountData);
 			let	myCt = document.getElementById('salesChart');
 			    
 			myChart = new Chart(myCt, {
@@ -160,17 +148,29 @@ scratch. This page gets rid of all links and provides the needed markup only.
 				  labels: labelNames, //['BAG', 'PANTS', 'SHIRTS', 'SHOES', 'TOP'], 
 				  datasets: [
 					{
-					  label: 'A사',
+					  label: '판매금액',
 					  
 					  data: salesPriceData, //[105000, 100000, 135000, 195000, 890600], 
-					},
+					}
+					,
 					{
-						  label: 'B사',
-						 
-						  data: [100000, 60000, 105000, 105000, 700600], 
+						  label: '판매량',
+						  type: 'line',
+						  data: salesAmountData,
+						  yAxisID: 'linechart'
 					}
 				  ]
 				},
+				option: {
+					scales: {
+						linechart: {
+							beginAtZero : true,
+							type : 'linear',
+							display : true,
+							position : 'right'
+						}
+					}
+				}
 			  });
 
 				//myChart.destroy();

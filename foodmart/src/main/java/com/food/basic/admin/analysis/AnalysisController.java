@@ -46,4 +46,17 @@ public class AnalysisController {
 		
 		return listObjMap;
 	}
+	
+	//1차 카테고리 월별 판매량
+//	@GetMapping("/monthlySalesAmountByTopCategory")
+//	@ResponseBody
+//	public List<Map<String, Object>> getMonthlySalesAmountByTopCategory(int year, int month) {
+//		
+//		String ord_date = String.format("%s/%s", year, (month < 10 ? "0" + String.valueOf(month) : month));
+//		log.info("선택일 : " + ord_date);
+//		
+//		List<Map<String, Object>> listObjMap = analysisService.monthlySalesAmountByTopCategory(ord_date);
+//		
+//		return listObjMap;
+//	}
 }

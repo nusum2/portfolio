@@ -21,4 +21,9 @@ public class AnalysisService {
 		
 		return analysisMapper.monthlySalesStatusByTopCategory(ord_date);
 	}
+	
+//	public List<Map<String, Object>> monthlySalesAmountByTopCategory(String ord_date) {
+//		
+//		return analysisMapper.monthlySalesAmountByTopCategory(ord_date);
+//	}
 }
