@@ -141,6 +141,9 @@ pom.xml.versionsBackup
 pom.xml.next
 release.properties
 application.properties
+application-local-db.properties
+application-real-db.properties
+application-private.properties
 email.properties
 dependency-reduced-pom.xml
 buildNumber.properties
