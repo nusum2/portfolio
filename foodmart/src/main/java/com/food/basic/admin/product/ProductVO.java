@@ -28,6 +28,7 @@ public class ProductVO {
 	private String pro_name;
 	private int pro_price;
 	private int pro_discount;
+	private int pro_disprice;
 	private String pro_publisher;
 	private String pro_content;
 	private String pro_up_folder;

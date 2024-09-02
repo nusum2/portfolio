@@ -84,12 +84,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
 							<tbody><tr>
 							    <th style="width: 2%"><input type="checkbox" id="checkAll"></th>
 								<th style="width: 8%">상품코드</th>
-								<th style="width: 25%">상품명</th>
+								<th style="width: 20%">상품명</th>
 								<th style="width: 10%">가격</th>
-								<th style="width: 20%">등록일</th>
-								<th style="width: 15%">판매여부</th>
-								<th style="width: 10%">수정</th>
-								<th style="width: 10%">삭제</th>
+								<th style="width: 10%">할인가</th>
+								<th style="width: 24%">등록일</th>
+								<th style="width: 10%">판매여부</th>
+								<th style="width: 8%">수정</th>
+								<th style="width: 8%">삭제</th>
 							</tr>
 							<tr th:each="product : ${pro_list}">
 								<td><input type="checkbox" name="check" th:value="${product.pro_num}"></td>
@@ -104,7 +105,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
 									<a class="move pro_name" href="#" th:text="${product.pro_name}"></a>
 								</td>
 								<td><input type="text" name="pro_price" th:value="${product.pro_price}"></td>
-								<td th:value="${#dates.format(product.pro_date, 'yyyy-MM-dd HH:mm:ss')}"></td>
+								<td><input type="text" name="pro_price" th:value="${product.pro_disprice}" readonly></td>
+								<td th:text="${#dates.format(product.pro_date, 'yyyy-MM-dd HH:mm:ss')}"></td>
 								<td>
 									<select id="pro_buy" name="pro_buy">
 										<option value="Y" th:selected="${product.pro_buy == 'Y'}">판매가능</option>
