@@ -32,7 +32,7 @@ public class OrderService {
 				.ord_code(vo.getOrd_code())
 				.u_id(u_id)
 				.paymethod(paymethod)
-				.p_price(vo.getOrd_price())
+				.p_disprice(vo.getOrd_price())
 				.p_status(p_status)
 				.payinfo(payinfo)
 				.build();

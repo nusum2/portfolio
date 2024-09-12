@@ -58,7 +58,7 @@ public class KakaopayController {
 		for(int i=0; i<cart_list.size(); i++) {
 			itemName += cart_list.get(i).getPro_name() + "/";
 			quantity += cart_list.get(i).getCart_amount();
-			totalAmount += cart_list.get(i).getPro_price() * cart_list.get(i).getCart_amount();
+			totalAmount += cart_list.get(i).getPro_disprice() * cart_list.get(i).getCart_amount();
 		}
 		
 		String partnerOrderId = u_id;

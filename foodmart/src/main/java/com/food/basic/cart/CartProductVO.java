@@ -10,6 +10,6 @@ public class CartProductVO {
 	private String pro_name;
 	private String pro_up_folder;
 	private String pro_img;
-	private int pro_price;
+	private int pro_disprice;
 	private int cart_amount;
 }

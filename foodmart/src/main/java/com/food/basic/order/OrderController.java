@@ -55,7 +55,7 @@ public class OrderController {
 			//total_price += (d_vo.getCart_amount() * d_vo.getPro_price());
 		});
 		for(int i=0; i<cart_list.size(); i++) {
-			total_price += (cart_list.get(i).getPro_price() * cart_list.get(i).getCart_amount());
+			total_price += (cart_list.get(i).getPro_disprice() * cart_list.get(i).getCart_amount());
 		}
 		model.addAttribute("cart_list", cart_list);
 		model.addAttribute("total_price", total_price);

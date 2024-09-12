@@ -231,12 +231,16 @@ public class AdminProductController {
 		public ResponseEntity<String> pro_checked_modify1(
 				@RequestParam("pro_num_arr") List<Integer> pro_num_arr,
 				@RequestParam("pro_price_arr") List<Integer> pro_price_arr,
+				@RequestParam("pro_discount_arr") List<Integer> pro_discount_arr,
+				@RequestParam("pro_disprice_arr") List<Integer> pro_disprice_arr,
 				@RequestParam("pro_buy_arr") List<String> pro_buy_arr) throws Exception {
 			log.info("상품코드 : " + pro_num_arr);
 			log.info("상품가격 : " + pro_price_arr);
+			log.info("할인율 : " + pro_discount_arr);
+			log.info("할인가 : " + pro_disprice_arr);
 			log.info("상품판매 : " + pro_buy_arr);
 			
-			adminProductService.pro_checked_modify1(pro_num_arr, pro_price_arr, pro_buy_arr);
+			adminProductService.pro_checked_modify1(pro_num_arr, pro_price_arr, pro_discount_arr, pro_disprice_arr, pro_buy_arr);
 			
 			ResponseEntity<String> entity = null;
 			entity = new ResponseEntity<>("success", HttpStatus.OK);
@@ -248,12 +252,16 @@ public class AdminProductController {
 		public ResponseEntity<String> pro_checked_modify2(
 				@RequestParam("pro_num_arr") List<Integer> pro_num_arr,
 				@RequestParam("pro_price_arr") List<Integer> pro_price_arr,
+				@RequestParam("pro_discount_arr") List<Integer> pro_discount_arr,
+				@RequestParam("pro_disprice_arr") List<Integer> pro_disprice_arr,
 				@RequestParam("pro_buy_arr") List<String> pro_buy_arr) throws Exception {
 			log.info("상품코드 : " + pro_num_arr);
 			log.info("상품가격 : " + pro_price_arr);
+			log.info("할인율 : " + pro_discount_arr);
+			log.info("할인가 : " + pro_disprice_arr);
 			log.info("상품판매 : " + pro_buy_arr);
 			
-			adminProductService.pro_checked_modify1(pro_num_arr, pro_price_arr, pro_buy_arr);
+			adminProductService.pro_checked_modify1(pro_num_arr, pro_price_arr, pro_discount_arr, pro_disprice_arr, pro_buy_arr);
 			
 			ResponseEntity<String> entity = null;
 			entity = new ResponseEntity<>("success", HttpStatus.OK);

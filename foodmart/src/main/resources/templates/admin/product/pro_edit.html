@@ -89,17 +89,23 @@ scratch. This page gets rid of all links and provides the needed markup only.
 			              </div>
 			              <label for="title" class="col-sm-1 col-form-label">상품가격</label>
 			              <div class="col-sm-3">
-			                <input type="text" class="form-control" name="pro_price" id="pro_price" th:value="${productVO.pro_price}">
+			                <input type="text" class="form-control num_only" name="pro_price" id="pro_price" th:value="${productVO.pro_price}">
 			              </div>
 						</div>
 						<div class="form-group row">
 						  <label for="title" class="col-sm-1 col-form-label">할인율</label>
 			              <div class="col-sm-3">
-			                <input type="text" class="form-control" name="pro_discount" id="pro_discount" th:value="${productVO.pro_discount}">
+			                <input type="text" class="form-control num_only" name="pro_discount" id="pro_discount" th:value="${productVO.pro_discount}">
 			              </div>
 			              <label for="title" class="col-sm-1 col-form-label">제조사</label>
 			              <div class="col-sm-3">
 			                <input type="text" class="form-control" name="pro_publisher" id="pro_publisher" th:value="${productVO.pro_publisher}">
+			              </div>
+						</div>
+            <div class="form-group row"></div>
+						  <label for="title" class="col-sm-1 col-form-label">할인가</label>
+			              <div class="col-sm-3">
+			                <input type="text" class="form-control num_only" name="pro_disprice" id="pro_disprice" th:value="${productVO.pro_disprice}" readonly>
 			              </div>
 						</div>
 						<div class="form-group row">
@@ -199,6 +205,16 @@ $(document).ready(function(){
 	    CKEDITOR.replace("pro_content", ckeditor_config);
 	
 	    console.log("ckediotr 버전: ", CKEDITOR.version); // ckeditor버전 : 4.12.1 (Standard)
+
+      $('.num_only').keyup(function () {
+        this.value = this.value.replace(/[^0-9]/g,''); // input 박스에 숫자만 입력 가능하게한다
+
+        var pro_price = Number($('#pro_price').val());
+        var pro_discount = Number($('#pro_discount').val());
+        var pro_disprice = pro_price * (1 - (pro_discount / 100));
+
+        $('#pro_disprice').val(pro_disprice);
+      });
       
 });//ready 끝
 

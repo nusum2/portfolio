@@ -44,7 +44,7 @@
             [기본배송] 조건
             </div>
             <div class=col-md-3>
-                <span th:text="${#numbers.formatInteger(cartproduct.pro_price * cartproduct.cart_amount, 3, 'COMMA') + '원'}"></span>
+                <span th:text="${#numbers.formatInteger(cartproduct.pro_disprice * cartproduct.cart_amount, 3, 'COMMA') + '원'}"></span>
             </div>
         </div>
         <div class="row mb-3">

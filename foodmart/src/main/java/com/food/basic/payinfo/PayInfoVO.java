@@ -15,7 +15,7 @@ public class PayInfoVO {
 	private Long ord_code;
 	private String u_id;
 	private String paymethod;
-	private int p_price;
+	private int p_disprice;
 	private String p_status;
 	private String payinfo;
 	private Date p_date;

@@ -14,7 +14,7 @@ values (seq_cart_code.nextval, #{pro_num}, #{u_id}, #{cart_amount})
 </insert>
 
 <select id="cart_list" parameterType="String" resultType="CartProductVO">
-select c.u_id, p.pro_up_folder, p.pro_img, p.pro_price, p.pro_name, c.cart_code, p.pro_num, c.cart_amount
+select c.u_id, p.pro_up_folder, p.pro_img, p.pro_disprice, p.pro_name, c.cart_code, p.pro_num, c.cart_amount
 from cart_t c
 inner join product_t p
 on c.pro_num = p.pro_num

@@ -50,19 +50,19 @@ public class AdminProductService {
 	//체크된 개수만큼 반복문이 동작되어 커넥션 객체수 만큼 진행이 되기때문에 성능적으로는 권장할 사항은 아니다.
 	//다수의 사용자가 동시에 작업하면 성능에 문제가 생김
 	//관리자의 경우 문제x
-	public void pro_checked_modify1(List<Integer> pro_num_arr, List<Integer> pro_price_arr, List<String> pro_buy_arr) {
+	public void pro_checked_modify1(List<Integer> pro_num_arr, List<Integer> pro_price_arr, List<Integer> pro_discount_arr, List<Integer> pro_disprice_arr, List<String> pro_buy_arr) {
 		
 		for(int i=0; i<pro_num_arr.size(); i++) {
-			adminProductMapper.pro_checked_modify1(pro_num_arr.get(i), pro_price_arr.get(i), pro_buy_arr.get(i));
+			adminProductMapper.pro_checked_modify1(pro_num_arr.get(i), pro_price_arr.get(i), pro_discount_arr.get(i), pro_disprice_arr.get(i), pro_buy_arr.get(i));
 		}
 	}
 	
-	public void pro_checked_modify2(List<Integer> pro_num_arr, List<Integer> pro_price_arr, List<String> pro_buy_arr) {
+	public void pro_checked_modify2(List<Integer> pro_num_arr, List<Integer> pro_price_arr, List<Integer> pro_discount_arr, List<Integer> pro_disprice_arr, List<String> pro_buy_arr) {
 		
 		List<ProductDTO> pro_modify_list = new ArrayList<>();
 		
 		for(int i=0; i<pro_num_arr.size(); i++) {
-			ProductDTO productDTO = new ProductDTO(pro_num_arr.get(i), pro_price_arr.get(i), pro_buy_arr.get(i));
+			ProductDTO productDTO = new ProductDTO(pro_num_arr.get(i), pro_price_arr.get(i), pro_discount_arr.get(i), pro_disprice_arr.get(i), pro_buy_arr.get(i));
 			pro_modify_list.add(productDTO);
 		}
 		adminProductMapper.pro_checked_modify2(pro_modify_list);
