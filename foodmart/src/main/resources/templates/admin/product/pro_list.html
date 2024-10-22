@@ -93,7 +93,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 								<th style="width: 6%">수정</th>
 								<th style="width: 6%">삭제</th>
 							</tr>
-							<tr th:each="product : ${pro_list}">
+							<tr th:each="product, productStat : ${pro_list}">
 								<td><input type="checkbox" name="check" th:value="${product.pro_num}"></td>
 								<td>[[${product.pro_num}]]</td>
 								<!-- /admin/product/imageDisplay?dateFolderName=값1&?fileName=값2 -->
@@ -105,9 +105,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
 									
 									<a class="move pro_name" href="#" th:text="${product.pro_name}"></a>
 								</td>
-								<td><input type="text" class="num_only" id="pro_price" name="pro_price" th:value="${product.pro_price}"></td>
-								<td><input type="text" class="num_only" id="pro_discount" name="pro_discount" th:value="${product.pro_discount}"></td>
-								<td><input type="text" class="num_only" id="pro_disprice" name="pro_disprice" th:value="${product.pro_disprice}" readonly></td> 
+								<td><input type="text" class="form-control num_only" th:id="'pro_price'+${productStat.index}" name="pro_price" th:value="${product.pro_price}"></td>
+								<td><input type="text" class="form-control num_only" th:id="'pro_discount'+${productStat.index}" name="pro_discount" th:value="${product.pro_discount}"></td>
+								<td><input type="text" class="form-control num_only" th:id="'pro_disprice'+${productStat.index}" name="pro_disprice" th:value="${product.pro_disprice}" readonly></td> 
 								<td th:text="${#dates.format(product.pro_date, 'yyyy-MM-dd HH:mm:ss')}"></td>
 								<td>
 									<select id="pro_buy" name="pro_buy">
@@ -364,14 +364,44 @@ $(document).ready(function(){
 			});
 	  });
 
+	  //상품가격에 할인율 적용후 할인가 출력하는 스크립트
 	  $('.num_only').keyup(function () {
         this.value = this.value.replace(/[^0-9]/g,''); // input 박스에 숫자만 입력 가능하게한다
 
-        var pro_price = Number($('#pro_price').val());
-        var pro_discount = Number($('#pro_discount').val());
-        var pro_disprice = pro_price * (1 - (pro_discount / 100));
+		//리스트 첫번째줄
+        var pro_price0 = Number($("#pro_price0").val());
+        var pro_discount0 = Number($("#pro_discount0").val());
+        var pro_disprice0 = pro_price0 * (1 - (pro_discount0 / 100));
 
-        $('#pro_disprice').val(pro_disprice);
+        $("#pro_disprice0").val(pro_disprice0);
+
+		//리스트 두번째줄
+		var pro_price1 = Number($("#pro_price1").val());
+        var pro_discount1 = Number($("#pro_discount1").val());
+        var pro_disprice1 = pro_price1 * (1 - (pro_discount1 / 100));
+
+        $("#pro_disprice1").val(pro_disprice1);
+
+		//리스트 세번째줄
+		var pro_price2 = Number($("#pro_price2").val());
+        var pro_discount2 = Number($("#pro_discount2").val());
+        var pro_disprice2 = pro_price2 * (1 - (pro_discount2 / 100));
+
+        $("#pro_disprice2").val(pro_disprice2);
+
+		//리스트 네번째줄
+		var pro_price3 = Number($("#pro_price3").val());
+        var pro_discount3 = Number($("#pro_discount3").val());
+        var pro_disprice3 = pro_price3 * (1 - (pro_discount3 / 100));
+
+        $("#pro_disprice3").val(pro_disprice3);
+
+		//리스트 다섯번째줄
+		var pro_price4 = Number($("#pro_price4").val());
+        var pro_discount4 = Number($("#pro_discount4").val());
+        var pro_disprice4 = pro_price4 * (1 - (pro_discount4 / 100));
+
+        $("#pro_disprice4").val(pro_disprice4);
       });
       
 });//ready 끝

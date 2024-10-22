@@ -10,11 +10,31 @@
         <div class="col text-center">
         	<button type="button" class="btn btn-secondary" id="btn_order_history">주문내역으로</button>
         	<button type="button" class="btn btn-secondary" id="btn_cart_page">장바구니로</button>
-        	<button type="button" class="btn btn-secondary" id="btn_shoping">계속 쇼핑하기</button>
+        	<button type="button" class="btn btn-secondary" id="btn_shopping_continue">계속 쇼핑하기</button>
         </div>
     </div>
     <div th:replace ="~{layout/comm/footer :: footerFragment}" ></div>
 </div> 
+</th:block>
+<th:block layout:fragment="script"></th:block>
+<script>
+	$(document).ready(function(){
+      //주문내역
+      $("button#btn_order_history").on("click", function(){
+        location.href = "/order/order_history";
+      });
+      
+      //장바구니로
+      $("button#btn_cart_page").on("click", function(){
+        location.href = "/cart/cart_list";
+      });
+
+      //쇼핑 계속하기
+      $("button#btn_shopping_continue").on("click", function(){
+        location.href = "/";
+      });
+});
+</script>
 </th:block>
 </body>
 </html>

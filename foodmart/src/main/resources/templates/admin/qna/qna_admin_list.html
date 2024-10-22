@@ -94,7 +94,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 							<tr th:if="${!#lists.isEmpty(qna_list)}" th:each="qna : ${qna_list}">
 								<td>[[${qna.q_num}]]</td>
 								<td><a th:href="@{/qna/qna_content(q_num=${qna.q_num})}" th:text="${qna.q_title}"></a></td>
-								<td th:value="${#dates.format(qna.q_regdate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+								<td th:text="${#dates.format(qna.q_regdate, 'yyyy-MM-dd HH:mm:ss')}"></td>
 								<td><button type="button" class="btn btn-danger" name="btn_qna_del" th:data-q_num="${qna.q_num}">삭제</button></td>
 							</tr>
 							

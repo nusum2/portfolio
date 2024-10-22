@@ -121,7 +121,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 	// 주문상품 개별삭제
 	function chartData() {
 		$.ajax({
-			url: '/admin/analysis/monthlySalesStatusByTopCategory',
+			url: '/admin/analysis/monthlyOrderByTopCategory',
 			type: 'get',
 			data: {year : $("#year").val(), month: $("#month").val()},
 			dataType: 'json',
@@ -129,11 +129,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
 				
 				//자바스크립트 배열
 				let labelNames = [];
-			    let salesPriceData = [];
+			    let salesCountData = [];
 
 				$.each(result, function() {
-					labelNames.push(this['PRIMARY_CD']);
-					salesPriceData.push(this['SALES_P']);
+					labelNames.push(this['PRIMARY_CD']); //카테고리명
+					salesCountData.push(this['SALES_COUNT']); //주문수
 				});
 				
 				/*
@@ -150,7 +150,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 				//salesPriceData = JSON.parse(salesPriceData);
 
 				console.log("x축: ", labelNames);
-				console.log("y축: ", salesPriceData);
+				console.log("y축: ", salesCountData);
 				
 			let	myCt = document.getElementById('salesChart');
 			    
@@ -160,14 +160,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
 				  labels: labelNames, //['BAG', 'PANTS', 'SHIRTS', 'SHOES', 'TOP'], 
 				  datasets: [
 					{
-					  label: 'A사',
+					  label: '주문수',
 					  
-					  data: salesPriceData, //[105000, 100000, 135000, 195000, 890600], 
-					},
-					{
-						  label: 'B사',
-						 
-						  data: [100000, 60000, 105000, 105000, 700600], 
+					  data: salesCountData, //[105000, 100000, 135000, 195000, 890600], 
 					}
 				  ]
 				},

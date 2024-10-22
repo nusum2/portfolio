@@ -101,4 +101,11 @@ public class OrderController {
 		
 	}
 	
+	//주문내역
+	@GetMapping("/order_history")
+	public void order_history(HttpSession session, Model model) throws Exception {
+		
+		String u_id = ((UserVO) session.getAttribute("login_status")).getU_id();
+		
+	}
 }

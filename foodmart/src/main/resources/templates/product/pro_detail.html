@@ -35,7 +35,9 @@
 		{{#each .}}
           <tr>
             <th scope="row">{{re_code}}</th>
-            <td>{{re_title}}</td>
+            <td>
+				<a href="#" id="btn_review_detail_modal">{{re_title}}</a>
+			</td>
             <td>{{re_content}}</td>
             <td>{{displayStar re_rate}}</td>
             <td>{{u_id}}</td>
@@ -149,6 +151,50 @@
 	  </div>
 	</div>
   </div>
+  <!--상품후기 모달끝-->
+  <!-- 상품후기 상세보기 Modal -->
+  <div class="modal fade" id="review_detail_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+	  <div class="modal-content">
+		<div class="modal-header">
+		  <h5 class="modal-title" id="exampleModalLabel">상품후기</h5>
+		  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		  </button>
+		</div>
+		<div class="modal-body">
+		  <form id="review_detail_form">
+			<div class="form-group">
+				<label for="message-text" class="col-form-label">제목</label>
+				<input type="text" class="form-control" id="re_title_detail" readonly>
+				<input type="hidden" class="form-control" id="re_code_detail">
+			  </div>
+			<div class="form-group">
+			  <label for="message-text" class="col-form-label">내용</label>
+			  <textarea class="form-control" id="re_content_detail"></textarea>
+			</div>
+			<div class="form-group">
+			  <label for="recipient-name" class="col-form-label">별평점</label>
+			  <p id="star_re_rate_detail">
+				<a class="re_rate" href="#">☆</a>
+				<a class="re_rate" href="#">☆</a>
+				<a class="re_rate" href="#">☆</a>
+				<a class="re_rate" href="#">☆</a>
+				<a class="re_rate" href="#">☆</a>
+			  </p>
+			</div>
+			
+		  </form>
+		</div>
+		<div class="modal-footer">
+		  <button type="button" id="btn_review_save" class="btn btn-primary" th:data-pro_num="${product.pro_num}">저장</button>
+		  <button type="button" id="btn_review_modify" class="btn btn-primary" th:data-pro_num="${product.pro_num}">저장</button>
+		  <button type="button" id="btn_review_close" class="btn btn-secondary" data-dismiss="modal">취소</button>
+		</div>
+	  </div>
+	</div>
+  </div>
+  <!--상품후기 상세보기 모달끝-->
 </th:block>
 <th:block layout:fragment="script">
 <script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
@@ -489,6 +535,12 @@
 				}
 			});
 		});
+		//상품후기 상세보기
+		$("a#btn_review_detail_modal").on("click", function(){
+
+			$("#review_detail_modal").modal('show');
+		});
+
 		//구매하기
 		$("button#btn_direct_order").on("click", function(){
 			let pro_num = $(this).data("pro_num");

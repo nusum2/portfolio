@@ -143,7 +143,7 @@ public class AdminProductController {
 		@GetMapping("pro_list")
 		public void pro_list(Criteria cri, Model model) throws Exception {
 			
-			//cri.setAmount(5);
+			cri.setAmount(5);
 			
 			log.info("Criteria : " + cri);
 			
@@ -247,7 +247,7 @@ public class AdminProductController {
 			
 			return entity;
 		}
-		//체크상품 수정작업1
+		//체크상품 수정작업2
 		@PostMapping("/pro_checked_modify2")
 		public ResponseEntity<String> pro_checked_modify2(
 				@RequestParam("pro_num_arr") List<Integer> pro_num_arr,
@@ -261,7 +261,7 @@ public class AdminProductController {
 			log.info("할인가 : " + pro_disprice_arr);
 			log.info("상품판매 : " + pro_buy_arr);
 			
-			adminProductService.pro_checked_modify1(pro_num_arr, pro_price_arr, pro_discount_arr, pro_disprice_arr, pro_buy_arr);
+			adminProductService.pro_checked_modify2(pro_num_arr, pro_price_arr, pro_discount_arr, pro_disprice_arr, pro_buy_arr);
 			
 			ResponseEntity<String> entity = null;
 			entity = new ResponseEntity<>("success", HttpStatus.OK);

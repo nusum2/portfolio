@@ -14,8 +14,8 @@ group by c.cate_name, TO_CHAR(o.ord_regdate, 'YYYY/MM')
 order by c.cate_name
 </select>
 
-<select id="monthlySalesAmountByTopCategory" parameterType="String" resultType="hashmap">
-select c.cate_name primary_cd, sum (d.dt_amount) sales_a
+<select id="monthlyOrderByTopCategory" parameterType="String" resultType="hashmap">
+select c.cate_name primary_cd, count(d.ord_code) sales_count
 from product_t p inner join ordt_t d
 on p.pro_num = d.pro_num
 inner join (select c2.cate_name, c1.cate_code from category_t c1, category_t c2 where c1.cate_pcode = c2.cate_code ) c
