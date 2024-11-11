@@ -19,4 +19,6 @@ public interface ReviewMapper {
 	ReviewVO review_modify(Long re_code);
 	
 	void review_update(ReviewVO vo);
+	
+	ReviewVO review_detail(Long re_code);
 }

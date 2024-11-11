@@ -109,4 +109,17 @@ public class ReviewController {
 		
 		return entity;
 	}
+	
+	//리뷰상세폼
+	@GetMapping("/review_detail/{re_code}")
+	public ResponseEntity<ReviewVO> review_detail(@PathVariable("re_code") Long re_code) throws Exception {
+		
+		log.info("장바구니코드 : " + re_code);
+		ResponseEntity<ReviewVO> entity = null;
+		reviewService.review_detail(re_code);
+		
+		entity = new ResponseEntity<ReviewVO>(reviewService.review_detail(re_code), HttpStatus.OK);
+		
+		return entity;
+	}
 }

@@ -535,11 +535,46 @@
 				}
 			});
 		});
-		//상품후기 상세보기
-		$("a#btn_review_detail_modal").on("click", function(){
+		//상품후기 상세보기 모달
+		$("a#btn_review_detail_modal").on("click", function(e){
+			e.preventDefault();
 
-			$("#review_detail_modal").modal('show');
+			let re_code = $(this).data("re_code");
+
+			$.ajax({
+				url : '/review/review_detail/' + re_code,
+				headers : {
+					"Content-Type" : "application/json", "X-HTTP-Method-Override" : "GET"
+				},
+				type : 'get',
+				dataType : 'json',
+				success : function(result) {
+					console.log(result);
+
+					//모달 내용에 리뷰 출력
+					$("#re_title_detail").val(result.re_title);
+					$("#re_content_detail").val(result.re_content);
+					$("#re_code_detail").val(result.re_code); //input type="hidden"
+
+					//$("#btn_review_save").html("리뷰 수정");
+					
+					let re_rate = result.re_rate;
+					
+					$("p#star_re_rate_detail a.re_rate").each(function(index, item){
+							
+						if(index < re_rate) {
+							$(this).addClass("on");
+						}
+					
+						});
+					//모달 보여주기
+					$("#review_detail_modal").modal('show');	
+				}
+			});
+
 		});
+
+
 
 		//구매하기
 		$("button#btn_direct_order").on("click", function(){

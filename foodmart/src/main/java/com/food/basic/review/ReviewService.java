@@ -43,4 +43,9 @@ public class ReviewService {
 		
 		reviewMapper.review_update(vo);
 	}
+	
+	public ReviewVO review_detail(Long re_code) {
+		
+		return reviewMapper.review_detail(re_code);
+	}
 }
