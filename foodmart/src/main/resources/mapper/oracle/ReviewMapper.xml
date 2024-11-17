@@ -44,5 +44,11 @@ set re_title = #{re_title}, re_content = #{re_content}, re_rate = #{re_rate}, re
 where re_code = #{re_code}
 </update>
 
+<select id="review_detail" parameterType="Long" resultType="com.food.basic.review.ReviewVO">
+select re_code, u_id, pro_num, re_title, re_content, re_rate, re_date
+from review_t
+where re_code = #{re_code}
+</select>
+
 
 </mapper>
