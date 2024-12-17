@@ -1,9 +1,12 @@
 package com.food.basic.order;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.food.basic.cart.CartMapper;
+import com.food.basic.common.dto.Criteria;
 import com.food.basic.payinfo.PayInfoMapper;
 import com.food.basic.payinfo.PayInfoVO;
 
@@ -40,5 +43,15 @@ public class OrderService {
 		payInfoMapper.payInfo_insert(p_vo);
 		//장바구니테이블 delete
 		cartMapper.cart_empty(u_id);
+	}
+	
+	public List<OrderVO> order_history(String u_id) {
+		
+		return orderMapper.order_history(u_id);
+	}
+	
+	public int getTotalCount(Criteria cri) {
+		
+		return orderMapper.getTotalCount(cri);
 	}
 }

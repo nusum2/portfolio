@@ -107,5 +107,12 @@ public class OrderController {
 		
 		String u_id = ((UserVO) session.getAttribute("login_status")).getU_id();
 		
+		List<OrderVO> order_history = orderService.order_history(u_id);
+		
+		//페이징
+		model.addAttribute("order_history", order_history);
+		
+		log.info("리스트 : " + order_history);
 	}
+	
 }
