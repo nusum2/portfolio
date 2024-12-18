@@ -19,4 +19,10 @@ inner join product_t p
 on c.pro_num = p.pro_num
 where c.u_id = #{u_id}
 </insert>
+
+<select id="order_history" parameterType="String" resultType="OrderVO">
+select ord_code, u_id, ord_name, ord_zip_code, ord_addr, ord_deaddr, ord_phone, ord_price, ord_regdate, ord_desc 
+from order_t
+where u_id = #{u_id}
+</select>
 </mapper>
