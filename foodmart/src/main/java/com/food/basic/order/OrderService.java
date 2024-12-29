@@ -45,7 +45,7 @@ public class OrderService {
 		cartMapper.cart_empty(u_id);
 	}
 	
-	public List<OrderVO> order_history(String u_id) {
+	public List<OrderHistoryVO> order_history(String u_id) {
 		
 		return orderMapper.order_history(u_id);
 	}

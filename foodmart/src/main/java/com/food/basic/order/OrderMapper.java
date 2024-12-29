@@ -14,7 +14,7 @@ public interface OrderMapper {
 	void orderDetail_insert(@Param("ord_code") Long ord_code, @Param("u_id") String u_id);
 	
 	//주문내역
-	List<OrderVO> order_history(String u_id);
+	List<OrderHistoryVO> order_history(String u_id);
 	
 	//카운트
 	int getTotalCount(@Param("cri")Criteria cri);

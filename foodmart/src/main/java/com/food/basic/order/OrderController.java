@@ -2,6 +2,7 @@ package com.food.basic.order;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -33,6 +34,11 @@ public class OrderController {
 	
 	//1.pro_list.html 구매하기 2.pro_detail.html 구매하기 3.장바구니 구매하기
 	//1,2번은 cartvo 사용 3번은 미사용, 사용시 에러 발생
+	
+	//상품이미지 업로드 경로
+	@Value("${file.product.image.dir}")
+	private String uploadPath;
+	
 	//주문정보
 	@GetMapping("/orderinfo")
 	public String orderinfo(@RequestParam(value = "type", defaultValue = "direct") String type, CartVO vo, Model model, HttpSession session) throws Exception {
@@ -107,8 +113,8 @@ public class OrderController {
 		
 		String u_id = ((UserVO) session.getAttribute("login_status")).getU_id();
 		
-		List<OrderVO> order_history = orderService.order_history(u_id);
-		
+		List<OrderHistoryVO> order_history = orderService.order_history(u_id);
+		order_history.forEach(vo -> vo.setPro_up_folder(vo.getPro_up_folder().replace("\\", "/")));
 		//페이징
 		model.addAttribute("order_history", order_history);
 		
