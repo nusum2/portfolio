@@ -10,13 +10,13 @@
         <div class="col text-center">
         	<button type="button" class="btn btn-secondary" id="btn_order_history">주문내역으로</button>
         	<button type="button" class="btn btn-secondary" id="btn_cart_page">장바구니로</button>
-        	<button type="button" class="btn btn-secondary" id="btn_shopping_continue">계속 쇼핑하기</button>
+        	<button type="button" class="btn btn-secondary" id="btn_shopping_continue">쇼핑 계속하기</button>
         </div>
     </div>
     <div th:replace ="~{layout/comm/footer :: footerFragment}" ></div>
 </div> 
 </th:block>
-<th:block layout:fragment="script"></th:block>
+<th:block layout:fragment="script">
 <script>
 	$(document).ready(function(){
       //주문내역

@@ -20,6 +20,19 @@ on c.pro_num = p.pro_num
 where c.u_id = #{u_id}
 </insert>
 
+<select id="order_history_detail" parameterType="String" resultType="com.food.basic.order.OrderHistoryVO">
+select o.ord_code, o.u_id, o.ord_name, o.ord_zip_code, o.ord_addr, o.ord_deaddr, o.ord_phone, o.ord_price, o.ord_desc, o.ord_regdate,
+ot.pro_num, ot.dt_amount, ot.dt_price,
+p.pro_name, p.pro_up_folder, p.pro_img, p.pro_disprice
+from order_t o 
+inner join ordt_t ot
+on o.ord_code = ot.ord_code
+inner join product_t p
+on ot.pro_num = p.pro_num
+where o.u_id = #{u_id}
+order by o.ord_code desc
+</select>
+
 <select id="order_history" parameterType="String" resultType="com.food.basic.order.OrderHistoryVO">
 select o.ord_code, o.u_id, o.ord_name, o.ord_zip_code, o.ord_addr, o.ord_deaddr, o.ord_phone, o.ord_price, o.ord_desc, o.ord_regdate,
 ot.pro_num, ot.dt_amount, ot.dt_price,
@@ -32,4 +45,5 @@ on ot.pro_num = p.pro_num
 where o.u_id = #{u_id}
 order by o.ord_code desc
 </select>
+
 </mapper>

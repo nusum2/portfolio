@@ -114,7 +114,7 @@ public class OrderController {
 		String u_id = ((UserVO) session.getAttribute("login_status")).getU_id();
 		
 		List<OrderHistoryVO> order_history = orderService.order_history(u_id);
-		order_history.forEach(vo -> vo.setPro_up_folder(vo.getPro_up_folder().replace("\\", "/")));
+		//order_history.forEach(vo -> vo.setPro_up_folder(vo.getPro_up_folder().replace("\\", "/")));
 		//페이징
 		model.addAttribute("order_history", order_history);
 		
