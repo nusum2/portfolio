@@ -9,10 +9,10 @@
 	  <div class="row mb-4">
       <table class="table table-bordered">
         <tbody><tr>
-          <th style="width: 8%">주문번호</th>
+          <th style="width: 8%"></th>
           <th style="width: 18%">이미지</th>
           <th style="width: 15%">주문상품</th>
-          <th style="width: 10%">주문가격</th>
+          <th style="width: 10%">결제액</th>
           <th style="width: 10%">수량</th>
           <th style="width: 20%">주문일</th>
           <th style="width: 10%">삭제</th>
@@ -27,7 +27,7 @@
           </td>
           <td><img th:src="${'/product/image_display?dateFolderName=' + orderhistory.pro_up_folder + '&fileName=s_' + orderhistory.pro_img}" style="width: 100px; height: 90px;"></td>
           <td>[[${orderhistory.pro_name}]]</td>
-          <td><span name="order_history_price" th:text="${#numbers.formatInteger(orderhistory.ord_price, 3, 'COMMA') + ' 원'}"></span></td>
+          <td><span name="order_history_price" th:text="${#numbers.formatInteger(orderhistory.pro_disprice * orderhistory.dt_amount, 3, 'COMMA') + ' 원'}"></span></td>
           <td><span name="order_history_amount" th:text="${orderhistory.dt_amount}"></td>
           <td th:text="${#dates.format(orderhistory.ord_regdate, 'yyyy-MM-dd HH:mm:ss')}"></td>
           <td><button type="button" class="btn btn-danger" name="btn_order_del" th:data-ord_code="${orderhistory.ord_code}">삭제</button></td>
@@ -95,7 +95,113 @@
  
 	<div th:replace ="~{layout/comm/footer :: footerFragment}" ></div>
 </div>
-
+<!-- Modal -->
+<div class="modal fade" id="order_history_detail_info_popup" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel2" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="staticBackdropLabel2">Modal title</h5>
+      <button type="button" id="btn_close" class="close" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <!-- load()메서드를 이용하여, pro_info_2.html파일이 실행된 내용이 삽입된다. -->
+    <div class="modal-body" id="popup_info">
+          
+          <!-- 주문상품정보 -->
+          <div id="order_product_info">
+            <table>
+              <thead>
+              <tr>
+                <th>상품번호</th>
+                <th>이미지</th>
+                <th>주문상품</th>
+                <th>판매가</th>
+                <th>수량</th>
+              </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td id="pro_num"></td>
+                  <td id="pro_img"></td>
+                  <td id="pro_name"></td>
+                  <td id="pro_disprice"></td>
+                  <td id="dt_amount"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+      
+      <hr>
+      <h5>[결제정보]</h5>
+      <table class="table">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">결제방식</th>
+            <td scope="col"><input type="text" id="paymethod" readonly></td>
+            <th scope="col">결제금액</th>
+            <td scope="col"><input type="text" id="p_price" readonly></td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">입금자명</th>
+            <td><input type="text" id="u_id" readonly></td>
+            <th>입금계좌</th>
+            <td><input type="text" id="payinfo" readonly></td>
+          </tr>
+          <tr>
+            <th scope="row">입금상태</th>  <!--  <span id="p_status"></span> 인식이 안됨 -->
+            <td><input type="text" id="p_status" readonly></td>
+            <th>기타</th>
+            <td><span>기타</span></td>
+          </tr>
+        </tbody>
+      </table>
+      <hr>
+      <h5>[주문자(수령인)정보]</h5>
+      <table class="table">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">수령인</th>
+            <td scope="col">
+              <input type="text" id="ord_name" name="ord_name">
+          <input type="hidden" id="u_id" name="u_id">
+            </td>
+            <th scope="col">전화번호</th>
+            <td scope="col">
+              <input type="text" id="ord_phone" name="ord_phone">
+            </td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">주소</th>
+            <td colspan="3"><!-- onclick="sample2_execDaumPostcode()" -->
+              <button type="button" class="btn btn-outline-primary" onclick="sample2_execDaumPostcode()">우편번호</button>
+              <input type="text" class="form-control" id="sample2_postcode" name="ord_zip_code" placeholder="우편번호 입력하세요.">
+              <input type="text" class="form-control" id="sample2_address" name="ord_addr" placeholder="기본주소를 입력하세요.">
+              <input type="text" class="form-control" id="sample2_detailAddress" name="ord_deaddr" placeholder="상세주소를 입력하세요.">
+              <input type="hidden" id="sample2_extraAddress" placeholder="참고항목">
+              
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">배송메모</th>
+            <td colspan="3">
+              <textarea rows="3" cols="70" id="ord_desc" name="ord_desc">배송내용.....</textarea>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <hr>
+      <h3>관리자메모</h3>
+      <textarea rows="3" cols="85" id="ord_admin_memo">관리내용</textarea>
+      <button type="button" id="btn_order_basic_save" class="btn btn-secondary">수정하기</button>	        
+        </div>	
+    </div>
+  </div>
+  </div>
 </th:block>
 
 <th:block layout:fragment="script">
@@ -107,6 +213,54 @@
       $("button#btn_shopping_continue").on("click", function(){
         location.href = "/";
       });
+
+      //주문내역 버튼 클릭시 name="btn_order_info"
+	  $("button[name='btn_order_info']").on("click", function(){
+      ord_code = $(this).data("ord_code");
+      
+      order_detail_info();
+      });
+      
+      function order_detail_info() {
+        //주문상세정보 id="order_history_detail_info_popup"
+      $("#order_history_detail_info_popup").modal('show');
+      //$("popup_info").load("/admin/order/order_detail_info?ord_code=" + ord_code);
+      $.ajax({
+        url : '/order/order_history_detail',
+        type : 'get',
+        data : {ord_code : ord_code},
+        dataType : 'json',
+        success : function(result) {
+          console.log(result);
+  
+          // 주문자(수령인) 
+          $("#ord_name").val(result.ord_basic.ord_name);
+          $("#ord_phone").val(result.ord_basic.ord_phone);
+          $("#sample2_postcode").val(result.ord_basic.ord_zip_code);
+          $("#sample2_address").val(result.ord_basic.ord_addr);
+          $("#sample2_detailAddress").val(result.ord_basic.ord_deaddr);
+          $("#ord_desc").val(result.ord_basic.ord_desc);
+          
+          
+          // 주문상품정보
+          $("#pro_num").val(result.ord_basic.pro_num);
+          $("#pro_img").val(result.ord_basic.pro_img);
+          $("#pro_name").val(result.ord_basic.pro_name);
+          $("#pro_disprice").val(result.ord_basic.pro_disprice);
+          $("#dt_amount").val(result.ord_basic.dt_amount);
+      
+          // 결제정보
+          $("#paymethod").val(result.payinfo.paymethod);
+          $("#p_price").val(result.payinfo.p_price);
+          $("#u_id").val(result.payinfo.u_id);
+          $("#payinfo").val(result.payinfo.payinfo);
+          $("#p_status").val(result.payinfo.p_status);
+        },
+        error : function() {
+  
+        }
+      });
+      }
 });
 </script>
 </th:block>
