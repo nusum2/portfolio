@@ -1,6 +1,8 @@
 package com.food.basic.order;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -15,6 +17,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.food.basic.cart.CartProductVO;
 import com.food.basic.cart.CartService;
 import com.food.basic.cart.CartVO;
+import com.food.basic.common.util.FileManagerUtils;
+import com.food.basic.payinfo.PayInfoService;
+import com.food.basic.payinfo.PayInfoVO;
 import com.food.basic.user.UserService;
 import com.food.basic.user.UserVO;
 
@@ -31,6 +36,7 @@ public class OrderController {
 	private final OrderService orderService;
 	private final CartService cartService;
 	private final UserService userService;
+	private final PayInfoService payInfoService;
 	
 	//1.pro_list.html 구매하기 2.pro_detail.html 구매하기 3.장바구니 구매하기
 	//1,2번은 cartvo 사용 3번은 미사용, 사용시 에러 발생
@@ -114,11 +120,48 @@ public class OrderController {
 		String u_id = ((UserVO) session.getAttribute("login_status")).getU_id();
 		
 		List<OrderHistoryVO> order_history = orderService.order_history(u_id);
-		//order_history.forEach(vo -> vo.setPro_up_folder(vo.getPro_up_folder().replace("\\", "/")));
+		order_history.forEach(vo -> vo.setPro_up_folder(vo.getPro_up_folder().replace("\\", "/")));
 		//페이징
 		model.addAttribute("order_history", order_history);
 		
 		log.info("리스트 : " + order_history);
+	}
+	
+	//주문내역상세
+	@GetMapping("/order_history_detail")
+	public ResponseEntity<Map<String, Object>> order_history_detail(Long ord_code) throws Exception {
+		ResponseEntity<Map<String, Object>> entity = null;
+		
+		Map<String, Object> map = new HashMap<>();
+		
+		//주문자정보
+		OrderHistoryVO vo = orderService.order_info(ord_code);
+		map.put("ord_basic", vo);
+		
+		//주문상품정보
+		List<OrderHistoryVO> ord_product_list = orderService.order_history_detail(ord_code);
+		
+		// 클라이언트에 \를 /로 변환하여, model작업전에 처리함.  2024\07\01 -> 2024/07/01
+		ord_product_list.forEach(ord_pro -> {
+			ord_pro.setPro_up_folder(ord_pro.getPro_up_folder().replace("\\", "/"));
+		});
+		
+		map.put("ord_pro_list", ord_product_list);
+		
+		//결제정보
+		PayInfoVO p_vo = payInfoService.ord_pay_info(ord_code);
+		map.put("payinfo", p_vo);
+				
+		entity = new ResponseEntity<Map<String,Object>>(map, HttpStatus.OK);
+		
+		return entity;
+	}
+	
+	//주문내역상세에서 주문상품 이미지보여주기. 1)<img src="매핑주소"> 2) <img src="test.gif">
+	@GetMapping("/image_display")
+	public ResponseEntity<byte[]> image_display(String dateFolderName, String fileName) throws Exception {
+	
+	return FileManagerUtils.getFile(uploadPath + dateFolderName, fileName);
 	}
 	
 }

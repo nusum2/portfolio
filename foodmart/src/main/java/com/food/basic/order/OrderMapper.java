@@ -16,6 +16,12 @@ public interface OrderMapper {
 	//주문내역
 	List<OrderHistoryVO> order_history(String u_id);
 	
+	//주문자정보
+	OrderHistoryVO order_info(Long ord_code);
+	
+	//주문내역상세
+	List<OrderHistoryVO> order_history_detail(Long ord_code);
+	
 	//카운트
 	int getTotalCount(@Param("cri")Criteria cri);
 }

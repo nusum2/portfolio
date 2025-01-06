@@ -50,6 +50,16 @@ public class OrderService {
 		return orderMapper.order_history(u_id);
 	}
 	
+	public OrderHistoryVO order_info(Long ord_code) {
+		
+		return orderMapper.order_info(ord_code);
+	}
+	
+	public List<OrderHistoryVO> order_history_detail(Long ord_code) {
+		
+		return orderMapper.order_history_detail(ord_code);
+	}
+	
 	public int getTotalCount(Criteria cri) {
 		
 		return orderMapper.getTotalCount(cri);

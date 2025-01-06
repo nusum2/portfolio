@@ -2,6 +2,39 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/baselayout}">
 <body>
 <th:block layout:fragment="content">
+  <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+   
+		<script id="order-product-template" type="text/x-handlebars-template">
+				   <h5>[주문상품정보]</h5>
+			 <table class="table">
+			   <thead class="thead-dark">
+				 <tr>
+				   <th>상품번호</th>
+				   <th scope="col">주문상품</th>
+				   <th scope="col">판매가</th>
+				   <th scope="col">수량</th>
+				   <th scope="col">주문금액</th>
+				 </tr>
+			   </thead>
+			   <tbody>
+			 {{#each .}} 
+				 <tr>
+				   <td>{{pro_num}}</td>
+				   <td>
+					<a class="move" href="#">
+						<img src="/product/image_display?dateFolderName={{pro_up_folder}}&fileName=s_{{pro_img}}" style="width:80px;height:100px">
+					</a>
+					 
+					 <a class="move pro_name" href="#">{{pro_name}}</a>
+				   </td>
+				   <td>{{dt_price}}</td>
+				   <td>{{dt_amount}}</td>
+				   <td>{{unit_order_tot_price dt_price dt_amount}}</td>
+				 </tr>			  
+				{{/each}}
+		 </tbody>
+			 </table>
+		</script>
 <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
   <h3 class="display-6">주문내역</h3>
 </div>
@@ -15,7 +48,6 @@
           <th style="width: 10%">결제액</th>
           <th style="width: 10%">수량</th>
           <th style="width: 20%">주문일</th>
-          <th style="width: 10%">삭제</th>
           <th style="width: 10%">주문상세보기</th>
         </tr>
         <tr class="row mb-3 justify-content-center" th:if="${#lists.isEmpty(order_history)}">
@@ -30,7 +62,6 @@
           <td><span name="order_history_price" th:text="${#numbers.formatInteger(orderhistory.pro_disprice * orderhistory.dt_amount, 3, 'COMMA') + ' 원'}"></span></td>
           <td><span name="order_history_amount" th:text="${orderhistory.dt_amount}"></td>
           <td th:text="${#dates.format(orderhistory.ord_regdate, 'yyyy-MM-dd HH:mm:ss')}"></td>
-          <td><button type="button" class="btn btn-danger" name="btn_order_del" th:data-ord_code="${orderhistory.ord_code}">삭제</button></td>
           <td><button type="button" class="btn btn-info" name="btn_order_info" th:data-ord_code="${orderhistory.ord_code}">자세히</button></td>
         </tr>
         
@@ -97,10 +128,10 @@
 </div>
 <!-- Modal -->
 <div class="modal fade" id="order_history_detail_info_popup" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel2" aria-hidden="true">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-lg">
     <div class="modal-content">
     <div class="modal-header">
-      <h5 class="modal-title" id="staticBackdropLabel2">Modal title</h5>
+      <h5 class="modal-title" id="staticBackdropLabel2">주문내역상세</h5>
       <button type="button" id="btn_close" class="close" data-dismiss="modal" aria-label="Close">
       <span aria-hidden="true">&times;</span>
       </button>
@@ -110,26 +141,7 @@
           
           <!-- 주문상품정보 -->
           <div id="order_product_info">
-            <table>
-              <thead>
-              <tr>
-                <th>상품번호</th>
-                <th>이미지</th>
-                <th>주문상품</th>
-                <th>판매가</th>
-                <th>수량</th>
-              </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td id="pro_num"></td>
-                  <td id="pro_img"></td>
-                  <td id="pro_name"></td>
-                  <td id="pro_disprice"></td>
-                  <td id="dt_amount"></td>
-                </tr>
-              </tbody>
-            </table>
+
           </div>
       
       <hr>
@@ -140,7 +152,7 @@
             <th scope="col">결제방식</th>
             <td scope="col"><input type="text" id="paymethod" readonly></td>
             <th scope="col">결제금액</th>
-            <td scope="col"><input type="text" id="p_price" readonly></td>
+            <td scope="col"><input type="text" id="p_disprice" readonly></td>
           </tr>
         </thead>
         <tbody>
@@ -165,12 +177,12 @@
           <tr>
             <th scope="col">수령인</th>
             <td scope="col">
-              <input type="text" id="ord_name" name="ord_name">
+              <input type="text" id="ord_name" name="ord_name" readonly>
           <input type="hidden" id="u_id" name="u_id">
             </td>
             <th scope="col">전화번호</th>
             <td scope="col">
-              <input type="text" id="ord_phone" name="ord_phone">
+              <input type="text" id="ord_phone" name="ord_phone" readonly>
             </td>
           </tr>
         </thead>
@@ -178,26 +190,22 @@
           <tr>
             <th scope="row">주소</th>
             <td colspan="3"><!-- onclick="sample2_execDaumPostcode()" -->
-              <button type="button" class="btn btn-outline-primary" onclick="sample2_execDaumPostcode()">우편번호</button>
-              <input type="text" class="form-control" id="sample2_postcode" name="ord_zip_code" placeholder="우편번호 입력하세요.">
-              <input type="text" class="form-control" id="sample2_address" name="ord_addr" placeholder="기본주소를 입력하세요.">
-              <input type="text" class="form-control" id="sample2_detailAddress" name="ord_deaddr" placeholder="상세주소를 입력하세요.">
-              <input type="hidden" id="sample2_extraAddress" placeholder="참고항목">
+              <input type="text" class="form-control" id="sample2_postcode" name="ord_zip_code" placeholder="우편번호 입력하세요." readonly>
+              <input type="text" class="form-control" id="sample2_address" name="ord_addr" placeholder="기본주소를 입력하세요." readonly>
+              <input type="text" class="form-control" id="sample2_detailAddress" name="ord_deaddr" placeholder="상세주소를 입력하세요." readonly>
+              <input type="hidden" id="sample2_extraAddress" placeholder="참고항목" readonly>
               
             </td>
           </tr>
           <tr>
             <th scope="row">배송메모</th>
             <td colspan="3">
-              <textarea rows="3" cols="70" id="ord_desc" name="ord_desc">배송내용.....</textarea>
+              <textarea rows="3" cols="70" id="ord_desc" name="ord_desc" readonly></textarea>
             </td>
           </tr>
         </tbody>
       </table>
-      <hr>
-      <h3>관리자메모</h3>
-      <textarea rows="3" cols="85" id="ord_admin_memo">관리내용</textarea>
-      <button type="button" id="btn_order_basic_save" class="btn btn-secondary">수정하기</button>	        
+      <hr>       
         </div>	
     </div>
   </div>
@@ -213,6 +221,8 @@
       $("button#btn_shopping_continue").on("click", function(){
         location.href = "/";
       });
+
+
 
       //주문내역 버튼 클릭시 name="btn_order_info"
 	  $("button[name='btn_order_info']").on("click", function(){
@@ -243,15 +253,13 @@
           
           
           // 주문상품정보
-          $("#pro_num").val(result.ord_basic.pro_num);
-          $("#pro_img").val(result.ord_basic.pro_img);
-          $("#pro_name").val(result.ord_basic.pro_name);
-          $("#pro_disprice").val(result.ord_basic.pro_disprice);
-          $("#dt_amount").val(result.ord_basic.dt_amount);
+          print_order_product_info(result.ord_pro_list, $("#order_product_info"), $("#order-product-template"));
+	  
+          console.log(result.payinfo.paymethod);
       
           // 결제정보
           $("#paymethod").val(result.payinfo.paymethod);
-          $("#p_price").val(result.payinfo.p_price);
+          $("#p_disprice").val(result.payinfo.p_disprice);
           $("#u_id").val(result.payinfo.u_id);
           $("#payinfo").val(result.payinfo.payinfo);
           $("#p_status").val(result.payinfo.p_status);
@@ -261,6 +269,19 @@
         }
       });
       }
+    //Handlebar 작업 함수
+	  let print_order_product_info = function(order_product_data, target, template) {
+		let templateObj = Handlebars.compile(template.html()); // 템플릿 문법검사및 참조
+		let order_product_html = templateObj(order_product_data);
+		target.children().remove();
+		target.append(order_product_html);
+}
+
+	// 주문금액(가격 * 수량)
+	Handlebars.registerHelper("unit_order_tot_price", function(dt_price, dt_amount) {
+	
+	return dt_price * dt_amount;
+});
 });
 </script>
 </th:block>

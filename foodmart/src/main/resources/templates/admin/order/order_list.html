@@ -223,7 +223,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 				      <th scope="col">결제방식</th>
 				      <td scope="col"><input type="text" id="paymethod" readonly></td>
 				      <th scope="col">결제금액</th>
-				      <td scope="col"><input type="text" id="p_price" readonly></td>
+				      <td scope="col"><input type="text" id="p_disprice" readonly></td>
 				    </tr>
 				  </thead>
 				  <tbody>
@@ -442,7 +442,7 @@ $(document).ready(function(){
 	  
 				// 결제정보
 				$("#paymethod").val(result.payinfo.paymethod);
-				$("#p_price").val(result.payinfo.p_price);
+				$("#p_disprice").val(result.payinfo.p_disprice);
 				$("#u_id").val(result.payinfo.u_id);
 				$("#payinfo").val(result.payinfo.payinfo);
 				$("#p_status").val(result.payinfo.p_status);
