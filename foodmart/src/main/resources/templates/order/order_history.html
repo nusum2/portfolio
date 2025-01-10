@@ -67,56 +67,6 @@
         
         </tbody>
       </table>
-      <!--
-      <div class=col-md-2>
-        주문코드
-        </div>
-	  	<div class=col-md-4>
-        제품
-        </div>
-	  	<div class=col-md-2>
-        수량
-        </div>
-        <div class=col-md-1>
-        적립
-        </div>
-        <div class=col-md-2>
-        배송비
-        </div>
-        <div class=col-md-2>
-        가격
-        </div>
-        <div class=col-md-1>
-        취소
-        </div>
-	  </div>
-	  <div class="row mb-3 justify-content-center" th:if="${#lists.isEmpty(order_history)}">
-	  		<p>주문내역이 없습니다.</p>
-	  </div>
-      <div class="row mb-3" th:if="${!#lists.isEmpty(order_history)}" th:each="orderhistory : ${order_history}">
-        <div class="col-md-2">
-          <span th:text="${orderhistory.ord_code}"></span>
-        </div>
-        <div class="col-md-4">
-          
-			<img th:src="${'/product/image_display?dateFolderName=' + orderhistory.pro_up_folder + '&fileName=s_' + orderhistory.pro_img}" style="width: 100px; height: 120px;">
-		   
-		   <span th:text="${orderhistory.pro_name}"></span>
-        </div>
-        <div class=col-md-2>
-        	<input type="number" name="order_amount" th:value="${orderhistory.dt_amount}" class="w-50" readonly>
-        </div>
-        <div class=col-md-1>
-        	0
-        </div>
-        <div class=col-md-2>
-        [기본배송] 조건
-        </div>
-        <div class=col-md-2>
-        	<span th:text="${#numbers.formatInteger(orderhistory.pro_disprice * orderhistory.dt_amount, 3, 'COMMA') + '원'}"></span>
-        </div>
-      </div>
-      -->
       <div class="row mb-5">
 	  	<div class="col text-center">
         	<button type="button" class="btn btn-secondary" id="btn_shopping_continue">쇼핑 계속하기</button>

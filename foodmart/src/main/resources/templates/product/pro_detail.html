@@ -34,10 +34,8 @@
         <tbody>
 		{{#each .}}
           <tr>
-            <th scope="row">{{re_code}}</th>
-            <td>
-				<a href="#" id="btn_review_detail_modal">{{re_title}}</a>
-			</td>
+            <th scope="row">{{counter @index}}</th>
+            <td>{{re_title}}</td>
             <td>{{re_content}}</td>
             <td>{{displayStar re_rate}}</td>
             <td>{{u_id}}</td>
@@ -93,7 +91,9 @@
     <p th:utext="${product.pro_content}"></p>
   </div>
   <div id="pro_review">
-	<p><button type="button" class="btn btn-link" id="btn_review_modal">상품후기작성</button></p>
+	<p><button type="button" class="btn btn-link" id="btn_review_modal">상품후기작성</button>
+		
+	</p>
 	<!-- 상품후기가 출력될 위치 -->
     <div id="review_list"></div>
 	<!-- 페이징 출력될 위치 -->
@@ -171,24 +171,19 @@
 			  </div>
 			<div class="form-group">
 			  <label for="message-text" class="col-form-label">내용</label>
-			  <textarea class="form-control" id="re_content_detail"></textarea>
+			  <textarea class="form-control" id="re_content_detail" readonly></textarea>
 			</div>
 			<div class="form-group">
 			  <label for="recipient-name" class="col-form-label">별평점</label>
-			  <p id="star_re_rate_detail">
-				<a class="re_rate" href="#">☆</a>
-				<a class="re_rate" href="#">☆</a>
-				<a class="re_rate" href="#">☆</a>
-				<a class="re_rate" href="#">☆</a>
-				<a class="re_rate" href="#">☆</a>
-			  </p>
+			  <input type="hidden" id="re_rate_detail">
+			  <p id="star_re_rate_detail"></p>
+			  
 			</div>
+			
 			
 		  </form>
 		</div>
 		<div class="modal-footer">
-		  <button type="button" id="btn_review_save" class="btn btn-primary" th:data-pro_num="${product.pro_num}">저장</button>
-		  <button type="button" id="btn_review_modify" class="btn btn-primary" th:data-pro_num="${product.pro_num}">저장</button>
 		  <button type="button" id="btn_review_close" class="btn btn-secondary" data-dismiss="modal">취소</button>
 		</div>
 	  </div>
@@ -321,17 +316,21 @@
 			
 			let loginId = "";
 
+			let str = "";
+
 			if(loginVO !== null) {
 				loginId = /*[[${session.login_status == null ? '' : session.login_status.u_id}]]*/;
 			}
 
-			let str = "";
+			
 			if(loginVO !== null && loginId == u_id) {
+				str += `<button type="button" name="btn_review_detail_modal" class="btn btn-link" data-re_code="${re_code}">자세히보기</button>`
 				str += `<button type="button" name="btn_review_edit" class="btn btn-link" data-re_code="${re_code}">수정</button>`
 				str += `<button type="button" name="btn_review_delete" class="btn btn-link" data-re_code="${re_code}">삭제</button>`
 			
 				return new Handlebars.SafeString(str);
 			}else{
+				
 				return "";
 			}
 
@@ -370,7 +369,7 @@
 			
 		});
 
-		//상품후기저장
+		//리뷰저장
 		$("button#btn_review_save").on("click", function(){
 			let pro_num = $(this).data("pro_num");
 			//console.log(pro_num);
@@ -446,7 +445,7 @@
 				}
 			});
 		});
-		//리뷰 수정
+		//리뷰 수정 모달
 		$("div#review_list").on("click", "button[name='btn_review_edit']", function(){
 			if(!confirm("리뷰를 수정하시겠습니까?")) return;
 			let re_code = $(this).data("re_code");
@@ -485,7 +484,7 @@
 			});
 		});
 
-		//상품후기수정
+		//리뷰 수정 기능
 		$("button#btn_review_modify").on("click", function(){
 			let pro_num = $(this).data("pro_num");
 			//console.log(pro_num);
@@ -535,10 +534,9 @@
 				}
 			});
 		});
-		//상품후기 상세보기 모달
-		$("a#btn_review_detail_modal").on("click", function(e){
-			e.preventDefault();
-
+		//리뷰 상세보기 모달
+		$("div#review_list").on("click", "button[name='btn_review_detail_modal']" , function(){
+			
 			let re_code = $(this).data("re_code");
 
 			$.ajax({
@@ -555,18 +553,24 @@
 					$("#re_title_detail").val(result.re_title);
 					$("#re_content_detail").val(result.re_content);
 					$("#re_code_detail").val(result.re_code); //input type="hidden"
+					$("#re_rate_detail").val(result.re_rate);
 
-					//$("#btn_review_save").html("리뷰 수정");
+					let re_rate = $("#re_rate_detail").val();
 					
-					let re_rate = result.re_rate;
+						if(re_rate == 5) {
+						$("p#star_re_rate_detail").text("★★★★★");
+					} else if(re_rate == 4) {
+						$("p#star_re_rate_detail").text("★★★★☆");
+					} else if(re_rate == 3) {
+						$("p#star_re_rate_detail").text("★★★☆☆");
+					} else if(re_rate == 2) {
+						$("p#star_re_rate_detail").text("★★☆☆☆");
+					} else {
+						$("p#star_re_rate_detail").text("★☆☆☆☆");
+					}
 					
-					$("p#star_re_rate_detail a.re_rate").each(function(index, item){
-							
-						if(index < re_rate) {
-							$(this).addClass("on");
-						}
 					
-						});
+					
 					//모달 보여주기
 					$("#review_detail_modal").modal('show');	
 				}
@@ -577,7 +581,7 @@
 
 
 		//구매하기
-		$("button#btn_direct_order").on("click", function(){
+		$("button#btn_direct_order").on("click", "button[name='']" ,function(){
 			let pro_num = $(this).data("pro_num");
 			let cart_amount = $("#btn_cart_amount").val();
 			let url = `/order/orderinfo?pro_num=${pro_num}&cart_amount=${cart_amount}`;
@@ -585,6 +589,10 @@
 			location.href = url;
 		}); 
 
+		//핸들바 인덱스+1 만들기
+		Handlebars.registerHelper("counter", function (index){
+			return index + 1;
+		});
 });
 
 	</script>
