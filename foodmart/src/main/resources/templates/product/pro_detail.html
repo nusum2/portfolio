@@ -126,6 +126,13 @@
 				<input type="text" class="form-control" id="re_title">
 				<input type="hidden" class="form-control" id="re_code">
 			  </div>
+			  <!--이미지 넣을 자리-->
+			<div class="form-group">
+				<label for="message-text" class="col-form-label">사진</label>
+				<input type="file" id="uploadFile">
+				<label for="message-text" class="col-form-label">미리보기</label>
+				<img id="re_img" style="width:50px;height:50px;">
+			</div>
 			<div class="form-group">
 			  <label for="message-text" class="col-form-label">내용</label>
 			  <textarea class="form-control" id="re_content"></textarea>
@@ -375,6 +382,7 @@
 			//console.log(pro_num);
 			let re_title = $("#re_title").val();
 			let re_content = $("#re_content").val();
+			let re_img = $("#re_img").val();
 			let re_rate = 0;
 
 			$("p#star_re_rate a.re_rate").each(function(){
@@ -398,7 +406,7 @@
 			}
 
 			//자바스크립트 object문법
-			let review_data = {pro_num : pro_num, re_title : re_title, re_content : re_content, re_rate : re_rate};
+			let review_data = {pro_num : pro_num, re_title : re_title, re_content : re_content, re_rate : re_rate, re_img : re_img};
 
 			$.ajax({
 				url : '/review/review_save',
@@ -417,6 +425,7 @@
 					//저장 후 모달창 비우기
 					$("#re_title").val("");
 					$("#re_content").val("");
+					$("#re_img").attr("src", "");
 					$("#review_modal").modal('hide');
 					getReviewList(url); //상품후기목록과 페이징 정보를 갱신
 				}
@@ -555,6 +564,7 @@
 					$("#re_code_detail").val(result.re_code); //input type="hidden"
 					$("#re_rate_detail").val(result.re_rate);
 
+					//평점 출력
 					let re_rate = $("#re_rate_detail").val();
 					
 						if(re_rate == 5) {
@@ -578,8 +588,6 @@
 
 		});
 
-
-
 		//구매하기
 		$("button#btn_direct_order").on("click", "button[name='']" ,function(){
 			let pro_num = $(this).data("pro_num");
@@ -592,6 +600,18 @@
 		//핸들바 인덱스+1 만들기
 		Handlebars.registerHelper("counter", function (index){
 			return index + 1;
+		});
+
+		//파일 첨부시 이미지 미리보기
+		$("#uploadFile").on("change", function(e) {
+		let file = e.target.files[0];
+
+		let reader = new FileReader();
+		reader.readAsDataURL(file);
+
+		reader.onload = function(e) {
+			$("#re_img").attr("src", e.target.result);
+		}
 		});
 });
 

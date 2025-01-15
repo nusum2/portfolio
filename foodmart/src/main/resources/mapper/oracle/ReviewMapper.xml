@@ -23,8 +23,8 @@ where pro_num = #{pro_num}
 </select>
 
 <insert id="review_save" parameterType="com.food.basic.review.ReviewVO">
-insert into review_t(re_code, u_id, pro_num, re_title, re_content, re_rate)
-values(seq_review_code.nextval, #{u_id}, #{pro_num}, #{re_title}, #{re_content}, #{re_rate})
+insert into review_t(re_code, u_id, pro_num, re_title, re_content, re_rate, re_up_folder, re_img)
+values(seq_review_code.nextval, #{u_id}, #{pro_num}, #{re_title}, #{re_content}, #{re_rate}, #{re_up_folder}, #{re_img})
 </insert>
 
 <delete id="review_delete" parameterType="Long">
@@ -33,19 +33,19 @@ where re_code = #{re_code}
 </delete>
 
 <select id="review_modify" parameterType="Long" resultType="com.food.basic.review.ReviewVO">
-select re_code, u_id, pro_num, re_title, re_content, re_rate, re_date
+select re_code, u_id, pro_num, re_title, re_content, re_rate, re_date, re_up_folder, re_img
 from review_t
 where re_code = #{re_code}
 </select>
 
 <update id="review_update" parameterType="com.food.basic.review.ReviewVO">
 update review_t
-set re_title = #{re_title}, re_content = #{re_content}, re_rate = #{re_rate}, re_date = sysdate
+set re_title = #{re_title}, re_content = #{re_content}, re_rate = #{re_rate}, re_date = sysdate, re_up_folder = #{re_up_folder}, re_img = #{re_img}
 where re_code = #{re_code}
 </update>
 
 <select id="review_detail" parameterType="Long" resultType="com.food.basic.review.ReviewVO">
-select re_code, u_id, pro_num, re_title, re_content, re_rate, re_date
+select re_code, u_id, pro_num, re_title, re_content, re_rate, re_date, re_up_folder, re_img
 from review_t
 where re_code = #{re_code}
 </select>
