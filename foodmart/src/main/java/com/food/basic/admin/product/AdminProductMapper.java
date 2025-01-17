@@ -19,6 +19,8 @@ public interface AdminProductMapper {
 	void pro_edit_ok(ProductVO vo);
 	//삭제
 	void pro_delete(Integer pro_num);
+	//상세, 리뷰관리폼
+	ProductVO pro_detail(int pro_num);
 	//체크수정1
 	void pro_checked_modify1(@Param("pro_num") Integer pro_num, @Param("pro_price") Integer pro_price, @Param("pro_discount") Integer pro_discount, @Param("pro_disprice") Integer pro_disprice, @Param("pro_buy") String pro_buy);
 	//체크수정2

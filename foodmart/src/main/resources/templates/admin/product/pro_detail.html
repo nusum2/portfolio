@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<!--
+This is a starter template page. Use this page to start your new project from
+scratch. This page gets rid of all links and provides the needed markup only.
+-->
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+                xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+                layout:decorate="~{admin/layout/adminlayout}">
+  <head>
+    
+  </head>
+  <body class="hold-transition skin-blue sidebar-mini">
+    <div class="wrapper">
+      <th:block layout:fragment="css">
+        <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.3/themes/base/jquery-ui.css">
+      </th:block>
+	  <th:block layout:fragment = "content">
+      <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+        <script id="review-template" type="text/x-handlebars-template">
+        <table id="re_table" class="table">
+        <thead>
+          <tr>
+            <th scope="col">번호</th>
+            <th scope="col">제목</th>
+            <th scope="col">내용</th>
+            <th scope="col">평점</th>
+            <th scope="col">작성자</th>
+            <th scope="col">등록일</th>
+            <th scope="col">비고</th>
+          </tr>
+        </thead>
+        <tbody>
+		{{#each .}}
+          <tr>
+            <th scope="row">{{counter @index}}</th>
+            <td>{{re_title}}</td>
+            <td>{{re_content}}</td>
+            <td>{{displayStar re_rate}}</td>
+            <td>{{u_id}}</td>
+            <td>{{convertDate re_date}}</td>
+			<td>{{authControlView re_code}}</td>
+          </tr>
+    	{{/each}}
+        </tbody>
+      	</table>
+        </script>
+      <!-- Content Wrapper. Contains page content -->
+      <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+          <h1>
+            Page Header
+            <small>Optional description</small>
+          </h1>
+          <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
+            <li class="active">Here</li>
+          </ol>
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+		
+          <!-- Your Page Content Here -->
+			<div class="box box-info">
+                <div class="box-header with-border">
+                  <h3 class="box-title">Horizontal Form</h3>
+                </div>
+                <!-- /.box-header -->
+                <!-- form start -->
+                <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+                  <h3 class="display-6" th:utext="${cate_name}"></h3>
+                </div>
+                <div class="container">
+                      <div class="row">
+                          <div class="col-6">
+                            <img th:src="${'/admin/product/image_display?dateFolderName=' + product.pro_up_folder + '&fileName=' + product.pro_img}" id="info_pro_img" style="width: 400px;height: 400px;">
+                          </div>
+                          <div class="col-6">
+                          <form>
+                        <div class="form-group">
+                          <span id="info_pro_name" th:text="${product.pro_name}">이름</span>
+                          <!-- <small class="text-muted">리뷰 : 0</small> -->
+                        </div>
+                          <div class="form-group">
+                            <label for="exampleFormControlInput1">정상가 : </label><span th:text="${#numbers.formatInteger(product.pro_price, 3, 'COMMA') + '원'}">가격</span><br>
+                          할인가 : <span th:text="${#numbers.formatInteger(product.pro_disprice, 3, 'COMMA') + '원'}"></span> - <span th:text="${product.pro_discount}"></span>% 할인중
+                        </div>
+                      </form>
+                          </div>
+                          </div>
+                      <div class="row">
+                  <div class="col">
+                      <div id="pro_info">
+                    <ul>
+                    <li><p id="#pro_detail">상세정보</p></li>
+                    <div id="pro_detail">
+                      <p th:utext="${product.pro_content}"></p>
+                    </div>
+                    <li><p id="#pro_review">상품리뷰</p></li>
+                  </ul>
+
+                  <div id="pro_review">
+                  <!-- 상품후기가 출력될 위치 -->
+                    <div id="review_list"></div>
+                  <!-- 페이징 출력될 위치 -->
+                  <div id="review_paging" class="text-center"></div>
+                  </div>
+                </div>
+                </div>
+                        </div>
+                </div>
+              </div>
+        </section><!-- /.content -->
+      </div><!-- /.content-wrapper -->
+      <!-- 상품후기 상세보기 Modal -->
+  <div class="modal fade" id="review_detail_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">상품후기</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="review_detail_form">
+        <div class="form-group">
+          <label for="message-text" class="col-form-label">제목</label>
+          <input type="text" class="form-control" id="re_title_detail" readonly>
+          <input type="hidden" class="form-control" id="re_code_detail">
+          </div>
+          <!--이미지 넣을 자리-->
+        <!-- <div class="form-group">
+          <label for="message-text" class="col-form-label">사진</label>
+          <div>
+            <img id="re_img_detail" style="width:50px;height:50px;">
+          </div>
+        </div> -->
+        <div class="form-group">
+          <label for="message-text" class="col-form-label">내용</label>
+          <textarea class="form-control" id="re_content_detail" readonly></textarea>
+        </div>
+        <div class="form-group">
+          <label for="recipient-name" class="col-form-label">별평점</label>
+          <input type="hidden" id="re_rate_detail">
+          <p id="star_re_rate_detail"></p>
+          
+        </div>
+        </form>
+      </div>
+      <div class="modal-footer" id="modal_button">
+        <button type="button" id="btn_review_modal_delete" name="btn_review_modal_delete" class="btn btn-danger" data-re_code="">삭제</button>
+        <button type="button" id="btn_review_close" class="btn btn-secondary" data-dismiss="modal">취소</button>
+      </div>
+      </div>
+    </div>
+    </div>
+    <!--상품후기 상세보기 모달끝-->
+      </th:block>
+      <!-- Main Footer -->
+
+      <!-- Control Sidebar -->
+      
+    <!-- REQUIRED JS SCRIPTS -->
+    <th:block layout:fragment="script">  
+  <script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
+  <script th:inline="javascript">
+$(document).ready(function(){
+  //상품후기, 페이징정보 호출 작업
+  let reviewPage = 1; //첫번째 페이지
+  let url = "/admin/review/re_list/" + [[${product.pro_num}]] + "/" + reviewPage;
+
+  //console.log("상품후기주소", url);
+
+  getReviewList(url);
+
+  //ajax 주소요청
+  function getReviewList(url) {
+    $.getJSON(url, function(reviewlist){
+
+      print_reviewlist(reviewlist.re_list, $("#review_list"), $("#review-template"));
+      print_paging(reviewlist.pageMaker, $("#review_paging"));
+    });
+  }
+  //핸들바 템플릿 : 상품후기 ui작업
+  let print_reviewlist = function(reviewData, target, template) {
+    let templateObj = Handlebars.compile(template.html()); //템플릿 문법검사 및 참조
+    let reviewHtml = templateObj(reviewData);
+    target.children().remove();
+    target.append(reviewHtml);
+  }
+  //페이징 ui작업 - 로직으로 작업 pageData = pageMaker
+  let print_paging = function(pageData, target) {
+    let str = `<nav aria-label="Page navigation example" class="nav justify-content-center">`;
+      str += `<ul class="pagination">`;
+    
+    //이전 표시여부
+    if(pageData.prev) {
+      str += `<li class="page-item">`;
+      str += `<a class="page-link" href="${pageData.startPage - 1}" aria-label="Previous">`;
+      str += `<span aria-hidden="true">&laquo;</span>`;
+      str += ` </a>`;
+    }
+
+    //번호 표시
+    for(let i=pageData.startPage; i<=pageData.endPage; i++) {
+      let className = pageData.cri.pageNum == i ? 'active' : '';
+      str += `<li class="page-item ${className}"><a class="page-link" href="${i}">${i}</a></li>`;
+    }
+
+    //다음 표시여부
+    if(pageData.next) {
+      str += `<li class="page-item">`;
+      str += `<a class="page-link" href="${pageData.endPage + 1}" aria-label="Next">`;
+      str += `<span aria-hidden="true">&raquo;</span>`;
+      str += ` </a>`;
+    }
+    target.html(str);
+  }
+
+  //핸들바 함수 : 평점
+  Handlebars.registerHelper("displayStar", function(rating){
+    let star = "";
+    switch(rating) {
+      case 1 :
+        star = "★☆☆☆☆";
+        break;
+      case 2 :
+        star = "★★☆☆☆";
+        break;
+      case 3 :
+        star = "★★★☆☆";
+        break;
+      case 4 :
+        star = "★★★★☆";
+        break;
+      case 5 :
+        star = "★★★★★";
+        break;
+    }
+    return star;
+  });
+  //핸들바 함수 : 날짜 포맷 2024/07/10
+  Handlebars.registerHelper("convertDate", function(re_date){
+    const d = new Date(re_date);
+    let year = d.getFullYear();
+    let month = d.getMonth() + 1;
+    let date = d.getDate();
+    let hour = d.getHours();
+    let minute = d.getMinutes();
+
+    return `${year}/${month}/${date} ${hour}:${minute}`;
+  });
+  //핸들바 함수 : 자세히, 삭제버튼 표시
+  Handlebars.registerHelper("authControlView", function(re_code){
+			
+    let str = "";
+
+      str += `<button type="button" name="btn_review_detail_modal" class="btn btn-link" data-re_code="${re_code}">자세히보기</button>`
+      str += `<button type="button" name="btn_review_delete" class="btn btn-link" data-re_code="${re_code}">삭제</button>`
+      
+      return new Handlebars.SafeString(str);   
+  });
+
+  //핸들바 인덱스+1 만들기
+  Handlebars.registerHelper("counter", function (index){
+    return index + 1;
+  });
+  
+  //페이지 클릭 이벤트
+  $("#review_paging").on("click", "nav ul.pagination a", function(e){
+    e.preventDefault();
+    reviewPage = $(this).attr("href"); //선택한 페이지번호
+
+    url = "/review/re_list/" + [[${product.pro_num}]] + "/" + reviewPage;
+
+    getReviewList(url);
+  });
+
+  //리뷰 상세보기 모달
+  $("div#review_list").on("click", "button[name='btn_review_detail_modal']" , function(){
+			
+    let re_code = $(this).data("re_code");
+
+    $("#btn_review_modal_delete").attr("data-re_code", re_code)
+
+    $.ajax({
+      url : '/admin/review/review_detail/' + re_code,
+      headers : {
+        "Content-Type" : "application/json", "X-HTTP-Method-Override" : "GET"
+      },
+      type : 'get',
+      dataType : 'json',
+      success : function(result) {
+        console.log(result);
+
+        //모달 내용에 리뷰 출력
+        $("#re_title_detail").val(result.re_title);
+        $("#re_content_detail").val(result.re_content);
+        $("#re_code_detail").val(result.re_code); //input type="hidden"
+        $("#re_rate_detail").val(result.re_rate);
+        //$("#re_img_detail").attr("src", result.re_img);
+
+        //평점 출력
+        let re_rate = $("#re_rate_detail").val();
+        
+          if(re_rate == 5) {
+          $("p#star_re_rate_detail").text("★★★★★");
+        } else if(re_rate == 4) {
+          $("p#star_re_rate_detail").text("★★★★☆");
+        } else if(re_rate == 3) {
+          $("p#star_re_rate_detail").text("★★★☆☆");
+        } else if(re_rate == 2) {
+          $("p#star_re_rate_detail").text("★★☆☆☆");
+        } else {
+          $("p#star_re_rate_detail").text("★☆☆☆☆");
+        }
+        
+        
+        
+        //모달 보여주기
+        $("#review_detail_modal").modal('show');	
+      }
+    });
+  });
+
+  		//취소버튼으로 비우기
+      $("button#btn_review_close").on("click", function(){
+        //$("#re_title").val("");
+        //$("#re_content").val("");
+        //$("#uploadFile").val("");
+        //$("#re_img").attr("src", "");
+        $("#review_form")[0].reset();	
+      });
+      //닫기버튼으로 비우기
+      $('.modal').on('hidden.bs.modal', function() {
+        $("#review_form")[0].reset();
+      });
+
+      //리뷰 삭제
+		$("div#review_list").on("click", "button[name='btn_review_delete']", function(){
+			if(!confirm("리뷰를 삭제하시겠습니까?")) return;
+			let re_code = $(this).data("re_code");
+
+			$.ajax({
+				url : '/admin/review/review_delete/' + re_code,
+				//브라우저는 get post 지원
+				//rest api에서는 get post delete put patch 지원
+				//스프링 컨트롤러에서 rest api 매핑주소로 설정시
+				//아래와 같이"X-HTTP-Method-Override" : "요청방식" 으로 코드를 구성해줘야 정상적으로 주소 호출 가능해짐
+				headers : {
+					"Content-Type" : "application/json", "X-HTTP-Method-Override" : "DELETE"
+				},
+				type : 'delete',
+				dataType : 'text',
+				success : function(result) {
+					alert("리뷰삭제완료");
+					getReviewList(url); //상품후기목록과 페이징 정보를 갱신
+				}
+			});
+		});
+
+    //리뷰 상세창에서 삭제
+    $("div#modal_button").on("click", "button[name='btn_review_modal_delete']", function(){
+			if(!confirm("리뷰를 삭제하시겠습니까?")) return;
+			let re_code = $(this).data("re_code");
+
+			$.ajax({
+				url : '/admin/review/review_delete/' + re_code,
+				//브라우저는 get post 지원
+				//rest api에서는 get post delete put patch 지원
+				//스프링 컨트롤러에서 rest api 매핑주소로 설정시
+				//아래와 같이"X-HTTP-Method-Override" : "요청방식" 으로 코드를 구성해줘야 정상적으로 주소 호출 가능해짐
+				headers : {
+					"Content-Type" : "application/json", "X-HTTP-Method-Override" : "DELETE"
+				},
+				type : 'delete',
+				dataType : 'text',
+				success : function(result) {
+					alert("리뷰삭제완료");
+          //삭제 후 모달창 비우기
+					$("#re_title_detail").val("");
+					$("#re_content_detail").val("");
+          $("#re_rate_detail").val("");
+					$("#review_detail_modal").modal('hide');
+					getReviewList(url); //상품후기목록과 페이징 정보를 갱신
+				}
+			});
+		});
+});//ready 끝
+
+
+      </script>
+    </th:block>
+  </body>
+</html>

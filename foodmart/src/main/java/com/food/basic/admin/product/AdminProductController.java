@@ -269,4 +269,17 @@ public class AdminProductController {
 			return entity;
 		}
 		
+		//상품 상세 + 리뷰관리폼
+		@GetMapping("pro_detail")
+		public void pro_detail(int pro_num, Model model) throws Exception {
+			
+			log.info("상품코드 : " + pro_num);
+			
+			//db연동
+			ProductVO vo = adminProductService.pro_detail(pro_num);
+			vo.setPro_up_folder(vo.getPro_up_folder().replace("\\", "/"));
+			
+			model.addAttribute("product", vo);
+		}
+		
 }

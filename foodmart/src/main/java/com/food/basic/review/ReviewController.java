@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +19,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.food.basic.common.dto.Criteria;
 import com.food.basic.common.dto.PageDTO;
-import com.food.basic.common.util.FileManagerUtils;
 import com.food.basic.user.UserVO;
 
 import jakarta.servlet.http.HttpSession;
@@ -35,6 +33,7 @@ public class ReviewController {
 	
 	private final ReviewService reviewService;
 	
+	/*
 	//상품 이미지 업로드
 	@Value("${file.product.image.dir}")
 	private String uploadPath;
@@ -45,7 +44,7 @@ public class ReviewController {
 		
 		return FileManagerUtils.getFile(uploadPath + dateFolderName, fileName);
    }
-	
+	*/
 	//리뷰목록
 	@GetMapping("/re_list/{pro_num}/{page}")
 	public ResponseEntity<Map<String, Object>> re_list(@PathVariable("pro_num")int pro_num, @PathVariable("page")int page) throws Exception {
@@ -77,14 +76,14 @@ public class ReviewController {
 		
 		String u_id = ((UserVO) session.getAttribute("login_status")).getU_id();
 		vo.setU_id(u_id);
-		
+		/*
 		//상품 이미지 업로드
 		String dateFolder = FileManagerUtils.getDateFolder();
 		String saveFileName = FileManagerUtils.uploadFile(uploadPath, dateFolder, uploadFile);
 		
 		vo.setRe_img(saveFileName);
 		vo.setRe_up_folder(dateFolder);
-		
+		*/
 		log.info("상품리뷰데이터 : " + vo);
 		
 		//리뷰 db저장
@@ -115,8 +114,9 @@ public class ReviewController {
 		
 		log.info("장바구니코드 : " + re_code);
 		ResponseEntity<ReviewVO> entity = null;
-		ReviewVO vo = reviewService.review_modify(re_code);
-		vo.setRe_up_folder(vo.getRe_up_folder().replace("\\", "/"));
+		//ReviewVO vo = 
+		reviewService.review_modify(re_code);
+		//vo.setRe_up_folder(vo.getRe_up_folder().replace("\\", "/"));
 		
 		entity = new ResponseEntity<ReviewVO>(reviewService.review_modify(re_code), HttpStatus.OK);
 		
@@ -127,7 +127,7 @@ public class ReviewController {
 	@PutMapping("/review_modify")
 	public ResponseEntity<String> review_update(@RequestBody ReviewVO vo, MultipartFile uploadFile) throws Exception {
 		ResponseEntity<String> entity = null;
-		
+		/*
 		//상품 이미지 변경(업로드) 유무
 		if(!uploadFile.isEmpty()) {
 			//상품 기존 이미지삭제
@@ -137,11 +137,9 @@ public class ReviewController {
 			String saveFileName = FileManagerUtils.uploadFile(uploadPath, dateFolder, uploadFile);
 			//새로운 파일명, 날짜폴더명
 			vo.setRe_img(saveFileName);
-			vo.setRe_up_folder(dateFolder);
-			
-			
+			vo.setRe_up_folder(dateFolder);		
 		}
-		
+		*/
 		reviewService.review_update(vo);
 		entity = new ResponseEntity<String>("success", HttpStatus.OK);
 		
@@ -154,8 +152,9 @@ public class ReviewController {
 		
 		log.info("장바구니코드 : " + re_code);
 		ResponseEntity<ReviewVO> entity = null;
-		ReviewVO vo = reviewService.review_detail(re_code);
-		vo.setRe_up_folder(vo.getRe_up_folder().replace("\\", "/"));
+		//ReviewVO vo = 
+		reviewService.review_detail(re_code);
+		//vo.setRe_up_folder(vo.getRe_up_folder().replace("\\", "/"));
 		
 		entity = new ResponseEntity<ReviewVO>(reviewService.review_detail(re_code), HttpStatus.OK);
 		

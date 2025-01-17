@@ -15,9 +15,9 @@ public interface ReviewMapper {
 	void review_save(ReviewVO vo);
 	
 	void review_delete(Long re_code);
-	
+	//리뷰 수정폼
 	ReviewVO review_modify(Long re_code);
-	
+	//리뷰 수정
 	void review_update(ReviewVO vo);
 	
 	ReviewVO review_detail(Long re_code);

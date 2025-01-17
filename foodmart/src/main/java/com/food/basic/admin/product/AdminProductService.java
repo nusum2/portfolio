@@ -67,4 +67,9 @@ public class AdminProductService {
 		}
 		adminProductMapper.pro_checked_modify2(pro_modify_list);
 	}
+	//상품 상세정보
+	public ProductVO pro_detail(int pro_num) {
+		
+		return adminProductMapper.pro_detail(pro_num);
+	}
 }

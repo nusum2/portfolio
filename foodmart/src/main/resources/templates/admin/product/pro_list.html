@@ -98,12 +98,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
 								<td>[[${product.pro_num}]]</td>
 								<!-- /admin/product/imageDisplay?dateFolderName=값1&?fileName=값2 -->
 								<td>
-									<a class="move" href="#">
+									<a class="move" th:href="@{/admin/product/pro_detail(pro_num = ${product.pro_num})}">
 									<!-- /*/ /*/ -->
 									<img th:src="${'/admin/product/image_display?dateFolderName=' + product.pro_up_folder + '&fileName=s_' + product.pro_img}">
 									</a> 
 									
-									<a class="move pro_name" href="#" th:text="${product.pro_name}"></a>
+									<a class="move pro_name" th:href="@{/admin/product/pro_detail(pro_num = ${product.pro_num})}" th:text="${product.pro_name}"></a>
 								</td>
 								<td><input type="text" class="form-control num_only" th:id="'pro_price'+${productStat.index}" name="pro_price" th:value="${product.pro_price}"></td>
 								<td><input type="text" class="form-control num_only" th:id="'pro_discount'+${productStat.index}" name="pro_discount" th:value="${product.pro_discount}"></td>

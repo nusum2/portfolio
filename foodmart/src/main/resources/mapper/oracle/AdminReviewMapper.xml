@@ -2,4 +2,36 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.food.basic.admin.review.AdminReviewMapper">
 
+<select id="re_list" parameterType="map" resultType="com.food.basic.review.ReviewVO">
+select pro_num, re_code, re_title, re_content, re_date, u_id, re_rate
+from (
+select /*+ index_desc(review_t pk_review_code) */
+rownum as rn, pro_num, re_code, re_title, re_content, re_date, u_id, re_rate
+from review_t
+where pro_num = #{pro_num}
+and
+<![CDATA[  		
+		   		ROWNUM <= (#{cri.pageNum} * #{cri.amount})   -- 페이지번호 * 페이지별 출력건수
+		 ]]>
+)
+where rn > (#{cri.pageNum} - 1 ) * #{cri.amount}
+</select>
+
+<select id="re_count" parameterType="int" resultType="int">
+select count(*)
+from review_t
+where pro_num = #{pro_num}
+</select>
+
+<delete id="review_delete" parameterType="Long">
+delete from review_t
+where re_code = #{re_code}
+</delete>
+
+<select id="review_detail" parameterType="Long" resultType="com.food.basic.review.ReviewVO">
+select re_code, u_id, pro_num, re_title, re_content, re_rate, re_date
+from review_t
+where re_code = #{re_code}
+</select>
+
 </mapper>
