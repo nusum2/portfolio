@@ -7,12 +7,6 @@ from user_t
 where u_id = #{u_id}
 </select>
 
-<select id="nickCheck" parameterType="String" resultType="String">
-select u_nick 
-from user_t
-where u_nick = #{u_nick}
-</select>
-
 <insert id="join" parameterType="UserVO">
 insert into user_t(u_id, u_password, u_NAME, u_EMAIL, u_zipcode, u_ADDR, u_deaddr, u_PHONE, u_nick)
 VALUES(#{u_id}, #{u_password}, #{u_name}, #{u_email}, #{u_zipcode}, #{u_addr}, #{u_deaddr}, #{u_phone}, #{u_nick})
@@ -54,7 +48,7 @@ where u_id = #{u_id}
 
 <update id="modify" parameterType="UserVO">
 update user_t
-set u_email = #{u_email}, u_zipcode = #{u_zipcode}, u_addr = #{u_addr}, u_deaddr = #{u_deaddr}, u_phone = #{u_phone}
+set u_email = #{u_email}, u_zipcode = #{u_zipcode}, u_addr = #{u_addr}, u_deaddr = #{u_deaddr}, u_phone = #{u_phone}, u_nick = #{u_nick}
 where u_id = #{u_id}
 </update>
 

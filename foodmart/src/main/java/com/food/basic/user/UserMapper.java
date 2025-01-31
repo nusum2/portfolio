@@ -8,7 +8,7 @@ public interface UserMapper {
 	//아이디 중복체크
 	String idCheck(String u_id);
 	//닉네임 중복체크
-	String nickCheck(String u_nick);
+	//String nickCheck(String u_nick);
 	//로그인
 	UserVO login(String u_id);
 	//아이디찾기

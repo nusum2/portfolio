@@ -22,12 +22,12 @@ public class UserService {
 		
 		return userMapper.idCheck(u_id);
 	}
-	
+	/*
 	public String nickCheck(String u_nick) {
 		
 		return userMapper.nickCheck(u_nick);
 	}
-	
+	*/
 	public UserVO login(String u_id) {
 		
 		return userMapper.login(u_id);

@@ -1,4 +1,4 @@
-package com.food.basic.qna;
+package com.food.basic.faq;
 
 import java.util.List;
 
@@ -11,18 +11,18 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @Slf4j
 @Service
-public class QnaService {
+public class FaqService {
 	
-	private final QnaMapper qnaMapper;
+	private final FaqMapper faqMapper;
 	
-	public List<QnaVO> qna_list(Criteria cri) {
+	public List<FaqVO> faq_list(Criteria cri) {
 		
-		return qnaMapper.qna_list(cri);
+		return faqMapper.faq_list(cri);
 	}
 	
 	public int getTotalCount(Criteria cri) {
 		
-		return qnaMapper.getTotalCount(cri);
+		return faqMapper.getTotalCount(cri);
 	}
 	
 }

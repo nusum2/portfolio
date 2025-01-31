@@ -1,12 +1,12 @@
-package com.food.basic.qna;
+package com.food.basic.faq;
 
 import java.util.List;
 
 import com.food.basic.common.dto.Criteria;
 
-public interface QnaMapper {
+public interface FaqMapper {
 	
-	List<QnaVO> qna_list(Criteria cri);
+	List<FaqVO> faq_list(Criteria cri);
 	
     int getTotalCount(Criteria cri);
 	

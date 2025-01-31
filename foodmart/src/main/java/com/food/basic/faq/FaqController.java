@@ -1,4 +1,4 @@
-package com.food.basic.qna;
+package com.food.basic.faq;
 
 import java.util.List;
 
@@ -13,27 +13,27 @@ import com.food.basic.common.dto.PageDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
-@RequestMapping("/qna/*")
+@RequestMapping("/faq/*")
 @Slf4j
 @Controller
-public class QnaController {
+public class FaqController {
 	
-	private final QnaService qnaService;
+	private final FaqService faqService;
 	
 	//qna목록
-	@GetMapping("/qna_list")
-	public void qna_list(Criteria cri, Model model) throws Exception {
+	@GetMapping("/faq_list")
+	public void faq_list(Criteria cri, Model model) throws Exception {
 		
 		cri.setAmount(5);
 		
-		List<QnaVO> qna_list = qnaService.qna_list(cri);
+		List<FaqVO> faq_list = faqService.faq_list(cri);
 		
-		int totalCount = qnaService.getTotalCount(cri);
+		int totalCount = faqService.getTotalCount(cri);
 		//페이징
-		model.addAttribute("qna_list", qna_list);
+		model.addAttribute("faq_list", faq_list);
 		model.addAttribute("pageMaker", new PageDTO(cri, totalCount));
 		
-		log.info("qna리스트 : " + qna_list);
+		log.info("qna리스트 : " + faq_list);
 	}
 	
 }

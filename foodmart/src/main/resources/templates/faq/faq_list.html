@@ -21,30 +21,28 @@
 </div>
 <div class="col-sm-6">
 <ol class="breadcrumb float-sm-right">
-<!-- <li class="breadcrumb-item"><a th:href="@{/qna/qna_write}">추가</a></li> -->
 </ol>
 </div>
 </div>
 </div>
 </section>
-<!-- <form action="/qna/qna_list" method="get"> -->
 <section class="content">
 <div class="row">
 <div class="col-12" id="accordion">
 
-<th:block th:each="qna : ${qna_list}">
+<th:block th:each="faq : ${faq_list}">
 <div class="card card-primary card-outline">
-<input type="hidden" name="q_num" id="q_num" th:value="${qna.q_num}">
-<a class="d-block w-100 collapsed" data-toggle="collapse" th:href="'#coll1_'+${qna.q_num}">
+<input type="hidden" name="q_num" id="q_num" th:value="${faq.q_num}">
+<a class="d-block w-100 collapsed" data-toggle="collapse" th:href="'#coll1_'+${faq.q_num}">
 <div class="card-header">
 <h4 class="card-title w-100" name="q_title" id="q_title">
-[[${qna.q_title}]]
+[[${faq.q_title}]]
 </h4>
 </div>
 </a>
-<div th:id="'coll1_'+${qna.q_num}" class="collapse" data-parent="#accordion">
+<div th:id="'coll1_'+${faq.q_num}" class="collapse" data-parent="#accordion">
 <div class="card-body">
-<span name="q_content" id="q_content">[[${qna.q_content}]]</span>
+<span name="q_content" id="q_content">[[${faq.q_content}]]</span>
 </div>
 </div>
 </div>
@@ -57,7 +55,7 @@
 		<div class="row">
 		<div class="col-md-6">
 			<!-- 검색폼 -->
-			<form action="/qna/qna_list" method="get" id="search">
+			<form action="/faq/faq_list" method="get" id="search">
 			<select name="type">
 				<option th:selected="${''} == ${pageMaker.cri.type}">검색종류선택</option>
 				<option value="T" th:selected="${'T'} == ${pageMaker.cri.type}">제목</option>
@@ -118,9 +116,13 @@
 		<div class="row">
 <div class="col-12 mt-3 text-center">
 <p class="lead">
-<a href="contact-us.html">Contact us</a>,
-if you found not the right anwser or you have a other question?<br>
-</p>
+<p>추가적인 문의사항이나 도움이 필요하시다면 아래의 주소로 연락 주시길 바랍니다.<br></p>
+<!-- 주소, 전화번호, 이메일주소 표기 -->
+  <ul class="list-unstyled text-small">
+	<li>전화번호 : 02-XXXX-XXXX</li>
+	<li>주소 : 서울시 XX구 XX로 999</li>
+	<li>Email : help@FoodMart.com</li>
+  </ul>
 </div>
 </div>
 </section>
@@ -147,7 +149,7 @@ if you found not the right anwser or you have a other question?<br>
 		  $(".movepage").on("click", function(e){
 			e.preventDefault(); //a태그의 href기능 제거
 			//주소변경
-			actionForm.attr("action", "/qna/qna_list");
+			actionForm.attr("action", "/faq/faq_list");
 			//클릭한 페이지번호 작업
 			actionForm.find("input[name='pageNum']").val($(this).attr("href"));
 

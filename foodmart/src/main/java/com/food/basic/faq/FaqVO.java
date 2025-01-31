@@ -1,4 +1,4 @@
-package com.food.basic.qna;
+package com.food.basic.faq;
 /*
 q_num number, --번호
 q_title varchar2(50) not null, --제목
@@ -12,7 +12,7 @@ import java.util.Date;
 
 import lombok.Data;
 @Data
-public class QnaVO {
+public class FaqVO {
 	
 	private int q_num;
 	private String q_title;

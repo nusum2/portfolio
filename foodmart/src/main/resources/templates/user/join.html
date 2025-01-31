@@ -38,10 +38,10 @@
                     <div class="col-sm-4">
                     <input type="text" class="form-control" id="u_nick" name="u_nick" placeholder="닉네임을 입력하세요.">
                 </div>
-                    <div class="col-sm-4">
+                    <!-- <div class="col-sm-4">
                         <button type="button" class="btn btn-primary" id="btnNickCheck">닉네임 체크</button>
                         <span class="col-sm-2" style="color : orange" id="nickCheckmsg"></span>
-                </div>
+                </div> -->
                 </div>
                 <div class="form-group row">
                     <label for="u_name" class="col-sm-2 col-form-label">이름</label>
@@ -237,7 +237,7 @@
         });
         let useNickCheck = false; //닉네임 중복체크 사용 유무 확인
         
-        $("#btnNickCheck").on("click", function(){
+        /* $("#btnNickCheck").on("click", function(){
             if($("#u_nick").val() == "") {
                 alert("닉네임을 입력하세요.");
                 $("#u_nick").focus();
@@ -261,7 +261,7 @@
                 }
 
             });
-        });
+        }); */
         
         
         $("#btnMailAuthcode").on("click", function(){

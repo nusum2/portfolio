@@ -2,7 +2,7 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <th:block th:fragment="headerFragment">
 <div  class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
-  <h5 class="my-0 mr-md-auto font-weight-normal"><a th:href="@{/}">푸드마켓</a></h5>
+  <h5 class="my-0 mr-md-auto font-weight-normal"><a th:href="@{/}" class="text-muted">푸드마트</a></h5>
   <nav class="my-2 my-md-0 mr-md-3">
   	<th:block th:if="${session.login_status == null and session.kakao_status == null and session.naver_status == null}">
     <a class="p-2 text-dark" th:href="@{/user/login}">로그인</a>

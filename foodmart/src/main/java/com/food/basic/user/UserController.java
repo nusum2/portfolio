@@ -70,7 +70,8 @@ public class UserController {
 	}
 			
 	//닉네임 중복체크
-	//리턴타입 ResponseEntity 사용시 @ResponseBody 사용할 필요 x, ajax작업은 ResponseEntity 리턴타입 사용 
+	//리턴타입 ResponseEntity 사용시 @ResponseBody 사용할 필요 x, ajax작업은 ResponseEntity 리턴타입 사용
+	/*
 	@GetMapping("nickCheck")
 	public ResponseEntity<String> nickCheck(String u_nick) throws Exception{
 		
@@ -89,7 +90,7 @@ public class UserController {
 		
 		return entity;
 	}
-	
+	*/
 	@GetMapping("login")
 	public void loginForm() {
 		

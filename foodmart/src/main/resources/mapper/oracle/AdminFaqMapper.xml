@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.food.basic.admin.qna.AdminQnaMapper">
+<mapper namespace="com.food.basic.admin.faq.AdminFaqMapper">
 <!-- 검색조건 -->
 <sql id="criteria">
 <trim prefix="(" suffix=") AND" prefixOverrides="OR">
@@ -20,12 +20,12 @@ q_content like'%' || #{keyword} || '%'
 </sql>
 
 <!-- 검색조건추가 리스트 -->
-<select id="qna_list" resultType="com.food.basic.qna.QnaVO" parameterType="com.food.basic.common.dto.Criteria">
+<select id="faq_list" resultType="com.food.basic.faq.FaqVO" parameterType="com.food.basic.common.dto.Criteria">
 select q_num, q_title, q_content, q_regdate, q_updatedate
 from(
-select /*+ index_desc(qna_t pk_q_num) */
+select /*+ index_desc(faq_t pk_q_num) */
 rownum as rn, q_num, q_title, q_content, q_regdate, q_updatedate
-from qna_t
+from faq_t
 where --페이지 번호 * 페이지별 출력건수
 <include refid="criteria"></include>
 <![CDATA[
@@ -37,30 +37,30 @@ where rn > (#{pageNum} - 1) * #{amount} --(페이지번호 - 1) * 페이지별 �
 
 <select id="getTotalCount" resultType="int">
 select count(*)
-from qna_t
+from faq_t
 where <include refid="criteria"></include>
 q_num > 0
 </select>
 
-<insert id="qna_write" parameterType="com.food.basic.qna.QnaVO">
-insert into qna_t (q_num, q_title, q_content)
+<insert id="faq_write" parameterType="com.food.basic.faq.FaqVO">
+insert into faq_t (q_num, q_title, q_content)
 values (seq_q_num.nextval, #{q_title}, #{q_content})
 </insert>
 
-<select id="qna_content" resultType="com.food.basic.qna.QnaVO" parameterType="int">
+<select id="faq_content" resultType="com.food.basic.faq.FaqVO" parameterType="int">
 select q_num, q_title, q_content, q_regdate, q_updatedate
-from qna_t
+from faq_t
 where q_num = #{q_num}
 </select>
 
-<update id="qna_update" parameterType="com.food.basic.qna.QnaVO">
-update qna_t
+<update id="faq_update" parameterType="com.food.basic.faq.FaqVO">
+update faq_t
 set q_title = #{q_title}, q_content = #{q_content}, q_updatedate = sysdate
 where q_num = #{q_num}
 </update>
 
-<delete id="qna_delete" parameterType="int">
-delete from qna_t
+<delete id="faq_delete" parameterType="int">
+delete from faq_t
 where q_num = #{q_num}
 </delete>
 

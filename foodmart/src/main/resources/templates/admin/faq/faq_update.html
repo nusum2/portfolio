@@ -22,46 +22,51 @@
         <!-- Your Page Content Here -->
 	<div class="box box-info">
               <div class="box-header with-border">
-                <h3 class="box-title">qna 등록관리</h3>
+                <h3 class="box-title">FAQ 수정</h3>
               </div><!-- /.box-header -->
               <!-- form start -->
-              <form class="form-horizontal" th:action="@{/admin/qna/qna_write}" method="post">
+              <form class="form-horizontal" th:action="@{/admin/faq/faq_update}" method="post">
                 <div class="box-body">
                   <div class="form-group">
-                    <!-- <label for="inputEmail3" class="col-sm-1 col-form-label">1차 카테고리</label>
-                    <div class="col-sm-3">
-                      <select class="form-control" id="btn_firstCategory">
-                      <option>1차 카테고리 선택</option>
-                      <option th:each="category : ${cate_list}" th:value="${category.cate_code}" th:text="${category.cate_name}">option1</option>
-                      </select>
-                    </div>
-                     <label for="inputEmail3" class="col-sm-1 col-form-label">2차 카테고리</label>
-                    <div class="col-sm-3">
-                      <select class="form-control" id="btn_secondCategory" name="cate_code">
-                      <option>2차 카테고리 선택</option>
-                      </select>
-                    </div> -->
+                  <form id="actionForm" th:action="@{/admin/faq/faq_admin_list}" method="get">
+								<input type="hidden" name="q_num" id="q_num" th:value="${vo.q_num}" />
+								<input type="hidden" name="pageNum" id="pageNum" th:value="${cri.pageNum}" />
+								<input type="hidden" name="amount"  id="amount" th:value="${cri.amount}" />
+								<input type="hidden" name="type" id="type" th:value="${cri.type}" />
+								<input type="hidden" name="keyword" id="keyword" th:value="${cri.keyword}" />
+							  </form>
                   </div>
                   <div class="form-group row">
 				  <label for="q_title" class="col-sm-1 col-form-label">제목</label>
 	              <div class="col-sm-6">
-	                <input type="text" class="form-control" name="q_title" id="q_title" placeholder="제목 입력...">
+	                <input type="text" class="form-control" name="q_title" id="q_title" th:value="${vo.q_title}">
 	              </div>
 				</div>
 				<div class="form-group row">
 				  <label for="q_content" class="col-sm-1 col-form-label">내용</label>
 	              <div class="col-sm-10">
-	                <textarea class="form-control" name="q_content" id="q_content" rows="3"style="width:650px"></textarea>
+	                <textarea class="form-control" name="q_content" id="q_content" rows="3"style="width:650px" th:text="${vo.q_content}"></textarea>
 	              </div>
 	            </div>
                 <div class="box-footer">
-                  <button type="submit" class="btn btn-default">Cancel</button>
-                  <button type="submit" class="btn btn-info pull-right">Sign in</button>
+                  <button type="button" class="btn btn-danger" id="btn_update_cancel" th:onclick="history.back()">취소</button>
+                  <button type="submit" class="btn btn-info pull-right">등록</button>
                 </div><!-- /.box-footer -->
               </form>
             </div>
       </section><!-- /.content -->
     </div>
+</th:block>
+<th:block layout:fragment="script">
+<script>
+$(document).ready(function(){
+	$("button#btn_update_cancel").on("click", function(){
+		
+		if(!confirm("작성을 취소하겠습니까?")) return;
+	
+	});
+});
+</script>
 </th:block>
 </body>
 </html>

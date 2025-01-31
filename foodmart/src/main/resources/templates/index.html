@@ -43,16 +43,16 @@
   <!-- <th:block th:each="carousel : ${carousel_list}"> -->
     <div th:each="carousel : ${carousel_list}" class="carousel-item" th:classappend="${carousel_list[0].caro_num == carousel.caro_num ? 'active' : ''}">
       <a class="move" th:href="@{/product/pro_detail(pro_num = ${carousel.pro_num})}">
-        <img class="d-block" alt="..." th:src="${'/admin/carousel/image_display?dateFolderName=' + carousel.caro_up_folder + '&fileName=' + carousel.caro_img}" style="margin: 0px auto; width: 90%; height: 500px;">
+        <img class="d-block" alt="..." th:src="${'/admin/carousel/image_display?dateFolderName=' + carousel.caro_up_folder + '&fileName=' + carousel.caro_img}" style="margin: 0px auto; width: 70%; height: 400px;">
          </a>
       </div>
   <!-- </th:block> -->
  </div>
-  <button class="carousel-control-prev" type="button" data-target="#carouselExampleIndicators" data-slide="prev" >
+  <button class="carousel-control-prev" type="button" data-target="#carouselExampleIndicators" data-slide="prev" style="background-color: black; height: 400px;">
     <span class="carousel-control-prev-icon" aria-hidden="true" ></span>
     <span class="sr-only">Previous</span>
   </button>
-  <button class="carousel-control-next" type="button" data-target="#carouselExampleIndicators" data-slide="next">
+  <button class="carousel-control-next" type="button" data-target="#carouselExampleIndicators" data-slide="next" style="background-color: black; height: 400px;">
     <span class="carousel-control-next-icon" aria-hidden="true"></span>
     <span class="sr-only">Next</span>
   </button>
@@ -62,98 +62,47 @@
   <p class="lead">Food Mart에 오신 것을 환영합니다.</p>
 </div>
 <div class="container">
-  <div class="card-deck mb-3 text-center">
-    <div class="card mb-4 shadow-sm">
-      <div class="card-header">
-        <h1 class="card-title pricing-card-title">$0 <small class="text-muted">/ mo</small></h1>
-        <ul class="list-unstyled mt-3 mb-4">
-          <li>10 users included</li>
-          <li>2 GB of storage</li>
-          <li>Email support</li>
-          <li>Help center access</li>
-        </ul>
-        <button type="button" class="btn btn-lg btn-block btn-outline-primary">Sign up for free</button>
-      </div>
-      <div class="card-body">
-        <h4 class="my-0 font-weight-normal">Free</h4>
-      </div>
+  <div id="img_link_firstRow" style="display: inline-block; text-align: center; margin: 0 auto;">
+    <div id="img_link_cow" style="display: inline-block;">
+      <a th:href="@{/product/pro_list?cate_code=8&cate_name=소고기}" class="text-muted">
+        <img th:src="@{/image/idx_img/index_cow.png}" style="width: 300px; height: 300px;">
+        <p>소고기</p>
+      </a>
     </div>
-    <div class="card mb-4 shadow-sm">
-      <div class="card-header">
-        <h1 class="card-title pricing-card-title">$15 <small class="text-muted">/ mo</small></h1>
-        <ul class="list-unstyled mt-3 mb-4">
-          <li>20 users included</li>
-          <li>10 GB of storage</li>
-          <li>Priority email support</li>
-          <li>Help center access</li>
-        </ul>
-        <button type="button" class="btn btn-lg btn-block btn-primary">Get started</button>
-      </div>
-      <div class="card-body">
-        <h4 class="my-0 font-weight-normal">Pro</h4>
-      </div>
+    <div id="img_link_pig" style="display: inline-block;">
+      <a th:href="@{/product/pro_list?cate_code=9&cate_name=돼지고기}" class="text-muted">
+        <img th:src="@{/image/idx_img/index_pig.png}" style="width: 300px; height: 300px;">
+        <p>돼지고기</p>
+      </a>
     </div>
-    <div class="card mb-4 shadow-sm">
-      <div class="card-header">
-        <h1 class="card-title pricing-card-title">$29 <small class="text-muted">/ mo</small></h1>
-        <ul class="list-unstyled mt-3 mb-4">
-          <li>30 users included</li>
-          <li>15 GB of storage</li>
-          <li>Phone and email support</li>
-          <li>Help center access</li>
-        </ul>
-        <button type="button" class="btn btn-lg btn-block btn-primary">Contact us</button>
-      </div>
-      <div class="card-body">
-        <h4 class="my-0 font-weight-normal">Enterprise</h4>
-      </div>
-    </div>
-    <div class="card mb-4 shadow-sm">
-      <div class="card-header">
-        <h1 class="card-title pricing-card-title">$29 <small class="text-muted">/ mo</small></h1>
-        <ul class="list-unstyled mt-3 mb-4">
-          <li>30 users included</li>
-          <li>15 GB of storage</li>
-          <li>Phone and email support</li>
-          <li>Help center access</li>
-        </ul>
-        <button type="button" class="btn btn-lg btn-block btn-primary">Contact us</button>
-      </div>
-      <div class="card-body">
-        <h4 class="my-0 font-weight-normal">Enterprise</h4>
-      </div>
-    </div>
-    <div class="card mb-4 shadow-sm">
-      <div class="card-header">
-        <h1 class="card-title pricing-card-title">$29 <small class="text-muted">/ mo</small></h1>
-        <ul class="list-unstyled mt-3 mb-4">
-          <li>30 users included</li>
-          <li>15 GB of storage</li>
-          <li>Phone and email support</li>
-          <li>Help center access</li>
-        </ul>
-        <button type="button" class="btn btn-lg btn-block btn-primary">Contact us</button>
-      </div>
-      <div class="card-body">
-        <h4 class="my-0 font-weight-normal">Enterprise</h4>
-      </div>
-    </div>
-    <div class="card mb-4 shadow-sm">
-      <div class="card-header">
-        <h1 class="card-title pricing-card-title">$29 <small class="text-muted">/ mo</small></h1>
-        <ul class="list-unstyled mt-3 mb-4">
-          <li>30 users included</li>
-          <li>15 GB of storage</li>
-          <li>Phone and email support</li>
-          <li>Help center access</li>
-        </ul>
-        <button type="button" class="btn btn-lg btn-block btn-primary">Contact us</button>
-      </div>
-      <div class="card-body">
-        <h4 class="my-0 font-weight-normal">Enterprise</h4>
-      </div>
+    <div id="img_link_chicken" style="display: inline-block;">
+      <a th:href="@{/product/pro_list?cate_code=10&cate_name=닭고기}" class="text-muted">
+        <img th:src="@{/image/idx_img/index_chicken.png}" style="width: 300px; height: 300px;">
+        <p>닭고기</p>
+      </a>
     </div>
   </div>
+  <div id="img_link_secondRow" style="display: inline-block; text-align: center; margin: 0 auto;">
+    <div id="img_link_fruit" style="display: inline-block;">
+      <a th:href="@{/product/pro_list?cate_code=15&cate_name=과일}" class="text-muted">
+        <img th:src="@{/image/idx_img/index_fruit.png}" style="width: 300px; height: 300px;">
+        <p>과일</p>
+      </a>
+    </div>
+    <div id="img_link_fish" style="display: inline-block;">
+      <a th:href="@{/product/pro_list?cate_code=19&cate_name=생선류}" class="text-muted">
+        <img th:src="@{/image/idx_img/index_fish.png}" style="width: 300px; height: 300px;"> 
+        <p>생선</p>
+      </a>
+    </div>
+    <div id="img_link_soup" style="display: inline-block;">
+      <a th:href="@{/product/pro_list?cate_code=24&cate_name=국·탕·찌개}" class="text-muted">
+        <img th:src="@{/image/idx_img/index_soup.png}" style="width: 300px; height: 300px;">
+        <p>국·찌개</p>
+      </a>
+    </div>
+  </div>
+
   <div th:replace ="~{layout/comm/footer :: footerFragment}" ></div>
 </div>
 </th:block>

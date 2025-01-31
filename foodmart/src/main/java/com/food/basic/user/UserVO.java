@@ -15,7 +15,6 @@ import lombok.Data;
  u_DEADDR         VARCHAR2(100)            NOT NULL, --상세주소
  u_PHONE          VARCHAR2(15)            NOT NULL, --전화번호
  u_receive        char(1) default 'Y'       not null, --메일 수신 동의 여부
- u_POINT          NUMBER DEFAULT 0        NOT NULL, --포인트
  u_regdate        DATE DEFAULT SYSDATE    NOT NULL, --가입날짜
  u_update date default sysdate not null, --수정일
  u_lastlogin date null,
@@ -33,7 +32,6 @@ public class UserVO {
 	private String u_deaddr;
 	private String u_phone;
 	private String u_receive;
-	private int u_point;
 	private Date u_regdate;
 	private Date u_lastlogin;
 }
