@@ -24,8 +24,8 @@ public class AdminFaqController {
 	
 	private final AdminFaqService adminFaqService;
 	
-	//관리자 페이지 qna목록
-	@GetMapping("/qna_admin_list")
+	//관리자 페이지 faq목록
+	@GetMapping("/faq_admin_list")
 	public void faq_list(Criteria cri, Model model) throws Exception {
 		
 		cri.setAmount(5);
@@ -40,7 +40,7 @@ public class AdminFaqController {
 		log.info("faq리스트 : " + faq_list);
 	}
 		
-	//qna추가
+	//faq추가
 	@GetMapping("/faq_write")
 	public void faq_writeForm() {
 		
@@ -55,7 +55,7 @@ public class AdminFaqController {
 		return "redirect:/admin/faq/faq_admin_list";
 	}
 	
-	//관리자 qna 내용 불러오기
+	//관리자 faq 내용 불러오기
 	@GetMapping(value = {"faq_content", "faq_update"})
 	public void faq_content(int q_num, @ModelAttribute("cri") Criteria cri, Model model) throws Exception {
 		
@@ -63,7 +63,7 @@ public class AdminFaqController {
 		model.addAttribute("vo", vo);
 		
 	}
-	//qna 수정
+	//faq 수정
 	@PostMapping("faq_update")
 	public String faq_update(FaqVO vo, Criteria cri) throws Exception{
 		
@@ -72,7 +72,7 @@ public class AdminFaqController {
 		return "redirect:/admin/faq/faq_admin_list" + cri.getListLink();
 	}
 	
-	//qna 삭제
+	//faq 삭제
 	@GetMapping("faq_delete")
 	public String faq_delete(int q_num, Criteria cri) throws Exception {
 		

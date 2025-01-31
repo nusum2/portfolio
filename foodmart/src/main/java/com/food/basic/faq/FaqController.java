@@ -20,7 +20,7 @@ public class FaqController {
 	
 	private final FaqService faqService;
 	
-	//qna목록
+	//faq목록
 	@GetMapping("/faq_list")
 	public void faq_list(Criteria cri, Model model) throws Exception {
 		
@@ -33,7 +33,7 @@ public class FaqController {
 		model.addAttribute("faq_list", faq_list);
 		model.addAttribute("pageMaker", new PageDTO(cri, totalCount));
 		
-		log.info("qna리스트 : " + faq_list);
+		log.info("faq리스트 : " + faq_list);
 	}
 	
 }
