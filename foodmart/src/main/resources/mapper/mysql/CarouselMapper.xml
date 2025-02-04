@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.food.basic.admin.carousel.CarouselMapper">
+<insert id="carousel_insert" parameterType="com.food.basic.admin.carousel.CarouselVO">
+insert into carousel_t (caro_num, pro_num, pro_name, caro_content, caro_up_folder, caro_img)
+values (null, #{pro_num}, #{pro_name}, #{caro_content}, #{caro_up_folder}, #{caro_img})
+</insert>
+
+<!-- 검색조건 -->
+<sql id="criteria">
+<trim prefix="(" suffix=") AND" prefixOverrides="OR">
+<foreach collection="typeArr" item="type">
+<trim prefix="OR">
+<choose>
+<when test="type == 'N'.toString()">
+pro_name like concat('%',#{keyword},'%')
+</when>
+<when test="type == 'C'.toString()">
+caro_content like concat('%',#{keyword},'%')
+</when>
+</choose>
+</trim>
+</foreach>
+</trim>
+</sql>
+
+<select id="carousel_list" resultType="com.food.basic.admin.carousel.CarouselVO" parameterType="com.food.basic.common.dto.Criteria">
+select /*+ index_desc(carousel_t pk_caro_num) */
+caro_num, pro_num, pro_name, caro_content, caro_up_folder, caro_img, caro_date, caro_up_date
+from carousel_t
+where 
+<include refid="criteria"></include>
+limit (#{pageNum} - 1) * #{amount}, #{amount}
+</select>
+
+<select id="getTotalCount" resultType="int">
+select count(*)
+from carousel_t
+where <include refid="criteria"></include>
+caro_num > 0
+</select>
+
+<delete id="carousel_delete" parameterType="Integer">
+delete from carousel_t
+where caro_num = #{caro_num}
+</delete>
+
+<select id="carousel_updateForm" resultType="com.food.basic.admin.carousel.CarouselVO" parameterType="Integer">
+select caro_num, pro_num, pro_name, caro_content, caro_up_folder, caro_img, caro_date, caro_up_date
+from carousel_t
+where caro_num = #{caro_num}
+</select>
+
+<update id="carousel_update" parameterType="com.food.basic.admin.carousel.CarouselVO">
+update carousel_t
+set pro_num = #{pro_num}, pro_name = #{pro_name}, caro_content = #{caro_content},
+caro_up_folder = #{caro_up_folder},caro_img = #{caro_img}, caro_up_date = sysdate
+where caro_num = #{caro_num}
+</update>
+
+</mapper>

@@ -21,7 +21,7 @@ where u_id = #{u_id}
 
 <update id="user_lastlogin" parameterType="UserVO">
 update user_t
-set u_lastlogin = sysdate
+set u_lastlogin = now()
 where u_id = #{u_id}
 </update>
 

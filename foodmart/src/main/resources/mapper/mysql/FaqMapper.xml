@@ -8,10 +8,10 @@
 <trim prefix="OR">
 <choose>
 <when test="type == 'T'.toString()">
-q_title like '%' || #{keyword} || '%'
+q_title like concat('%',#{keyword},'%')
 </when>
 <when test="type == 'C'.toString()">
-q_content like'%' || #{keyword} || '%'
+q_content like concat('%',#{keyword},'%')
 </when>
 </choose>
 </trim>
@@ -21,18 +21,11 @@ q_content like'%' || #{keyword} || '%'
 
 <!-- 검색조건추가 리스트 -->
 <select id="faq_list" resultType="com.food.basic.faq.FaqVO" parameterType="com.food.basic.common.dto.Criteria">
-select q_num, q_title, q_content, q_regdate, q_updatedate
-from(
 select /*+ index_desc(faq_t pk_q_num) */
-rownum as rn, q_num, q_title, q_content, q_regdate, q_updatedate
-from faq_t
-where -- 페이지 번호 * 페이지별 출력건수
+q_num, q_title, q_content, q_regdate, q_updatedate
+from faq_t         -- 페이지 번호 * 페이지별 출력건수
 <include refid="criteria"></include>
-<![CDATA[
-rownum <= (#{pageNum} * #{amount})
-]]>
-)
-where rn > (#{pageNum} - 1) * #{amount} --(페이지번호 - 1) * 페이지별 출력건수
+limit (#{pageNum} - 1) * #{amount}, #{amount} -- (페이지번호 - 1) * 페이지별 출력건수
 </select>
 
 <select id="getTotalCount" resultType="int">

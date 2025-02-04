@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.food.basic.admin.user.AdminUserMapper">
+<resultMap type="MailMngVO" id="mailmngMap">
+	<id property="idx" column="m_idx"/>
+	<result property="title" column="m_title" />
+	<result property="content" column="m_content" />
+	<result property="gubun" column="m_gubun" />
+	<result property="sendcount" column="m_send_count" />
+	<result property="regDate" column="reg_date" />
+</resultMap>
+
+<!-- 검색조건 -->
+<sql id="criteria">
+<trim prefix="(" suffix=") AND" prefixOverrides="OR">
+<foreach collection="typeArr" item="type">
+<trim prefix="OR">
+<choose>
+<when test="type == 'N'.toString()">
+u_name like concat('%',#{keyword},'%')
+</when>
+<when test="type == 'I'.toString()">
+u_id like concat('%',#{keyword},'%')
+</when>
+<when test="type == 'K'.toString()">
+u_nick like concat('%',#{keyword},'%')
+</when>
+</choose>
+</trim>
+</foreach>
+</trim>
+</sql>
+
+<insert id="mailing_save" parameterType="MailMngVO">
+insert into mailing_t (m_idx, m_title, m_content, m_gubun)
+values (#{idx}, #{title}, #{content}, #{gubun})
+<selectKey keyProperty="idx" resultType="Integer" order="AFTER">
+select last_insert_id()
+</selectKey>
+</insert>
+
+<select id="getAllMailAddress" resultType="String">
+select u_email
+from user_t
+</select>
+
+<update id="mailSendCountUpdate" parameterType="int">
+update mailing_t
+set m_send_count = m_send_count + 1
+where m_idx = #{idx}
+</update>
+
+<select id="getMailInfoList" resultMap="mailmngMap" parameterType="com.food.basic.common.dto.Criteria">
+select /*+ index_desc(mailing_t pk_m_idx) */
+m_idx, m_title, m_content, m_gubun, m_send_count, reg_date
+from mailing_t
+where 1 = 1
+<include refid="mailsearch"></include>
+limit (#{cri.pageNum} - 1) * #{cri.amount}, #{cri.amount}
+</select>
+
+<select id="getMailListCount" parameterType="String" resultType="int">
+select count(*)
+from mailing_t
+where 1 = 1
+<include refid="mailsearch"></include>
+</select>
+
+<sql id="mailsearch">
+<if test="title != null and !title.equals('')">and m_title like concat('%',#{title},'%')</if>
+</sql>
+
+<select id="getMailSendInfo" resultMap="mailmngMap" parameterType="int">
+select m_idx, m_title, m_content, m_gubun, m_send_count, reg_date
+from mailing_t
+where m_idx = #{idx}
+</select>
+
+<update id="mailingedit" parameterType="MailMngVO">
+update mailing_t
+set m_title = #{title}, m_content = #{content}, m_gubun = #{gubun}, reg_date = now()
+where m_idx = #{idx}
+</update>
+
+<select id="user_list" resultType="UserVO" parameterType="com.food.basic.common.dto.Criteria">
+select /*+ index_desc(user_t pk_u_id) */
+u_id, u_name, u_email, u_zipcode, u_addr, u_deaddr, u_phone, u_nick, u_receive, u_point, u_lastlogin, u_regdate, u_update
+from user_t
+where 
+<include refid="criteria"></include>
+limit (#{pageNum} - 1) * #{amount}, #{amount}
+</select>
+
+<select id="userCount" resultType="int">
+select count(*)
+from user_t
+where <include refid="criteria"></include>
+u_id = u_id
+</select>
+
+<select id="user_info" parameterType="String" resultType="UserVO">
+select u_id, u_password, u_name, u_email, u_zipcode, u_addr, u_deaddr, u_phone, u_nick, u_receive, u_point,
+u_lastlogin, u_regdate, u_update
+from user_t
+where u_id = #{u_id}
+</select>
+
+<delete id="user_delete" parameterType="String">
+delete from user_t
+where u_id = #{u_id}
+</delete>
+
+</mapper>

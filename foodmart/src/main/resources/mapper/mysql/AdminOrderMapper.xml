@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.food.basic.admin.order.AdminOrderMapper">
+<!-- 검색조건 -->
+<sql id="criteria">
+<trim prefix="(" suffix=") AND" prefixOverrides="OR">
+<foreach collection="cri.typeArr" item="type">
+<trim prefix="OR">
+<choose>
+<when test="type == 'N'.toString()">
+ord_name like concat('%',#{cri.keyword},'%')
+</when>
+<when test="type == 'I'.toString()">
+u_id like concat('%',#{cri.keyword},'%')
+</when>
+<when test="type == 'C'.toString()">
+ord_code like concat('%',#{cri.keyword},'%')
+</when>
+</choose>
+</trim>
+</foreach>
+</trim>
+</sql>
+<!-- 날짜 검색 -->
+<sql id="period">
+<if test="start_date != null and !start_date.equals('') and end_date != null and !end_date.equals('')">
+<![CDATA[
+ord_regdate >= to_date(#{start_date}) and ord_regdate < to_date(#{end_date}) + 1 and 
+]]>
+</if>
+</sql>
+<!-- 검색조건추가 리스트 -->
+<select id="order_list" resultType="OrderVO" parameterType="com.food.basic.common.dto.Criteria">
+select /*+ index_desc(order_t pk_ord_code) */
+ord_code, u_id, ord_name, ord_zip_code, ord_addr, ord_deaddr, ord_phone, ord_price, ord_regdate, ord_desc
+from order_t
+where 
+<include refid="criteria"></include>
+<include refid="period"></include>
+limit (#{cri.pageNum} - 1) * #{cri.amount}, #{cri.amount}
+</select>
+
+<select id="order_list2" resultType="hashmap">
+select o.ord_code, o.u_id, o.ord_name, o.ord_zip_code, o.ord_addr, o.ord_deaddr, o.ord_phone, o.ord_price,
+ot.pro_num, ot.dt_amount, ot.dt_price,
+p.pro_name, p.pro_up_folder, p.pro_img
+from order_t o 
+inner join ordt_t ot
+on o.ord_code = ot.ord_code
+inner join product_t p
+on ot.pro_num = p.pro_num
+</select>
+
+<select id="getTotalCount" resultType="int">
+select count(*)
+from order_t
+where <include refid="criteria"></include>
+		<include refid="period"></include>
+ord_code > 0
+</select>
+
+<select id="order_info" parameterType="Long" resultType="OrderVO">
+select ord_code, u_id, ord_name, ord_zip_code, ord_addr, ord_deaddr, ord_phone, ord_price, ord_regdate, ord_desc
+from order_t
+where ord_code = #{ord_code}
+</select>
+
+<select id="order_detail_info" parameterType="Long" resultType="com.food.basic.admin.order.OrderDetailInfoVO">
+select ot.ord_code, ot.pro_num, ot.dt_amount, ot.dt_price, p.pro_name, p.pro_up_folder, p.pro_img
+from ordt_t ot 
+inner join product_t p
+on ot.pro_num = p.pro_num
+where ot.ord_code = #{ord_code}
+</select>
+
+<delete id="order_product_delete" parameterType="map">
+delete from ordt_t
+where ord_code = #{ord_code}
+and pro_num = #{pro_num}
+</delete>
+
+<insert id="order_basic_update" parameterType="OrderVO">
+update order_t
+set ord_name = #{ord_name}, ord_zip_code = #{ord_zip_code}, ord_addr = #{ord_addr},
+ord_deaddr = #{ord_deaddr}, ord_phone = #{ord_phone}, ord_desc = #{ord_desc}, ord_admin_memo = #{ord_admin_memo}
+where ord_code = #{ord_code}
+</insert>
+
+<update id="order_tot_price_change" parameterType="Long">
+update order_t
+set ord_price = (
+				select sum(dt_amount * dt_price) from ordt_t where ord_code = #{ord_code}
+                )
+where ord_code = #{ord_code}
+</update>
+
+</mapper>

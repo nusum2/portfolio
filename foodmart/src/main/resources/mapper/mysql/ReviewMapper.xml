@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.food.basic.review.ReviewMapper">
+<select id="re_list" parameterType="map" resultType="com.food.basic.review.ReviewVO">
+select /*+ index_desc(review_t pk_review_code) */
+pro_num, re_code, re_title, re_content, re_date, u_id, re_rate
+from review_t
+where pro_num = #{pro_num}
+limit (#{cri.pageNum} - 1 ) * #{cri.amount}, #{cri.amount}
+</select>
+
+<select id="re_count" parameterType="int" resultType="int">
+select count(*)
+from review_t
+where pro_num = #{pro_num}
+</select>
+
+<insert id="review_save" parameterType="com.food.basic.review.ReviewVO">
+insert into review_t(re_code, u_id, pro_num, re_title, re_content, re_rate)
+values(null, #{u_id}, #{pro_num}, #{re_title}, #{re_content}, #{re_rate})
+</insert>
+
+<delete id="review_delete" parameterType="Long">
+delete from review_t
+where re_code = #{re_code}
+</delete>
+
+<select id="review_modify" parameterType="Long" resultType="com.food.basic.review.ReviewVO">
+select re_code, u_id, pro_num, re_title, re_content, re_rate, re_date
+from review_t
+where re_code = #{re_code}
+</select>
+
+<update id="review_update" parameterType="com.food.basic.review.ReviewVO">
+update review_t
+set re_title = #{re_title}, re_content = #{re_content}, re_rate = #{re_rate}, re_date = sysdate
+where re_code = #{re_code}
+</update>
+
+<select id="review_detail" parameterType="Long" resultType="com.food.basic.review.ReviewVO">
+select re_code, u_id, pro_num, re_title, re_content, re_rate, re_date
+from review_t
+where re_code = #{re_code}
+</select>
+
+
+</mapper>
