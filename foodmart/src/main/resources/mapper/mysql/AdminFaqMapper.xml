@@ -21,12 +21,19 @@ q_content like concat('%',#{keyword},'%')
 
 <!-- 검색조건추가 리스트 -->
 <select id="faq_list" resultType="com.food.basic.faq.FaqVO" parameterType="com.food.basic.common.dto.Criteria">
-select /*+ index_desc(faq_t pk_q_num) */
-q_num, q_title, q_content, q_regdate, q_updatedate
-from faq_t
-where -- 페이지 번호 * 페이지별 출력건수
+select q_num, q_title, q_content, q_regdate, q_updatedate
+from(
+select
+@rownum := @rownum + 1 as rn, q_num, q_title, q_content, q_regdate, q_updatedate
+from faq_t, (select @rownum := 0) as rowcolumn order by q_num desc) as rownum_table
+)
+where
 <include refid="criteria"></include>
-limit (#{pageNum} - 1) * #{amount}, #{amount} -- (페이지번호 - 1) * 페이지별 출력건수
+<![CDATA[
+rn <= (#{pageNum} * #{amount}) 
+]]>
+and
+rn > (#{pageNum} - 1) * #{amount}
 </select>
 
 <select id="getTotalCount" resultType="int">

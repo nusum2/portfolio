@@ -25,12 +25,18 @@ caro_content like concat('%',#{keyword},'%')
 </sql>
 
 <select id="carousel_list" resultType="com.food.basic.admin.carousel.CarouselVO" parameterType="com.food.basic.common.dto.Criteria">
-select /*+ index_desc(carousel_t pk_caro_num) */
-caro_num, pro_num, pro_name, caro_content, caro_up_folder, caro_img, caro_date, caro_up_date
-from carousel_t
+select caro_num, pro_num, pro_name, caro_content, caro_up_folder, caro_img, caro_date, caro_up_date
+from(
+select
+@rownum := @rownum + 1 as rn, caro_num, pro_num, pro_name, caro_content, caro_up_folder, caro_img, caro_date, caro_up_date
+from carousel_t, (select @rownum := 0) as rowcolumn order by caro_num desc) as rownum_table
 where 
 <include refid="criteria"></include>
-limit (#{pageNum} - 1) * #{amount}, #{amount}
+<![CDATA[
+rn <= (#{pageNum} * #{amount}) 
+]]>
+and
+rn > (#{pageNum} - 1) * #{amount}
 </select>
 
 <select id="getTotalCount" resultType="int">
@@ -54,7 +60,7 @@ where caro_num = #{caro_num}
 <update id="carousel_update" parameterType="com.food.basic.admin.carousel.CarouselVO">
 update carousel_t
 set pro_num = #{pro_num}, pro_name = #{pro_name}, caro_content = #{caro_content},
-caro_up_folder = #{caro_up_folder},caro_img = #{caro_img}, caro_up_date = sysdate
+caro_up_folder = #{caro_up_folder}, caro_img = #{caro_img}, caro_up_date = now()
 where caro_num = #{caro_num}
 </update>
 

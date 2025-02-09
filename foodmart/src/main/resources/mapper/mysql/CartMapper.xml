@@ -2,15 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.food.basic.cart.CartMapper">
 <insert id="cart_add" parameterType="CartVO">
-merge into cart_t
-using dual
-on (u_id = #{u_id} and pro_num = #{pro_num})
-when matched then
-update set cart_amount = cart_amount + #{cart_amount}
-
-when not matched then
-insert (cart_code, pro_num, u_id, cart_amount)
+insert into cart_t (cart_code, pro_num, u_id, cart_amount)
 values (null, #{pro_num}, #{u_id}, #{cart_amount})
+ON DUPLICATE KEY UPDATE
+pro_num = #{pro_num}, u_id = #{u_id}, cart_amount = #{cart_amount}
 </insert>
 
 <select id="cart_list" parameterType="String" resultType="CartProductVO">

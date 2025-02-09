@@ -31,13 +31,19 @@ ord_regdate >= to_date(#{start_date}) and ord_regdate < to_date(#{end_date}) + 1
 </sql>
 <!-- 검색조건추가 리스트 -->
 <select id="order_list" resultType="OrderVO" parameterType="com.food.basic.common.dto.Criteria">
-select /*+ index_desc(order_t pk_ord_code) */
-ord_code, u_id, ord_name, ord_zip_code, ord_addr, ord_deaddr, ord_phone, ord_price, ord_regdate, ord_desc
-from order_t
+select ord_code, u_id, ord_name, ord_zip_code, ord_addr, ord_deaddr, ord_phone, ord_price, ord_regdate, ord_desc
+from(
+select
+@rownum := @rownum + 1 as rn, ord_code, u_id, ord_name, ord_zip_code, ord_addr, ord_deaddr, ord_phone, ord_price, ord_regdate, ord_desc
+from order_t, (select @rownum := 0) as rowcolumn order by ord_code desc) as rownum_table
 where 
 <include refid="criteria"></include>
 <include refid="period"></include>
-limit (#{cri.pageNum} - 1) * #{cri.amount}, #{cri.amount}
+<![CDATA[  		
+rn <= (#{cri.pageNum} * #{cri.amount})
+]]>
+and 
+rn > (#{cri.pageNum} - 1 ) * #{cri.amount}
 </select>
 
 <select id="order_list2" resultType="hashmap">
