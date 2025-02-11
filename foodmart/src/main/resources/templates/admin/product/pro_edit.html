@@ -97,9 +97,19 @@ scratch. This page gets rid of all links and provides the needed markup only.
 			              <div class="col-sm-3">
 			                <input type="text" class="form-control num_only" name="pro_discount" id="pro_discount" th:value="${productVO.pro_discount}">
 			              </div>
-			              <label for="title" class="col-sm-1 col-form-label">제조사</label>
+			              <label for="title" class="col-sm-1 col-form-label">판매자</label>
 			              <div class="col-sm-3">
 			                <input type="text" class="form-control" name="pro_publisher" id="pro_publisher" th:value="${productVO.pro_publisher}">
+			              </div>
+						</div>
+            <div class="form-group row">
+						  <label for="title" class="col-sm-1 col-form-label">판매자 번호</label>
+			              <div class="col-sm-3">
+			                <input type="text" class="form-control" name="pro_publtell" id="pro_publtell" th:value="${productVO.pro_publtell}">
+			              </div>
+			              <label for="title" class="col-sm-1 col-form-label">판매자 이메일</label>
+			              <div class="col-sm-3">
+			                <input type="text" class="form-control" name="pro_publemail" id="pro_publemail" th:value="${productVO.pro_publemail}">
 			              </div>
 						</div>
             <div class="form-group row"></div>

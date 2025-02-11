@@ -37,4 +37,6 @@ public class ProductVO {
 	private String pro_buy;
 	private Date pro_date;
 	private Date pro_updatedate;
+	private String pro_publtell;
+	private String pro_publemail;
 }

@@ -85,7 +85,7 @@
     <ul>
     <li><a href="#pro_detail">상세정보</a></li>
     <li><a href="#pro_review">상품리뷰</a></li>
-    <li><a href="#pro_qna">Q&A</a></li>
+    <li><a href="#pro_publ_detail">판매자정보</a></li>
   </ul>
   <div id="pro_detail">
     <p th:utext="${product.pro_content}"></p>
@@ -99,9 +99,9 @@
 	<!-- 페이징 출력될 위치 -->
 	<div id="review_paging"></div>
   </div>
-  <div id="pro_qna">
-    <p>Q</p>
-    <p>A</p>
+  <div id="pro_publ_detail">
+    판매자 번호 : <p th:text="${product.pro_publtell}"></p>
+    판매자 이메일 : <p th:text="${product.pro_publemail}"></p>
   </div>
 </div>
 </div>

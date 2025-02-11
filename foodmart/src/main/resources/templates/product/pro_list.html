@@ -137,7 +137,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+        <h5 class="modal-title" id="staticBackdropLabel">상품</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -207,7 +207,7 @@
 
 		});
 		
-		//modal 2 구매하기
+		//구매하기
 		$("button[name='btn_direct_order']").on("click", function(){
 
 			let pro_num = $(this).data("pro_num");
@@ -215,7 +215,17 @@
 			let url = `/order/orderinfo?pro_num=${pro_num}&cart_amount=${cart_amount}`;
 			
 			location.href = url;	
-		}); 
+		});
+
+		//modal 구매하기
+		$("#order_process_popup_2").on("click", "button#btn_direct_buy", function(){
+
+			let pro_num = $(this).data("pro_num");
+			let cart_amount = $("#btn_cart_amount").val();
+			let url = `/order/orderinfo?pro_num=${pro_num}&cart_amount=${cart_amount}`;
+			
+			location.href = url;	
+		});
 
 		//장바구니 추가 modal2 pro_info_2.html id="btn_cart_add"
 		$("#order_process_popup_2").on("click", "button#btn_cart_add" ,function() {
