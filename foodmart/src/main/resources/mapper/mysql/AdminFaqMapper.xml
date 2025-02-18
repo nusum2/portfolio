@@ -26,7 +26,6 @@ from(
 select
 @rownum := @rownum + 1 as rn, q_num, q_title, q_content, q_regdate, q_updatedate
 from faq_t, (select @rownum := 0) as rowcolumn order by q_num desc) as rownum_table
-)
 where
 <include refid="criteria"></include>
 <![CDATA[

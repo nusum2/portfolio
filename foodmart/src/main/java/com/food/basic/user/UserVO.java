@@ -26,7 +26,6 @@ public class UserVO {
 	private String u_name;
 	private String u_email;
 	private String u_password;
-	private String u_nick;
 	private String u_zipcode;
 	private String u_addr;
 	private String u_deaddr;

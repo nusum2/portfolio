@@ -7,7 +7,7 @@
 	<result property="content" column="m_content" />
 	<result property="gubun" column="m_gubun" />
 	<result property="sendcount" column="m_send_count" />
-	<result property="regDate" column="reg_date" />
+	<result property="regDate" column="regDate" />
 </resultMap>
 
 <!-- 검색조건 -->
@@ -21,9 +21,6 @@ u_name like concat('%',#{keyword},'%')
 </when>
 <when test="type == 'I'.toString()">
 u_id like concat('%',#{keyword},'%')
-</when>
-<when test="type == 'K'.toString()">
-u_nick like concat('%',#{keyword},'%')
 </when>
 </choose>
 </trim>
@@ -51,10 +48,10 @@ where m_idx = #{idx}
 </update>
 
 <select id="getMailInfoList" resultMap="mailmngMap" parameterType="com.food.basic.common.dto.Criteria">
-select m_idx, m_title, m_content, m_gubun, m_send_count, reg_date
+select m_idx, m_title, m_content, m_gubun, m_send_count, regDate
 from(
 select
-@rownum := @rownum + 1 as rn, m_idx, m_title, m_content, m_gubun, m_send_count, reg_date
+@rownum := @rownum + 1 as rn, m_idx, m_title, m_content, m_gubun, m_send_count, regDate
 from mailing_t, (select @rownum := 0) as rowcolumn order by m_idx desc) as rownum_table
 where 1 = 1
 <include refid="mailsearch"></include>
@@ -78,21 +75,21 @@ where 1 = 1
 </sql>
 
 <select id="getMailSendInfo" resultMap="mailmngMap" parameterType="int">
-select m_idx, m_title, m_content, m_gubun, m_send_count, reg_date
+select m_idx, m_title, m_content, m_gubun, m_send_count, regDate
 from mailing_t
 where m_idx = #{idx}
 </select>
 
 <update id="mailingedit" parameterType="MailMngVO">
 update mailing_t
-set m_title = #{title}, m_content = #{content}, m_gubun = #{gubun}, reg_date = now()
+set m_title = #{title}, m_content = #{content}, m_gubun = #{gubun}, regDate = now()
 where m_idx = #{idx}
 </update>
 
 <select id="user_list" resultType="UserVO" parameterType="com.food.basic.common.dto.Criteria">
-select u_id, u_name, u_email, u_zipcode, u_addr, u_deaddr, u_phone, u_nick, u_receive, u_point, u_lastlogin, u_regdate, u_update
+select u_id, u_name, u_email, u_zipcode, u_addr, u_deaddr, u_phone, u_receive, u_lastlogin, u_regdate, u_update
 from(
-select @rownum := @rownum + 1 as rn, u_id, u_name, u_email, u_zipcode, u_addr, u_deaddr, u_phone, u_nick, u_receive, u_point, u_lastlogin, u_regdate, u_update
+select @rownum := @rownum + 1 as rn, u_id, u_name, u_email, u_zipcode, u_addr, u_deaddr, u_phone, u_receive, u_lastlogin, u_regdate, u_update
 from user_t, (select @rownum := 0) as rowcolumn order by u_id desc) as rownum_table
 where 
 <include refid="criteria"></include>
@@ -111,7 +108,7 @@ u_id = u_id
 </select>
 
 <select id="user_info" parameterType="String" resultType="UserVO">
-select u_id, u_password, u_name, u_email, u_zipcode, u_addr, u_deaddr, u_phone, u_nick, u_receive, u_point,
+select u_id, u_password, u_name, u_email, u_zipcode, u_addr, u_deaddr, u_phone, u_receive,
 u_lastlogin, u_regdate, u_update
 from user_t
 where u_id = #{u_id}

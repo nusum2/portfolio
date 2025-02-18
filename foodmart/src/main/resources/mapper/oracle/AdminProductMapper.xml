@@ -16,13 +16,15 @@
 	<result property="pro_buy" column="pro_buy"/>
 	<result property="pro_date" column="pro_date"/>
 	<result property="pro_updatedate" column="pro_updatedate"/>
+	<result property="pro_publtell" column="pro_publtell"/>
+	<result property="pro_publemail" column="pro_publemail"/>
 </resultMap>
 
 
 
 <insert id="pro_insert" parameterType="com.food.basic.admin.product.ProductVO">
-insert into product_t (pro_num, cate_code, pro_name, pro_price, pro_discount, pro_publisher, pro_content, pro_up_folder, pro_img, pro_amount, pro_buy, pro_disprice)
-values (seq_pro_num.nextval, #{cate_code}, #{pro_name}, #{pro_price}, #{pro_discount}, #{pro_publisher}, #{pro_content}, #{pro_up_folder}, #{pro_img}, #{pro_amount}, #{pro_buy}, #{pro_disprice})        
+insert into product_t (pro_num, cate_code, pro_name, pro_price, pro_discount, pro_publisher, pro_content, pro_up_folder, pro_img, pro_amount, pro_buy, pro_disprice, pro_publtell, pro_publemail)
+values (seq_pro_num.nextval, #{cate_code}, #{pro_name}, #{pro_price}, #{pro_discount}, #{pro_publisher}, #{pro_content}, #{pro_up_folder}, #{pro_img}, #{pro_amount}, #{pro_buy}, #{pro_disprice}, #{pro_publtell}, #{pro_publemail})        
 </insert>
 
 <!-- 검색조건 -->
@@ -69,7 +71,7 @@ pro_num > 0
 </select>
 
 <select id="pro_edit" resultType="ProductVO" parameterType="Integer">
-select pro_num, cate_code, pro_name, pro_price, pro_discount, pro_publisher, pro_content, pro_up_folder, pro_img, pro_amount, pro_buy, pro_date, pro_updatedate, pro_disprice
+select pro_num, cate_code, pro_name, pro_price, pro_discount, pro_publisher, pro_content, pro_up_folder, pro_img, pro_amount, pro_buy, pro_date, pro_updatedate, pro_disprice, pro_publtell, pro_publemail
 from product_t
 where pro_num = #{pro_num}
 </select>
@@ -79,7 +81,8 @@ where pro_num = #{pro_num}
 update product_t
 set cate_code = #{cate_code}, pro_name = #{pro_name}, pro_price = #{pro_price}, pro_discount = #{pro_discount}, 
 pro_publisher = #{pro_publisher}, pro_content = #{pro_content}, pro_up_folder = #{pro_up_folder}, 
-pro_img = #{pro_img}, pro_amount = #{pro_amount}, pro_buy = #{pro_buy}, pro_updatedate = sysdate, pro_disprice = #{pro_disprice}
+pro_img = #{pro_img}, pro_amount = #{pro_amount}, pro_buy = #{pro_buy}, pro_updatedate = sysdate, pro_disprice = #{pro_disprice},
+pro_publtell = #{pro_publtell}, pro_publemail = #{pro_publemail}
 where pro_num = #{pro_num}
 </update>
 
@@ -103,7 +106,7 @@ where pro_num = #{item.pro_num}
 </update>
 
 <select id="pro_detail" parameterType="int" resultType="ProductVO">
-select pro_num, cate_code, pro_name, pro_price, pro_discount, pro_disprice, pro_publisher, pro_content, pro_up_folder, pro_img, pro_amount, pro_buy, pro_date, pro_updatedate
+select pro_num, cate_code, pro_name, pro_price, pro_discount, pro_disprice, pro_publisher, pro_content, pro_up_folder, pro_img, pro_amount, pro_buy, pro_date, pro_updatedate, pro_publtell, pro_publemail
 from product_t
 where pro_num = #{pro_num}
 </select>

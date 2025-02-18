@@ -22,9 +22,6 @@ u_name like '%' || #{keyword} || '%'
 <when test="type == 'I'.toString()">
 u_id like '%' || #{keyword} || '%'
 </when>
-<when test="type == 'K'.toString()">
-u_nick like'%' || #{keyword} || '%'
-</when>
 </choose>
 </trim>
 </foreach>
@@ -90,10 +87,10 @@ where m_idx = #{idx}
 </update>
 
 <select id="user_list" resultType="UserVO" parameterType="com.food.basic.common.dto.Criteria">
-select u_id, u_name, u_email, u_zipcode, u_addr, u_deaddr, u_phone, u_nick, u_receive, u_point, u_lastlogin, u_regdate, u_update
+select u_id, u_name, u_email, u_zipcode, u_addr, u_deaddr, u_phone, u_receive, u_lastlogin, u_regdate, u_update
 from(
 select /*+ index_desc(user_t pk_u_id) */
-rownum as rn, u_id, u_name, u_email, u_zipcode, u_addr, u_deaddr, u_phone, u_nick, u_receive, u_point, u_lastlogin, u_regdate, u_update
+rownum as rn, u_id, u_name, u_email, u_zipcode, u_addr, u_deaddr, u_phone, u_receive, u_lastlogin, u_regdate, u_update
 from user_t
 where 
 <include refid="criteria"></include>
@@ -112,7 +109,7 @@ u_id = u_id
 </select>
 
 <select id="user_info" parameterType="String" resultType="UserVO">
-select u_id, u_password, u_name, u_email, u_zipcode, u_addr, u_deaddr, u_phone, u_nick, u_receive, u_point,
+select u_id, u_password, u_name, u_email, u_zipcode, u_addr, u_deaddr, u_phone, u_receive, u_point,
 u_lastlogin, u_regdate, u_update
 from user_t
 where u_id = #{u_id}

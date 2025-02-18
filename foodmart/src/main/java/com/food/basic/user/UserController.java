@@ -69,28 +69,6 @@ public class UserController {
 		return entity;
 	}
 			
-	//닉네임 중복체크
-	//리턴타입 ResponseEntity 사용시 @ResponseBody 사용할 필요 x, ajax작업은 ResponseEntity 리턴타입 사용
-	/*
-	@GetMapping("nickCheck")
-	public ResponseEntity<String> nickCheck(String u_nick) throws Exception{
-		
-		log.info("닉네임 : " + u_nick);
-		
-		ResponseEntity<String> entity = null;
-		
-		String nkUse = "";
-		if(userService.nickCheck(u_nick) != null) {
-			nkUse = "no"; //사용불가능
-		}else {
-			nkUse = "yes"; //사용가능
-		}
-		
-		entity = new ResponseEntity<String>(nkUse, HttpStatus.OK);
-		
-		return entity;
-	}
-	*/
 	@GetMapping("login")
 	public void loginForm() {
 		

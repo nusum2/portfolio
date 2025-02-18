@@ -92,19 +92,28 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       <div class="row">
                   <div class="col">
                       <div id="pro_info">
-                    <ul>
-                    <li><p id="#pro_detail">상세정보</p></li>
+                        <ul>
+                          <li><a href="#pro_detail">상세정보</a></li>
+                          <li><a href="#pro_review">상품리뷰</a></li>
+                          <li><a href="#pro_publ_detail">판매자정보</a></li>
+                        </ul>
+                    <!-- <ul> -->
+                    <!-- <li><p id="#pro_detail">상세정보</p></li> -->
                     <div id="pro_detail">
                       <p th:utext="${product.pro_content}"></p>
                     </div>
-                    <li><p id="#pro_review">상품리뷰</p></li>
-                  </ul>
+                    <!-- <li><p id="#pro_review">상품리뷰</p></li> -->
+                  <!-- </ul> -->
 
                   <div id="pro_review">
                   <!-- 상품후기가 출력될 위치 -->
                     <div id="review_list"></div>
                   <!-- 페이징 출력될 위치 -->
                   <div id="review_paging" class="text-center"></div>
+                  </div>
+                  <div id="pro_publ_detail">
+                    판매자 번호 : <span th:text="${product.pro_publtell}"></span><br>
+                    판매자 이메일 : <span th:text="${product.pro_publemail}"></span>
                   </div>
                 </div>
                 </div>
@@ -167,6 +176,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
   <script th:inline="javascript">
 $(document).ready(function(){
+  $("#pro_info").tabs();
+
   //상품후기, 페이징정보 호출 작업
   let reviewPage = 1; //첫번째 페이지
   let url = "/admin/review/re_list/" + [[${product.pro_num}]] + "/" + reviewPage;

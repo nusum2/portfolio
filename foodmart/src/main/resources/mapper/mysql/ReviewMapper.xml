@@ -7,7 +7,7 @@ from(
 select
 @rownum := @rownum + 1 as rn, pro_num, re_code, re_title, re_content, re_date, u_id, re_rate
 from review_t, (select @rownum := 0) as rowcolumn order by re_code desc) as rownum_table
-)
+
 where pro_num = #{pro_num}
 and
 <![CDATA[  		

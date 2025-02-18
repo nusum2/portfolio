@@ -8,12 +8,12 @@ where u_id = #{u_id}
 </select>
 
 <insert id="join" parameterType="UserVO">
-insert into user_t(u_id, u_password, u_NAME, u_EMAIL, u_zipcode, u_ADDR, u_deaddr, u_PHONE, u_nick)
-VALUES(#{u_id}, #{u_password}, #{u_name}, #{u_email}, #{u_zipcode}, #{u_addr}, #{u_deaddr}, #{u_phone}, #{u_nick})
+insert into user_t(u_id, u_password, u_NAME, u_EMAIL, u_zipcode, u_ADDR, u_deaddr, u_PHONE)
+VALUES(#{u_id}, #{u_password}, #{u_name}, #{u_email}, #{u_zipcode}, #{u_addr}, #{u_deaddr}, #{u_phone})
 </insert>
 
 <select id="login" resultType="UserVO">
-select u_id, u_password, u_name, u_email, u_zipcode, u_addr, u_deaddr, u_phone, u_nick, u_receive,
+select u_id, u_password, u_name, u_email, u_zipcode, u_addr, u_deaddr, u_phone, u_receive,
 u_lastlogin, u_regdate, u_update
 from user_t 
 where u_id = #{u_id}
@@ -48,7 +48,7 @@ where u_id = #{u_id}
 
 <update id="modify" parameterType="UserVO">
 update user_t
-set u_email = #{u_email}, u_zipcode = #{u_zipcode}, u_addr = #{u_addr}, u_deaddr = #{u_deaddr}, u_phone = #{u_phone}, u_nick = #{u_nick}
+set u_email = #{u_email}, u_zipcode = #{u_zipcode}, u_addr = #{u_addr}, u_deaddr = #{u_deaddr}, u_phone = #{u_phone}
 where u_id = #{u_id}
 </update>
 
