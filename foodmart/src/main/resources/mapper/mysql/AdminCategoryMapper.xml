@@ -2,21 +2,21 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.food.basic.admin.category.AdminCategoryMapper">
 <select id="getFirstCategoryList" resultType="com.food.basic.admin.category.AdminCategoryVO">
-select cate_code, cate_name, cate_pcode
-from category_t
-where cate_pcode is null
+SELECT cate_code, cate_name, cate_pcode
+FROM category_t
+WHERE cate_pcode is null
 </select>
 
 <select id="getSecondCategoryList" resultType="com.food.basic.admin.category.AdminCategoryVO" parameterType="Integer">
-select cate_code, cate_name, cate_pcode
-from category_t
-where cate_pcode = #{cate_pcode}
+SELECT cate_code, cate_name, cate_pcode
+FROM category_t
+WHERE cate_pcode = #{cate_pcode}
 </select>
 
 <select id="getFirstCategoryBySecondCategory" resultType="com.food.basic.admin.category.AdminCategoryVO" parameterType="Integer">
-select cate_code, cate_name, cate_pcode
-from category_t
-where cate_code = #{cate_code}
+SELECT cate_code, cate_name, cate_pcode
+FROM category_t
+WHERE cate_code = #{cate_code}
 </select>
 
 </mapper>
