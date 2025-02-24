@@ -3,7 +3,7 @@
 
 PROJECT="foodmart-1.0.0"
 PROJECT_NAME=foodmart
-PROJECT_FULL_PATH="/home/ec2-user/app3/step2"
+PROJECT_FULL_PATH="/home/ec2-user/app3/step2/portfolio"
 JAR_FILE="$PROJECT_FULL_PATH/$PROJECT.jar"
 LOG_PATH="$PROJECT_FULL_PATH/logs"
 
@@ -22,8 +22,8 @@ echo "$TIME_NOW > $JAR_FILE 파일 복사" >> $DEPLOY_LOG
 
 cd $PROJECT_FULL_PATH
 
-cp $PROJECT_FULL_PATH/study/target/*.jar $JAR_FILE
-#sudo cp /home/ec2-user/app/step2/foodmart/target/foodmart-1.0.0.jar.jar foodmart-1.0.0.jar
+cp $PROJECT_FULL_PATH/foodmart/target/*.jar $JAR_FILE
+#sudo cp /home/ec2-user/app/step2/portfolio/foodmart/target/foodmart-1.0.0.jar.jar foodmart-1.0.0.jar
 
 cd $PROJECT_FULL_PATH
 
