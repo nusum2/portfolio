@@ -49,6 +49,8 @@ public class AdminUserController {
 	@GetMapping("/user_list")
 	public void user_list(Criteria cri, Model model) throws Exception {
 		
+		cri.setAmount(10);
+		
 		List<UserVO> user_list = adminUserService.user_list(cri);
 		
 		int userCount = adminUserService.userCount(cri);
@@ -79,6 +81,8 @@ public class AdminUserController {
 	//메일발송 목록
 	@GetMapping("/mailinglist")
 	public void mailinglist(Criteria cri, String title, Model model) throws Exception {
+		cri.setAmount(5);
+		
 		List<MailMngVO> maillist = adminUserService.getMailInfoList(cri, title);
 		
 		int totalcount = adminUserService.getMailListCount(title);

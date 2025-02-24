@@ -110,7 +110,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 		$.ajax({
 			url: '/admin/analysis/monthlySalesStatusByTopCategory',
 			type: 'get',
-			data: {year : $("#year").val(), month: $("#month").val()},
+			data: {year : $("#year").val(), month : $("#month").val()},
 			dataType: 'json',
 			success: function(result) {
 				
@@ -140,6 +140,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 				console.log("x축: ", labelNames);
 				console.log("y축: ", salesPriceData);
 				console.log("라인: ", salesAmountData);
+				console.error();
 			let	myCt = document.getElementById('salesChart');
 			    
 			myChart = new Chart(myCt, {

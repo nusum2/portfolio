@@ -53,7 +53,7 @@ public class ReviewController {
 		Map<String, Object> map = new HashMap<>();
 		//후기 목록
 		Criteria cri = new Criteria();
-		cri.setAmount(2);
+		cri.setAmount(8);
 		cri.setPageNum(page);
 		List<ReviewVO> re_list = reviewService.re_list(pro_num, cri);
 		

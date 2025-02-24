@@ -39,7 +39,7 @@ public class ProductController {
 	@GetMapping("/pro_list")
 	public void pro_list(@ModelAttribute("cate_code") int cate_code, @ModelAttribute("cate_name") String cate_name, Criteria cri, Model model) throws Exception {
 		
-		cri.setAmount(2);
+		cri.setAmount(4);
 		
 		log.info("2차 카테고리 코드" + cate_code);
 		log.info("2차 카테고리 이름" + cate_name);

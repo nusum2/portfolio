@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.food.basic.admin.analysis.AnalysisMapper">
 <select id="monthlySalesStatusByTopCategory" parameterType="String" resultType="hashmap">
-select c.cate_name primary_cd, sum(d.dt_amount * d.dt_price) sales_p, sum (d.dt_amount) sales_a
+select c.cate_name PRIMARY_CD, sum(d.dt_amount * d.dt_price) SALES_P, sum(d.dt_amount) SALES_A
 from product_t p inner join ordt_t d
 on p.pro_num = d.pro_num
 inner join (select c2.cate_name, c1.cate_code from category_t c1, category_t c2 where c1.cate_pcode = c2.cate_code ) c
@@ -15,7 +15,7 @@ order by c.cate_name
 </select>
 
 <select id="monthlyOrderByTopCategory" parameterType="String" resultType="hashmap">
-select c.cate_name primary_cd, count(d.ord_code) sales_count
+select c.cate_name PRIMARY_CD, count(d.ord_code) SALES_COUNT
 from product_t p inner join ordt_t d
 on p.pro_num = d.pro_num
 inner join (select c2.cate_name, c1.cate_code from category_t c1, category_t c2 where c1.cate_pcode = c2.cate_code ) c
