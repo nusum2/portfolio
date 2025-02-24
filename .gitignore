@@ -144,7 +144,6 @@ application.properties
 application-local-db.properties
 application-private.properties
 application-real-db.properties
-email.properties
 dependency-reduced-pom.xml
 buildNumber.properties
 .mvn/timing.properties
