@@ -40,7 +40,7 @@ jobs:
     # (4) Maven Build (Test 제외)
     - name: Build with Maven
       # uses: gradle/actions/setup-gradle@dbbdc275be76ac10734476cc723d82dfe7ec6eda # v3.4.2  
-      run: ./mvnw -B package --file pom.xml
+      run: foodmart/./mvnw -B package --file pom.xml
     
     # (5) AWS 인증 (깃헙에서 보안정보 등록 - IAM 사용자등록 Access Key, Secret Key 활용)        
     - name: AWS credential 설정
