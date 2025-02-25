@@ -144,6 +144,8 @@ application.properties
 application-local-db.properties
 application-private.properties
 application-real-db.properties
+application-kakao-key.properties
+application-oracle-db.properties
 dependency-reduced-pom.xml
 buildNumber.properties
 .mvn/timing.properties
