@@ -13,7 +13,7 @@ env:
   AWS_S3_BUCKET: study-deploy-prac-bucket
   AWS_CODE_DEPLOY_APPLICATION: study-codedeploy-app
   AWS_CODE_DEPLOY_GROUP: study-codedeploy-app-group
-  working-directory: ./foodmart
+  
 
 jobs:
   build:
@@ -37,13 +37,13 @@ jobs:
     # (3) 실행권한 설정
     - name: Grant execute permission for mvnw
       run: chmod +x mvnw
-      working-directory: ${{env.working-directory}}
+      
    
     # (4) Maven Build (Test 제외)
     - name: Build with Maven
       # uses: gradle/actions/setup-gradle@dbbdc275be76ac10734476cc723d82dfe7ec6eda # v3.4.2  
       run: ./mvnw -B package --file pom.xml
-      working-directory: ${{env.working-directory}}
+      
     
     # (5) AWS 인증 (깃헙에서 보안정보 등록 - IAM 사용자등록 Access Key, Secret Key 활용)        
     - name: AWS credential 설정
