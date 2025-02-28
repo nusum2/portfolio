@@ -3,7 +3,7 @@ os: linux
 
 files:
   - source:  /
-    destination: /home/ec2-user/app3/step2/portfolio/foodmart
+    destination: /home/ec2-user/app3/step2/foodmart
     overwrite: yes
 
 permissions:
