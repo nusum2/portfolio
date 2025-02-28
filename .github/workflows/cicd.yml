@@ -8,7 +8,7 @@ on:
 
 
 env:
-  PROJECT_NAME: foodmart
+  PROJECT_NAME: portfolio
   AWS_REGION: ap-northeast-2
   AWS_S3_BUCKET: study-deploy-prac-bucket
   AWS_CODE_DEPLOY_APPLICATION: study-codedeploy-app
