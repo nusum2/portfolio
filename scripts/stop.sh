@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 # stop.sh
 
-PROJECT="foodmart-1.0.0"
-PROJECT_NAME=foodmart
+PROJECT="portfolio-1.0.0"
+PROJECT_NAME=portfolio
 PROJECT_FULL_PATH="/home/ec2-user/app3/step2"
 JAR_FILE="$PROJECT_FULL_PATH/$PROJECT.jar"
 LOG_PATH="$PROJECT_FULL_PATH/logs"
