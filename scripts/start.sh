@@ -22,7 +22,7 @@ echo "$TIME_NOW > $JAR_FILE 파일 복사" >> $DEPLOY_LOG
 
 cd $PROJECT_FULL_PATH
 
-cp $PROJECT_FULL_PATH/portfolio/target/*.jar $JAR_FILE
+cp $PROJECT_FULL_PATH/foodmart/target/*.jar $JAR_FILE
 #sudo cp /home/ec2-user/app/step2/foodmart/target/portfolio-1.0.0.jar.jar foodmart-1.0.0.jar
 
 cd $PROJECT_FULL_PATH
