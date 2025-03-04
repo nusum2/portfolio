@@ -42,7 +42,7 @@ jobs:
     - run: cd ./src/main/resources
     - run: mkdir ./src/main/resources/mail
     - run: cd ./src/main/resources/mail
-    - run: touch ./email.properties
+    - run: touch ./src/main/resources/mail/email.properties
     - run: echo "${{ secrets.EMAIL }}" > ./email.properties
   
     # (3) 실행권한 설정
