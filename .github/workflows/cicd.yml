@@ -40,7 +40,7 @@ jobs:
     - run: touch ./application.properties
     - run: echo "${{ secrets.APPLICATION }}" > ./application.properties
     - run: cd ./src/main/resources
-    - run: mkdir ./mail
+    - run: mkdir ./src/main/resources/mail
     - run: cd ./src/main/resources/mail
     - run: touch ./email.properties
     - run: echo "${{ secrets.EMAIL }}" > ./email.properties
