@@ -148,6 +148,7 @@ application-naver-key.properties
 application-oracle-db.properties
 email.properties
 application.properties
+
 dependency-reduced-pom.xml
 buildNumber.properties
 .mvn/timing.properties
