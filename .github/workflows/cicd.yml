@@ -37,8 +37,8 @@ jobs:
     # (+) 설정 파일 생성
     - name: make properties
       run: cd ./src/main/resources
-    - run: touch ./application.properties
-    - run: echo "${{ secrets.APPLICATION }}" > ./application.properties
+    - run: touch ./src/main/resources/application.properties
+    - run: echo "${{ secrets.APPLICATION }}" > ./src/main/resources/application.properties
     
     # (+) 이메일 설정 파일 생성
     - name: make email.properties
