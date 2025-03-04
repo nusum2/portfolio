@@ -13,9 +13,9 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j //로그 출력 목적
 @Configuration //bean등록작업
-//@PropertySource("classpath:mail/email.properties")
+@PropertySource("classpath:mail/email.properties")
 //배포시 경로 설정
-@PropertySource("classpath:application.properties")
+//@PropertySource("classpath:application.properties")
 public class EmailConfig {
 	
 	public EmailConfig() throws Exception {
