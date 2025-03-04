@@ -32,7 +32,7 @@ cd $PROJECT_FULL_PATH
 #nohup java -jar $JAR_FILE 1>>$APP_LOG 2>>$ERROR_LOG &
 #nohup java -jar -Dspring.config.location=classpath:/application.properties,/home/ec2-user/app3/application-prod-db.properties -Dspring.profiles.active=prod $JAR_FILE > $APP_LOG 2> $ERROR_LOG &
 
-nohup java -jar -Dspring.config.location=classpath:/application.properties,/home/ec2-user/app3/application-real-db.properties $JAR_FILE > $APP_LOG 2> $ERROR_LOG &
+nohup java -jar -Dspring.config.location=classpath:/application.properties $JAR_FILE > $APP_LOG 2> $ERROR_LOG &
 
 sleep 30s
 
