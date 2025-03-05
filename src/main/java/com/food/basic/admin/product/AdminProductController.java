@@ -149,12 +149,8 @@ public class AdminProductController {
 			
 			List<ProductVO> pro_list = adminProductService.pro_list(cri);
 			//슬래시 변환
-			//pro_list.forEach(vo -> {
-			//	vo.setPro_up_folder(vo.getPro_up_folder().replace("\\", "/"));
-			//});
-			//배포용 슬래시 변환 제거
 			pro_list.forEach(vo -> {
-				vo.setPro_up_folder(vo.getPro_up_folder());
+				vo.setPro_up_folder(vo.getPro_up_folder().replace("\\", "/"));
 			});
 			int totalCount = adminProductService.getTotalCount(cri);
 			//페이징
@@ -230,7 +226,7 @@ public class AdminProductController {
 			return "redirect:admin/product/pro_list" + cri.getListLink();
 		}
 		//체크상품 수정작업1
-		@PostMapping("/pro_checked_modify1")
+		@PostMapping("pro_checked_modify1")
 		public ResponseEntity<String> pro_checked_modify1(
 				@RequestParam("pro_num_arr") List<Integer> pro_num_arr,
 				@RequestParam("pro_price_arr") List<Integer> pro_price_arr,
@@ -251,7 +247,7 @@ public class AdminProductController {
 			return entity;
 		}
 		//체크상품 수정작업2
-		@PostMapping("/pro_checked_modify2")
+		@PostMapping("pro_checked_modify2")
 		public ResponseEntity<String> pro_checked_modify2(
 				@RequestParam("pro_num_arr") List<Integer> pro_num_arr,
 				@RequestParam("pro_price_arr") List<Integer> pro_price_arr,

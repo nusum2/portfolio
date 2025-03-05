@@ -145,25 +145,15 @@ public class FileManagerUtils {
 		public static void delete(String uploadPath, String dateFolderName, String fileName, String type) {
 			
 			//2)원본 파일 fileName.substring(2) = s_ 를 빼고 원본파일명으로 만듦 69624b20-c0fc-4ce7-9b6c-edf5c9fada43_duke.png
-			//File file2 = new File((uploadPath + "\\" + dateFolderName + "\\" + fileName.substring(2)).replace('\\', File.separatorChar));
-			//if(file2.exists()) file2.delete();
-			
-			//if(type.equals("image")) {
-			
-			//1)thumbnail파일 s_69624b20-c0fc-4ce7-9b6c-edf5c9fada43_duke.png
-			//File file1 = new File((uploadPath + "\\" + dateFolderName + "\\" + fileName).replace('\\', File.separatorChar));
-			//if(file1.exists()) file1.delete();
-			
-			//배포용 파일 설정
-			//2)원본 파일 fileName.substring(2) = s_ 를 빼고 원본파일명으로 만듦 69624b20-c0fc-4ce7-9b6c-edf5c9fada43_duke.png
-			File file2 = new File((uploadPath + "/" + dateFolderName + "/" + fileName.substring(2)).replace('/', File.separatorChar));
+			File file2 = new File((uploadPath + "\\" + dateFolderName + "\\" + fileName.substring(2)).replace('\\', File.separatorChar));
 			if(file2.exists()) file2.delete();
 			
 			if(type.equals("image")) {
 			
 			//1)thumbnail파일 s_69624b20-c0fc-4ce7-9b6c-edf5c9fada43_duke.png
-			File file1 = new File((uploadPath + "/" + dateFolderName + "/" + fileName).replace('/', File.separatorChar));
+			File file1 = new File((uploadPath + "\\" + dateFolderName + "\\" + fileName).replace('\\', File.separatorChar));
 			if(file1.exists()) file1.delete();
+			
 
 			}
 		}
