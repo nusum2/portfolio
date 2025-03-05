@@ -224,7 +224,7 @@ public class AdminProductController {
 			
 			adminProductService.pro_delete(pro_num);
 			
-			return "redirect:/admin/product/pro_list" + cri.getListLink();
+			return "redirect:admin/product/pro_list" + cri.getListLink();
 		}
 		//체크상품 수정작업1
 		@PostMapping("/pro_checked_modify1")
