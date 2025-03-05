@@ -75,7 +75,7 @@ public class AdminUserController {
 		
 		adminUserService.user_delete(u_id);
 		
-		return "redirect:/admin/user/user_list" + cri.getListLink();
+		return "redirect:admin/user/user_list" + cri.getListLink();
 	}
 	
 	//메일발송 목록
@@ -118,7 +118,7 @@ public class AdminUserController {
 		
 		rttr.addFlashAttribute("msg", "send");
 		
-		return "redirect:/admin/user/mailinglist";
+		return "redirect:admin/user/mailinglist";
 	}
 	
 	//메일저장
@@ -137,7 +137,7 @@ public class AdminUserController {
 		
 		model.addAttribute("msg", "save");
 		
-		return "/admin/user/mailingform"; //리다이렉트 사용 안할 경우에는 주소가 아니라 타임리프 파일명으로 해석된다.
+		return "admin/user/mailingform"; //리다이렉트 사용 안할 경우에는 주소가 아니라 타임리프 파일명으로 해석된다.
 	}
 	
 	@GetMapping("/mailingsendform")
@@ -156,7 +156,7 @@ public class AdminUserController {
 		
 		model.addAttribute("msg", "modify");
 		
-		return "/admin/user/mailingsendform";
+		return "admin/user/mailingsendform";
 	}
 	
 	//ckeditor 상품설명 이미지 업로드

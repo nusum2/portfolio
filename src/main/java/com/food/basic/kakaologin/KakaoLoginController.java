@@ -96,7 +96,7 @@ public class KakaoLoginController {
 			}
 		}
 		
-		return "redirect:/";
+		return "redirect:";
 		
 	}
 	
@@ -115,6 +115,6 @@ public class KakaoLoginController {
 			session.removeAttribute("accessToken");
 		}
 		
-		return "redirect:/";
+		return "redirect:";
 	}
 }

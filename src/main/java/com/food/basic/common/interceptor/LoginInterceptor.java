@@ -42,7 +42,7 @@ public class LoginInterceptor implements HandlerInterceptor{
 			}else {
 				//원래 요청한 주소를 세션으로 저장
 				getTargetUrl(request);
-				response.sendRedirect("/user/login");
+				response.sendRedirect("user/login");
 			}
 		}else {
 			result = true;

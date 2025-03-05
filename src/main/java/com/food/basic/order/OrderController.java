@@ -72,7 +72,7 @@ public class OrderController {
 		model.addAttribute("cart_list", cart_list);
 		model.addAttribute("total_price", total_price);
 		
-		return "/order/orderinfo";
+		return "order/orderinfo";
 	}
 	
 	//주문자와 동일
@@ -104,7 +104,7 @@ public class OrderController {
 		String payinfo = pay_nobank + "/" + pay_nobank_user;
 		orderService.order_process(vo, u_id, "무통장입금", "미납", payinfo);
 		
-		return "redirect:/order/ordercomplete";
+		return "redirect:order/ordercomplete";
 	}
 	
 	//주문완료

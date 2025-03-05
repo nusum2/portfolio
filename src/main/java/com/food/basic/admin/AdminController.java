@@ -42,7 +42,7 @@ public class AdminController {
 			}
 		}
 		
-		return "redirect:/" + url;
+		return "redirect:" + url;
 	}
 	
 	@GetMapping("/admin_menu")
@@ -56,6 +56,6 @@ public class AdminController {
 		
 		session.removeAttribute("admin_state");
 		
-		return "redirect:/admin/login";
+		return "redirect:admin/login";
 	}
 }

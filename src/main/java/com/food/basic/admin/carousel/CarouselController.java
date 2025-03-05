@@ -96,7 +96,7 @@ public class CarouselController {
 		//db저장
 		carouselService.carousel_insert(vo);
 		
-		return "redirect:/admin/carousel/carousel_list";
+		return "redirect:admin/carousel/carousel_list";
 	}
 	
 	//캐러셀 수정폼
@@ -142,7 +142,7 @@ public class CarouselController {
 		//db저장
 		carouselService.carousel_update(vo);
 		
-		return "redirect:/admin/carousel/carousel_list" + cri.getListLink();
+		return "redirect:admin/carousel/carousel_list" + cri.getListLink();
 	}
 	
 	//캐러셀 삭제
@@ -151,6 +151,6 @@ public class CarouselController {
 		
 		carouselService.carousel_delete(caro_num);
 		
-		return "redirect:/admin/carousel/carousel_list" + cri.getListLink();
+		return "redirect:admin/carousel/carousel_list" + cri.getListLink();
 	}
 }

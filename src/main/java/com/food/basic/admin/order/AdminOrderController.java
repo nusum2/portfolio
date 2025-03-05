@@ -71,7 +71,7 @@ public class AdminOrderController {
 		
 		log.info("리스트 : " + order_list2.get(0));
 		
-		return "/admin/order/order_list_map";
+		return "admin/order/order_list_map";
 	}
 	
 	//주문상세정보 http://www.manual.oneware.co.kr/official.php/home/info/2037 참고

@@ -33,18 +33,6 @@ public class ReviewController {
 	
 	private final ReviewService reviewService;
 	
-	/*
-	//상품 이미지 업로드
-	@Value("${file.product.image.dir}")
-	private String uploadPath;
-	
-	//이미지 표시
-	@GetMapping("/image_display")
-	public ResponseEntity<byte[]> image_display(String dateFolderName, String fileName) throws Exception {
-		
-		return FileManagerUtils.getFile(uploadPath + dateFolderName, fileName);
-   }
-	*/
 	//리뷰목록
 	@GetMapping("/re_list/{pro_num}/{page}")
 	public ResponseEntity<Map<String, Object>> re_list(@PathVariable("pro_num")int pro_num, @PathVariable("page")int page) throws Exception {
@@ -76,14 +64,7 @@ public class ReviewController {
 		
 		String u_id = ((UserVO) session.getAttribute("login_status")).getU_id();
 		vo.setU_id(u_id);
-		/*
-		//상품 이미지 업로드
-		String dateFolder = FileManagerUtils.getDateFolder();
-		String saveFileName = FileManagerUtils.uploadFile(uploadPath, dateFolder, uploadFile);
-		
-		vo.setRe_img(saveFileName);
-		vo.setRe_up_folder(dateFolder);
-		*/
+
 		log.info("상품리뷰데이터 : " + vo);
 		
 		//리뷰 db저장
@@ -114,9 +95,9 @@ public class ReviewController {
 		
 		log.info("장바구니코드 : " + re_code);
 		ResponseEntity<ReviewVO> entity = null;
-		//ReviewVO vo = 
+		 
 		reviewService.review_modify(re_code);
-		//vo.setRe_up_folder(vo.getRe_up_folder().replace("\\", "/"));
+		
 		
 		entity = new ResponseEntity<ReviewVO>(reviewService.review_modify(re_code), HttpStatus.OK);
 		
@@ -127,19 +108,7 @@ public class ReviewController {
 	@PutMapping("/review_modify")
 	public ResponseEntity<String> review_update(@RequestBody ReviewVO vo, MultipartFile uploadFile) throws Exception {
 		ResponseEntity<String> entity = null;
-		/*
-		//상품 이미지 변경(업로드) 유무
-		if(!uploadFile.isEmpty()) {
-			//상품 기존 이미지삭제
-			FileManagerUtils.delete(uploadPath, vo.getRe_up_folder(), vo.getRe_img(), "image");
-			//변경이미지 업로드
-			String dateFolder = FileManagerUtils.getDateFolder();
-			String saveFileName = FileManagerUtils.uploadFile(uploadPath, dateFolder, uploadFile);
-			//새로운 파일명, 날짜폴더명
-			vo.setRe_img(saveFileName);
-			vo.setRe_up_folder(dateFolder);		
-		}
-		*/
+		
 		reviewService.review_update(vo);
 		entity = new ResponseEntity<String>("success", HttpStatus.OK);
 		
