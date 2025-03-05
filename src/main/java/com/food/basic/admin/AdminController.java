@@ -38,7 +38,7 @@ public class AdminController {
 				
 				d_vo.setAdmin_pw("");
 				session.setAttribute("admin_state", d_vo);
-				url = "admin/admin_menu";
+				url = "/admin/admin_menu";
 			}
 		}
 		
