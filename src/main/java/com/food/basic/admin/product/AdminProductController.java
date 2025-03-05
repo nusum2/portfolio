@@ -140,7 +140,7 @@ public class AdminProductController {
 		}
 			
 		//상품리스트
-		@GetMapping("pro_list")
+		@GetMapping("/pro_list")
 		public void pro_list(Criteria cri, Model model) throws Exception {
 			
 			cri.setAmount(5);
