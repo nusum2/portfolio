@@ -56,6 +56,6 @@ public class AdminController {
 		
 		session.removeAttribute("admin_state");
 		
-		return "redirect:admin/login";
+		return "redirect:/admin/login";
 	}
 }

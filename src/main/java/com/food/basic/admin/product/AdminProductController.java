@@ -71,7 +71,7 @@ public class AdminProductController {
 		//상품정보 db저장
 		adminProductService.pro_insert(vo);
 		
-		return "redirect:admin/product/pro_list";
+		return "redirect:/admin/product/pro_list";
 	}
 	
 	//ckeditor 상품설명 이미지 업로드
@@ -215,7 +215,7 @@ public class AdminProductController {
 			//db저장(update)
 			adminProductService.pro_edit_ok(vo);
 			
-			return "redirect:admin/product/pro_list" + cri.getListLink();
+			return "redirect:/admin/product/pro_list" + cri.getListLink();
 		}
 		//상품 삭제하기
 		@PostMapping("/pro_delete")
@@ -223,7 +223,7 @@ public class AdminProductController {
 			
 			adminProductService.pro_delete(pro_num);
 			
-			return "redirect:admin/product/pro_list" + cri.getListLink();
+			return "redirect:/admin/product/pro_list" + cri.getListLink();
 		}
 		//체크상품 수정작업1
 		@PostMapping("pro_checked_modify1")

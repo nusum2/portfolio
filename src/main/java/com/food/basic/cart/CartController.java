@@ -70,7 +70,7 @@ public class CartController {
 		
 		cartService.cart_del(cart_code);
 		
-		return "redirect:cart/cart_list";
+		return "redirect:/cart/cart_list";
 	}
 	
 	//장바구니 수량변경
@@ -82,7 +82,7 @@ public class CartController {
 		
 		cartService.cart_change(cart_code, cart_amount);
 		
-		return "redirect:cart/cart_list";
+		return "redirect:/cart/cart_list";
 	}
 	
 	//장바구니 비우기
@@ -93,6 +93,6 @@ public class CartController {
 		
 		cartService.cart_empty(u_id);
 		
-		return "redirect:cart/cart_list";
+		return "redirect:/cart/cart_list";
 	}
 }

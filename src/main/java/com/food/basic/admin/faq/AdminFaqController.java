@@ -52,7 +52,7 @@ public class AdminFaqController {
 		log.info("글쓰기 입력 데이터 : " + vo);
 		
 		adminFaqService.faq_write(vo);
-		return "redirect:admin/faq/faq_admin_list";
+		return "redirect:/admin/faq/faq_admin_list";
 	}
 	
 	//관리자 faq 내용 불러오기
@@ -69,7 +69,7 @@ public class AdminFaqController {
 		
 		adminFaqService.faq_update(vo);
 		
-		return "redirect:admin/faq/faq_admin_list" + cri.getListLink();
+		return "redirect:/admin/faq/faq_admin_list" + cri.getListLink();
 	}
 	
 	//faq 삭제
@@ -78,7 +78,7 @@ public class AdminFaqController {
 		
 		adminFaqService.faq_delete(q_num);
 		
-		return "redirect:admin/faq/faq_admin_list" + cri.getListLink();
+		return "redirect:/admin/faq/faq_admin_list" + cri.getListLink();
 	}
 		
 }

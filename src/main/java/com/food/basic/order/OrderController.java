@@ -104,7 +104,7 @@ public class OrderController {
 		String payinfo = pay_nobank + "/" + pay_nobank_user;
 		orderService.order_process(vo, u_id, "무통장입금", "미납", payinfo);
 		
-		return "redirect:order/ordercomplete";
+		return "redirect:/order/ordercomplete";
 	}
 	
 	//주문완료

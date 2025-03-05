@@ -45,7 +45,7 @@ public class UserController {
 		userService.join(vo);
 		
 		
-		return "redirect:user/login";
+		return "redirect:/user/login";
 	}
 	
 	//아이디 중복체크
@@ -104,7 +104,7 @@ public class UserController {
 		
 		//log.info("마지막 접속일 : " + lastlogin);
 		
-		return "redirect:" + url; //메인으로 이동
+		return "redirect:/" + url; //메인으로 이동
 	}
 	
 	//마지막 접속일 저장
@@ -116,7 +116,7 @@ public class UserController {
 		session.invalidate(); //세션형태로 관리되는 모든 메모리 소멸
 		
 		
-		return "redirect:";
+		return "redirect:/";
 	}
 	//일반 로그인 또는 카카오 로그인 구분
 	@GetMapping("mypage")
@@ -180,7 +180,7 @@ public class UserController {
 			url = "user/idfind";
 		}
 		rttr.addFlashAttribute("msg", msg);
-		return "redirect:" + url;
+		return "redirect:/" + url;
 	}
 	
 	@GetMapping("/pwfind")
@@ -223,13 +223,13 @@ public class UserController {
 			msg = "failAuth";
 		}
 		rttr.addFlashAttribute("msg", msg);
-		return "redirect:" + url;
+		return "redirect:/" + url;
 	}
 	@PostMapping("/modify")
 	public String modify(UserVO vo, RedirectAttributes rttr, HttpSession session) throws Exception{
 		
 		//인터셉터
-		if(session.getAttribute("login_status") == null) return "redirect:user/login";
+		if(session.getAttribute("login_status") == null) return "redirect:/user/login";
 		
 		String u_id = ((UserVO) session.getAttribute("login_status")).getU_id();
 		vo.setU_id(u_id);
@@ -238,7 +238,7 @@ public class UserController {
 		
 		rttr.addFlashAttribute("msg", "success");
 		
-		return "redirect:user/mypage";
+		return "redirect:/user/mypage";
 	}
 	@GetMapping("/changepw")
 	public void changepw() {
@@ -267,7 +267,7 @@ public class UserController {
 		}
 		rttr.addFlashAttribute("msg", msg); //jsp에서 msg변수 출력 목적
 		
-		return "redirect:user/changepw"; //메인으로 이동
+		return "redirect:/user/changepw"; //메인으로 이동
 	}
 	@GetMapping("/delete")
 	public void delete() {
@@ -299,6 +299,6 @@ public class UserController {
 		}
 		rttr.addFlashAttribute("msg", msg); //jsp에서 msg변수 출력 목적
 		
-		return "redirect:" + url;
+		return "redirect:/" + url;
 	}
 }

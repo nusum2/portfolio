@@ -46,7 +46,7 @@ public class KakaoLoginController {
 		
 		log.info("인가코드 : " + url.toString());
 		
-		return "redirect:" + url.toString();
+		return "redirect:/" + url.toString();
 	}
 	
 	//스텝 2단계
@@ -96,7 +96,7 @@ public class KakaoLoginController {
 			}
 		}
 		
-		return "redirect:";
+		return "redirect:/";
 		
 	}
 	
@@ -115,6 +115,6 @@ public class KakaoLoginController {
 			session.removeAttribute("accessToken");
 		}
 		
-		return "redirect:";
+		return "redirect:/";
 	}
 }

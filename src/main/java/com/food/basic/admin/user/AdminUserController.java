@@ -75,7 +75,7 @@ public class AdminUserController {
 		
 		adminUserService.user_delete(u_id);
 		
-		return "redirect:admin/user/user_list" + cri.getListLink();
+		return "redirect:/admin/user/user_list" + cri.getListLink();
 	}
 	
 	//메일발송 목록
@@ -118,7 +118,7 @@ public class AdminUserController {
 		
 		rttr.addFlashAttribute("msg", "send");
 		
-		return "redirect:admin/user/mailinglist";
+		return "redirect:/admin/user/mailinglist";
 	}
 	
 	//메일저장

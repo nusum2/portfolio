@@ -29,7 +29,7 @@ public class NaverLoginController {
 		
 		String url = naverLoginService.getNaverAuthorizeUri();
 		
-		return "redirect:" + url;
+		return "redirect:/" + url;
 	}
 	
 	//스텝2
@@ -73,7 +73,7 @@ public class NaverLoginController {
 			}
 		}
 		
-		return "redirect:";
+		return "redirect:/";
 	}
 	
 	@GetMapping("/naverlogout")
@@ -93,7 +93,7 @@ public class NaverLoginController {
 			session.removeAttribute("accessToken");
 		}
 		
-		return "redirect:";
+		return "redirect:/";
 	}
 	
 }
