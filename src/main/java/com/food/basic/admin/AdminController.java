@@ -25,7 +25,7 @@ public class AdminController {
 		return "admin/adLogin";
 	}
 	
-	@PostMapping("/admin_ok")
+	@PostMapping("admin_ok")
 	public String admin_ok(AdminVO vo, HttpSession session) throws Exception {
 		
 		log.info("관리자 정보 : " + vo);

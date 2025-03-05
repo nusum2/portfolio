@@ -149,10 +149,13 @@ public class AdminProductController {
 			
 			List<ProductVO> pro_list = adminProductService.pro_list(cri);
 			//슬래시 변환
+			//pro_list.forEach(vo -> {
+			//	vo.setPro_up_folder(vo.getPro_up_folder().replace("\\", "/"));
+			//});
+			//배포용 슬래시 변환 제거
 			pro_list.forEach(vo -> {
-				vo.setPro_up_folder(vo.getPro_up_folder().replace("\\", "/"));
+				vo.setPro_up_folder(vo.getPro_up_folder());
 			});
-			
 			int totalCount = adminProductService.getTotalCount(cri);
 			//페이징
 			

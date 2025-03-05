@@ -36,7 +36,7 @@ public class AdminInterceptor implements HandlerInterceptor {
 			}else {
 				// 원래 요청한 주소를 세션으로 저장하는 기능.
 				getTargetUrl(req);
-				response.sendRedirect("admin/");
+				response.sendRedirect("admin");
 			}
 		}else {
 			result = true;
