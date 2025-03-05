@@ -22,7 +22,7 @@ public class AdminController {
 	@GetMapping("/login")
 	public String loginForm() {
 		
-		return "/admin/adLogin";
+		return "admin/adLogin";
 	}
 	
 	@PostMapping("/admin_ok")
