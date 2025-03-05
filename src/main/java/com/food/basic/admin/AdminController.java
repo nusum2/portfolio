@@ -45,7 +45,7 @@ public class AdminController {
 		return "redirect:" + url;
 	}
 	
-	@GetMapping("admin_menu")
+	@GetMapping("/admin_menu")
 	public void admin_menu() {
 		
 	}
