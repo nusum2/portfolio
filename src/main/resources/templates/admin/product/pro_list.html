@@ -196,10 +196,10 @@ $(document).ready(function(){
     //console.log("cate_code", cate_code);
 
     //2차 카테고리 주소
-    //let url = "/admin/category/secondcategory/" + cate_code;
+    let url = "/admin/category/secondcategory/" + cate_code;
 
 	//배포시
-	let url = "admin/category/secondcategory/" + cate_code;
+	//let url = "admin/category/secondcategory/" + cate_code;
 
     $.getJSON(url, function(secondcategory_result) {
       let btn_secondCategory = $("#btn_secondCategory"); //2차 카테고리 셀렉트 태그 참조
@@ -315,8 +315,8 @@ $(document).ready(function(){
 			console.log("상품진열", pro_buy_arr);
 
 			$.ajax({
-				//url : '/admin/product/pro_checked_modify1',
-				url : 'admin/product/pro_checked_modify1',
+				url : '/admin/product/pro_checked_modify1',
+				//url : 'admin/product/pro_checked_modify1',
 				type : 'post',
 				data : {pro_num_arr : pro_num_arr, pro_price_arr : pro_price_arr, pro_discount_arr : pro_discount_arr, pro_disprice_arr : pro_disprice_arr, pro_buy_arr : pro_buy_arr},
 				dataType : 'text',
@@ -356,8 +356,8 @@ $(document).ready(function(){
 			console.log("상품진열", pro_buy_arr);
 
 			$.ajax({
-				//url : '/admin/product/pro_checked_modify2',
-				url : 'admin/product/pro_checked_modify2',
+				url : '/admin/product/pro_checked_modify2',
+				//url : 'admin/product/pro_checked_modify2',
 				type : 'post',
 				data : {pro_num_arr : pro_num_arr, pro_price_arr : pro_price_arr, pro_discount_arr : pro_discount_arr, pro_disprice_arr : pro_disprice_arr, pro_buy_arr : pro_buy_arr},
 				dataType : 'text',
