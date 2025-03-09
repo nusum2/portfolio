@@ -81,7 +81,7 @@ public class UserController {
 		UserVO vo = userService.login(dto.getU_id());
 		
 		String msg = "";
-		String url = "/"; // "/"메인주소
+		String url = ""; // "/"메인주소
 		//Date lastlogin = new Date(session.getLastAccessedTime());
 		
 		if(vo != null) { //아이디가 존재하는 경우

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.food.basic.admin.product.ProductVO;
@@ -39,7 +40,7 @@ public class ProductController {
 	@GetMapping("/pro_list")
 	public void pro_list(@ModelAttribute("cate_code") int cate_code, @ModelAttribute("cate_name") String cate_name, Criteria cri, Model model) throws Exception {
 		
-		cri.setAmount(4);
+		cri.setAmount(5);
 		
 		log.info("2차 카테고리 코드" + cate_code);
 		log.info("2차 카테고리 이름" + cate_name);
@@ -61,6 +62,23 @@ public class ProductController {
 		
 		return FileManagerUtils.getFile(uploadPath + dateFolderName, fileName);
    }
+	
+	@GetMapping("/display/{fileName}")
+	public ResponseEntity<byte[]> getFile(@PathVariable("fileName")String fileName) {
+		
+		log.info("파일이미지 : " + fileName);
+		
+		ResponseEntity<byte[]> entity = null;
+		
+		try {
+			entity = FileManagerUtils.getFile(uploadCKPath, fileName);
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+		}
+
+		return entity;
+	}
 	
 	//상품정보
 	@GetMapping("pro_info")
