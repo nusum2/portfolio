@@ -97,7 +97,7 @@ where pro_num = #{pro_num}
 </update>
 
 <update id="pro_checked_modify2" parameterType="list">
-<foreach collection="list" item="item" open="declare begin" separator=";" close="; end;">
+<foreach collection="list" item="item" open="begin" separator=";" close="; end;">
 update product_t
 set pro_price = #{item.pro_price}, pro_buy = #{item.pro_buy}, pro_discount = #{item.pro_discount}, pro_disprice = #{item.pro_disprice}
 where pro_num = #{item.pro_num}
