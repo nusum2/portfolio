@@ -77,7 +77,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         </thead>
                         <tbody>
                           <tr th:each="product : ${pro_list}">
-                            <td><img th:src="${'/product/image_display?dateFolderName=' + product.pro_up_folder + '&fileName=s_' + product.pro_img}" style="width: 150px;height: 150px;"></td>
+                            <td><img th:src="${'/product/image_display?dateFolderName=' + product.pro_up_folder + '&fileName=s_' + product.pro_img}" style="width: 100px;height: 100px;"></td>
                             <td scope="row"><a id="list_pro_num">[[${product.pro_num}]]</a></td>
                             <td id="list_pro_name">[[${product.pro_name}]]</td>
                           </tr>
