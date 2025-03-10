@@ -41,7 +41,7 @@ where re_code = #{re_code}
 
 <update id="review_update" parameterType="com.food.basic.review.ReviewVO">
 update review_t
-set re_title = #{re_title}, re_content = #{re_content}, re_rate = #{re_rate}, re_date = sysdate
+set re_title = #{re_title}, re_content = #{re_content}, re_rate = #{re_rate}, re_date = now()
 where re_code = #{re_code}
 </update>
 
