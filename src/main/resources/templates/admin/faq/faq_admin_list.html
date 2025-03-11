@@ -93,7 +93,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 							<!-- 데이터가 하나라도 있을 경우 -->
 							<tr th:if="${!#lists.isEmpty(faq_list)}" th:each="faq : ${faq_list}">
 								<td>[[${faq.q_num}]]</td>
-								<td><a th:href="@{/faq/faq_content(q_num=${faq.q_num})}" th:text="${faq.q_title}"></a></td>
+								<td><a th:href="@{/admin/faq/faq_content(q_num=${faq.q_num})}" th:text="${faq.q_title}"></a></td>
 								<td th:text="${#dates.format(faq.q_regdate, 'yyyy-MM-dd HH:mm:ss')}"></td>
 								<td><button type="button" class="btn btn-danger" name="btn_faq_del" th:data-q_num="${faq.q_num}">삭제</button></td>
 							</tr>
