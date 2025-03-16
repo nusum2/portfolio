@@ -1,9 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.food.basic.admin.faq.AdminFaqMapper">
+
 <!-- 검색조건 -->
-<sql id="criteria">
-<trim prefix="(" suffix=") AND" prefixOverrides="OR">
+<sql id="mysqlCriteria">
+<trim prefix="where" prefixOverrides="OR">
+<foreach collection="typeArr" item="type">
+<trim prefix="OR">
+<choose>
+<when test="type == 'T'.toString()">
+q_title like concat('%',#{keyword},'%')
+</when>
+<when test="type == 'C'.toString()">
+q_content like concat('%',#{keyword},'%')
+</when>
+</choose>
+</trim>
+</foreach>
+</trim>
+</sql>
+<!-- 검색조건 카운트용 -->
+<sql id="countCriteria">
+<trim suffix="and" prefixOverrides="OR">
 <foreach collection="typeArr" item="type">
 <trim prefix="OR">
 <choose>
@@ -25,20 +43,15 @@ select q_num, q_title, q_content, q_regdate, q_updatedate
 from(
 select
 @rownum := @rownum + 1 as rn, q_num, q_title, q_content, q_regdate, q_updatedate
-from faq_t, (select @rownum := 0) as rowcolumn order by q_num desc) as rownum_table
-where
-<include refid="criteria"></include>
-<![CDATA[
-rn <= (#{pageNum} * #{amount}) 
-]]>
-and
-rn > (#{pageNum} - 1) * #{amount}
+from faq_t, (select @rownum := 0) r order by q_num desc) list
+<include refid="mysqlCriteria"></include>
+limit #{amount} offset #{startList}
 </select>
 
 <select id="getTotalCount" resultType="int">
 select count(*)
 from faq_t
-where <include refid="criteria"></include>
+where <include refid="countCriteria"></include>
 q_num > 0
 </select>
 

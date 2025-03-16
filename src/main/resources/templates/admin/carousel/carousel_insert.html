@@ -57,11 +57,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   <div>
                     <form action="/admin/carousel/carousel_insert" method="get" >
                         <select name="type">
-                          <option th:selected="${''} == ${pageMaker.cri.type}">전체검색</option>
-                          <option value="N" th:selected="${'N'} == ${pageMaker.cri.type}">상품명</option>
+                          <!-- <option th:selected="${''} == ${pageMaker.cri.type}">전체검색</option> -->
+                          <option selected>전체검색</option>
+                          <!-- <option value="N" th:selected="${'N'} == ${pageMaker.cri.type}">상품명</option> -->
+                          <option value="N">상품명</option>
                         </select>
                         <input type="text" name="keyword" th:value="${pageMaker.cri.keyword}" />
-                        <input type="hidden" name="pageNum" th:value="${pageMaker.cri.pageNum}" />
+                        <input type="hidden" name="pageNum" value="1" />
                         <input type="hidden" name="amount" th:value="${pageMaker.cri.amount}" />
                         <button type="submit" class="btn btn-primary">검색</button>
                     </form>
@@ -101,9 +103,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <ul class="pagination">
                       <!-- 이전 표시여부 -->
                       
-                      <th:block th:if="${pageMaker.prev }">
+                      <th:block th:if="${pageMaker.prev}">
                         <li class="page-item">
-                          <a th:href="${pageMaker.startPage - 1 }" class="page-link movepage">Previous</a>
+                          <a th:href="${pageMaker.startPage - 1}" class="page-link movepage">Previous</a>
                         </li>
                       </th:block>
                       
@@ -114,7 +116,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       <th:block th:with="pageMaker = ${pageMaker}">
                         <th:block th:each="num : *{#numbers.sequence(pageMaker.startPage, pageMaker.endPage)}">
                         <li class='page-item' th:classappend="${pageMaker.cri.pageNum ==  num ? 'active': '' }" aria-current="page">
-                          <a class="page-link movepage" th:href="${num }" th:text="${num }"></a>
+                          <a class="page-link movepage" th:href="${num}" th:text="${num}"></a>
                         </li>
                         </th:block>
                       </th:block>
@@ -188,14 +190,17 @@ $(document).ready(function(){
         }
       });
 
+      let actionForm = $("#actionForm");
+
       //페이지 번호 클릭시 이전 1 2 3 4 5 다음 actionForm을 사용
 	    $(".movepage").on("click", function(e){
         e.preventDefault(); //a태그의 href기능 제거
+        
+        //1)클릭한 페이지번호 작업
+        $("input[name='pageNum']").val($(this).attr("href"));
+
         //주소변경
         actionForm.attr("action", "/admin/carousel/carousel_insert");
-        //1)클릭한 페이지번호 작업
-        actionForm.find("input[name='pageNum']").val($(this).attr("href"));
-    
         actionForm.submit();
         });
       

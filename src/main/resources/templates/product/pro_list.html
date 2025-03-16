@@ -153,10 +153,13 @@
 
 
 <th:block layout:fragment="script">
-	<script>
+	<script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
+	<script th:inline="javascript">
+			var loginStatus = /*[[${session.login_status}]]*/;
+			var kakaoStatus = /*[[${session.kakao_status}]]*/;
+			var naverStatus = /*[[${session.naver_status}]]*/;
 		$(document).ready(function(){
 			let actionForm = $("#actionForm");
-
 
       //페이지 번호 클릭시 이전 1 2 3 4 5 다음 actionForm을 사용
 	  $(".movepage").on("click", function(e){
@@ -168,73 +171,65 @@
 
 		actionForm.submit();
 	  });
-		/* $("button[name='btn_cart_add']").on("click", function(){
-			
-			$('#order_process_popup').modal('show');
-			let pro_num = $(this).data("pro_num");
-			
-			$.ajax({
-				url : '/product/pro_info',
-				type : 'get',
-				data : {pro_num : pro_num},
-				dataType : 'json',
-				success : function(result) {
-					console.log("상품정보", result);
-					
-					//model 창 요소에 접근해서 값을 대입
-					$("span#info_pro_name").html(result.pro_name);
-					$("span#info_pro_price").html("￦" + result.pro_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
-					
-					let url = `/product/image_display?dateFolderName=${result.pro_up_folder}&fileName=${result.pro_img}`;
-					console.log("url", url);
-					$("img#info_pro_img").attr("src", url);
-				
-				}
-			
-			});
-		
-		}); */
+
 		//modal 2
 		$("button[name='btn_cart_add']").on("click", function() {
 
-			$('#order_process_popup_2').modal('show');
+			if(loginStatus == null || kakaoStatus == null || naverStatus == null) {
+				alert("로그인 후 이용해주세요.");
+				return false;
+			}else{
+				$('#order_process_popup_2').modal('show');
 
-			let pro_num = $(this).data("pro_num");
+				let pro_num = $(this).data("pro_num");
 
-			console.log("상품코드", pro_num);
+				console.log("상품코드", pro_num);
 
-			$("#popup_info").load("/product/pro_info_2?pro_num=" + pro_num);
-
-
+				$("#popup_info").load("/product/pro_info_2?pro_num=" + pro_num);
+			}
 		});
 		
 		//구매하기
 		$("button[name='btn_direct_order']").on("click", function(){
 
-			let pro_num = $(this).data("pro_num");
-			let cart_amount = $("#btn_direct_amount").val();
-			let url = `/order/orderinfo?pro_num=${pro_num}&cart_amount=${cart_amount}`;
-			
-			location.href = url;	
+			if(loginStatus == null || kakaoStatus == null || naverStatus == null) {
+				alert("로그인 후 이용해주세요.");
+				return false;
+			}else{
+				let pro_num = $(this).data("pro_num");
+				let cart_amount = $("#btn_direct_amount").val();
+				let url = `/order/orderinfo?pro_num=${pro_num}&cart_amount=${cart_amount}`;
+				
+				location.href = url;
+			}			
 		});
 
 		//modal 구매하기
 		$("#order_process_popup_2").on("click", "button#btn_direct_buy", function(){
 
-			let pro_num = $(this).data("pro_num");
-			let cart_amount = $("#btn_cart_amount").val();
-			let url = `/order/orderinfo?pro_num=${pro_num}&cart_amount=${cart_amount}`;
-			
-			location.href = url;	
+			if(loginStatus == null || kakaoStatus == null || naverStatus == null) {
+				alert("로그인 후 이용해주세요.");
+				return false;
+			}else{
+				let pro_num = $(this).data("pro_num");
+				let cart_amount = $("#btn_cart_amount").val();
+				let url = `/order/orderinfo?pro_num=${pro_num}&cart_amount=${cart_amount}`;
+				
+				location.href = url;
+			}				
 		});
 
 		//장바구니 추가 modal2 pro_info_2.html id="btn_cart_add"
 		$("#order_process_popup_2").on("click", "button#btn_cart_add" ,function() {
-			//정적                                  동적
-			let pro_num = $(this).data("pro_num");
-			let cart_amount = $("#btn_cart_amount").val();
+			
+			if(loginStatus == null || kakaoStatus == null || naverStatus == null) {
+				alert("로그인 후 이용해주세요.");
+				return false;
+			}else{
+				let pro_num = $(this).data("pro_num");
+				let cart_amount = $("#btn_cart_amount").val();
 
-			$.ajax({
+				$.ajax({
 				url : '/cart/cart_add',
 				type : 'get',
 				data : {pro_num : pro_num, cart_amount : cart_amount}, //변수 : 값
@@ -256,6 +251,7 @@
 					location.href = "/user/login";
 				}
 			});
+			}			
 		});
 			
 });

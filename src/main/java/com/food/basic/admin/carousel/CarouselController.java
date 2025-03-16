@@ -64,6 +64,8 @@ public class CarouselController {
 	@GetMapping("/carousel_insert")
 	public void carousel_insertForm(Criteria cri, Model model) throws Exception {
 		
+		cri.setAmount(5);
+		
 		//상품리스트
 		List<ProductVO> pro_list = adminProductService.pro_list(cri);
 		//슬래시 변환

@@ -11,8 +11,25 @@
 </resultMap>
 
 <!-- 검색조건 -->
-<sql id="criteria">
-<trim prefix="(" suffix=") AND" prefixOverrides="OR">
+<sql id="mysqlCriteria">
+<trim prefix="where" prefixOverrides="OR">
+<foreach collection="typeArr" item="type">
+<trim prefix="OR">
+<choose>
+<when test="type == 'N'.toString()">
+u_name like concat('%',#{keyword},'%')
+</when>
+<when test="type == 'I'.toString()">
+u_id like concat('%',#{keyword},'%')
+</when>
+</choose>
+</trim>
+</foreach>
+</trim>
+</sql>
+<!-- 검색조건 카운트용 -->
+<sql id="countCriteria">
+<trim suffix="and" prefixOverrides="OR">
 <foreach collection="typeArr" item="type">
 <trim prefix="OR">
 <choose>
@@ -52,15 +69,10 @@ select m_idx, m_title, m_content, m_gubun, m_send_count, regDate
 from(
 select
 @rownum := @rownum + 1 as rn, m_idx, m_title, m_content, m_gubun, m_send_count, regDate
-from mailing_t, (select @rownum := 0) as rowcolumn order by m_idx desc) as rownum_table
+from mailing_t, (select @rownum := 0) r order by m_idx desc) list
 where 1 = 1
 <include refid="mailsearch"></include>
-and
-<![CDATA[  		
-rn <= (#{cri.pageNum} * #{cri.amount})
-]]>
-and 
-rn > (#{cri.pageNum} - 1 ) * #{cri.amount}
+limit #{cri.amount} offset #{cri.startList}
 </select>
 
 <select id="getMailListCount" parameterType="String" resultType="int">
@@ -90,20 +102,15 @@ where m_idx = #{idx}
 select u_id, u_name, u_email, u_zipcode, u_addr, u_deaddr, u_phone, u_receive, u_lastlogin, u_regdate, u_update
 from(
 select @rownum := @rownum + 1 as rn, u_id, u_name, u_email, u_zipcode, u_addr, u_deaddr, u_phone, u_receive, u_lastlogin, u_regdate, u_update
-from user_t, (select @rownum := 0) as rowcolumn order by u_id desc) as rownum_table
-where 
-<include refid="criteria"></include>
-<![CDATA[
-rn <= (#{pageNum} * #{amount}) 
-]]>
-and
-rn > (#{pageNum} - 1) * #{amount}
+from user_t, (select @rownum := 0) r order by u_id desc) list 
+<include refid="mysqlCriteria"></include>
+limit #{amount} offset #{startList}
 </select>
 
 <select id="userCount" resultType="int">
 select count(*)
 from user_t
-where <include refid="criteria"></include>
+where <include refid="countCriteria"></include>
 u_id = u_id
 </select>
 

@@ -89,8 +89,7 @@ public class UserController {
 			if(passwordEncoder.matches(dto.getU_password(), vo.getU_password())) { //사용자가 입력한 비밀번호가 암호화된 형태에 해당하는 것이라면
 				vo.setU_password("");
 				session.setAttribute("login_status", vo);
-				//session.setAttribute("lastlogin", lastlogin);
-				userService.user_lastlogin(lastlogin);
+				userService.user_lastlogin(lastlogin); // 마지막 로그인 시간 기록
 				
 			}else { //사용자가 입력한 비밀번호가 암호화된 형태에 해당하지 않는 것이라면
 				msg = "failPW";
@@ -101,13 +100,9 @@ public class UserController {
 			url = "user/login";
 		}
 		rttr.addFlashAttribute("msg", msg); //jsp에서 msg변수 출력 목적
-		
-		//log.info("마지막 접속일 : " + lastlogin);
-		
+				
 		return "redirect:/" + url; //메인으로 이동
 	}
-	
-	//마지막 접속일 저장
 	
 	//로그아웃
 	@GetMapping("logout")

@@ -28,8 +28,28 @@ values (null, #{cate_code}, #{pro_name}, #{pro_price}, #{pro_discount}, #{pro_pu
 </insert>
 
 <!-- 검색조건 -->
-<sql id="criteria">
-<trim prefix="(" suffix=") AND" prefixOverrides="OR">
+<sql id="mysqlCriteria">
+<trim prefix="where" prefixOverrides="OR">
+<foreach collection="typeArr" item="type">
+<trim prefix="OR">
+<choose>
+<when test="type == 'N'.toString()">
+pro_name like concat('%',#{keyword},'%')
+</when>
+<when test="type == 'C'.toString()">
+cate_code like concat('%',#{keyword},'%')
+</when>
+<when test="type == 'P'.toString()">
+pro_publisher like concat('%',#{keyword},'%')
+</when>
+</choose>
+</trim>
+</foreach>
+</trim>
+</sql>
+<!-- 검색조건 카운트용 -->
+<sql id="countCriteria">
+<trim suffix="and" prefixOverrides="OR">
 <foreach collection="typeArr" item="type">
 <trim prefix="OR">
 <choose>
@@ -49,24 +69,20 @@ pro_publisher like concat('%',#{keyword},'%')
 </sql>
 <!-- 검색조건추가 리스트 -->
 <select id="pro_list" resultType="ProductVO" parameterType="com.food.basic.common.dto.Criteria">
-select pro_num, cate_code, pro_name, pro_price, pro_discount, pro_publisher, pro_content, pro_up_folder, pro_img, pro_amount, pro_buy, pro_disprice, pro_date, pro_updatedate
-from(
+select * from (
 select
-@rownum := @rownum + 1 as rn, pro_num, cate_code, pro_name, pro_price, pro_discount, pro_publisher, pro_content, pro_up_folder, pro_img, pro_amount, pro_buy, pro_disprice, pro_date, pro_updatedate
-from product_t, (select @rownum := 0) as rowcolumn order by pro_num desc) as rownum_table
-where 
-<include refid="criteria"></include>
-<![CDATA[
-rn <= (#{pageNum} * #{amount}) 
-]]>
-and
-rn > (#{pageNum} - 1) * #{amount}
+@rownum:=@rownum + 1 as rn, p.*
+from product_t p, (select @rownum:=0) r
+order by pro_num desc
+) list 
+<include refid="mysqlCriteria"></include>
+limit #{amount} offset #{startList}
 </select>
 
 <select id="getTotalCount" resultType="int">
 select count(*)
 from product_t
-where <include refid="criteria"></include>
+where <include refid="countCriteria"></include>
 pro_num > 0
 </select>
 

@@ -194,14 +194,25 @@
 <th:block layout:fragment="script">
 <script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
 	<script th:inline="javascript">
+
+			var loginStatus = /*[[${session.login_status}]]*/;
+			var kakaoStatus = /*[[${session.kakao_status}]]*/;
+			var naverStatus = /*[[${session.naver_status}]]*/;
+
+
 		$(document).ready(function(){
 			$("#pro_info").tabs();
 			
 		$("button#btn_cart_add").on("click", function(){
-			let pro_num = $(this).data("pro_num");
-			let cart_amount = $("#btn_cart_amount").val();
 			
-			$.ajax({
+			if(loginStatus == null || kakaoStatus == null || naverStatus == null) {
+				alert("로그인 후 이용해주세요.");
+				return false;
+			}else{
+				let pro_num = $(this).data("pro_num");
+				let cart_amount = $("#btn_cart_amount").val();
+
+				$.ajax({
 				url : '/cart/cart_add',
 				type : 'get',
 				data : {pro_num : pro_num, cart_amount : cart_amount}, //변수 : 값
@@ -215,15 +226,9 @@
 					}
 				}
 			});
-			
-
+			}
 		});
 		
-		$("button#btn_direct_order").on("click", function(){
-			
-			
-
-		});
 		//상품후기, 페이징정보 호출 작업
 		let reviewPage = 1; //첫번째 페이지
 		let url = "/review/re_list/" + [[${product.pro_num}]] + "/" + reviewPage;
@@ -349,9 +354,15 @@
 
 		//상품후기 modal
 		$("#btn_review_modal").on("click", function(){
-			$("#btn_review_save").show();
-			$("#btn_review_modify").hide();
-			$("#review_modal").modal('show');
+
+			if(loginStatus == null || kakaoStatus == null || naverStatus == null) {
+				alert("로그인 후 이용해주세요.");
+				return false;
+			}else{
+				$("#btn_review_save").show();
+				$("#btn_review_modify").hide();
+				$("#review_modal").modal('show');
+			}
 		});
 
 		//평점 클릭
@@ -585,11 +596,17 @@
 
 		//구매하기
 		$("button#btn_direct_order").on("click", function(){
-			let pro_num = $(this).data("pro_num");
-			let cart_amount = $("#btn_cart_amount").val();
-			let url = `/order/orderinfo?pro_num=${pro_num}&cart_amount=${cart_amount}`;
 
-			location.href = url;
+			if(loginStatus == null || kakaoStatus == null || naverStatus == null) {
+				alert("로그인 후 이용해주세요.");
+				return false;
+			}else{
+				let pro_num = $(this).data("pro_num");
+				let cart_amount = $("#btn_cart_amount").val();
+				let url = `/order/orderinfo?pro_num=${pro_num}&cart_amount=${cart_amount}`;
+
+				location.href = url;
+			}	
 		}); 
 
 		//핸들바 인덱스+1 만들기

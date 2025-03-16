@@ -7,15 +7,9 @@ select pro_num, re_code, re_title, re_content, re_date, u_id, re_rate
 from(
 select
 @rownum := @rownum + 1 as rn, pro_num, re_code, re_title, re_content, re_date, u_id, re_rate
-from review_t, (select @rownum := 0) as rowcolumn order by re_code desc) as rownum_table
-
+from review_t, (select @rownum := 0) r order by re_code desc) list
 where pro_num = #{pro_num}
-and
-<![CDATA[  		
-rn <= (#{cri.pageNum} * #{cri.amount})
-]]>
-and 
-rn > (#{cri.pageNum} - 1 ) * #{cri.amount}
+limit #{cri.amount} offset #{cri.startList}
 </select>
 
 <select id="re_count" parameterType="int" resultType="int">
