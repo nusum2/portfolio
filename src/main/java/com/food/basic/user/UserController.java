@@ -137,6 +137,7 @@ public class UserController {
 		
 	}
 	
+	//아이디 찾기 폼
 	@GetMapping("/idfind")
 	public void idfindForm() {
 		
@@ -178,6 +179,7 @@ public class UserController {
 		return "redirect:/" + url;
 	}
 	
+	//비밀번호 찾기 폼
 	@GetMapping("/pwfind")
 	public void pwfindForm() {
 		
