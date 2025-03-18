@@ -237,7 +237,7 @@ public class UserController {
 		
 		return "redirect:/user/mypage";
 	}
-	@GetMapping("/changepw")
+	@GetMapping("changepw")
 	public void changepw() {
 		
 	}
