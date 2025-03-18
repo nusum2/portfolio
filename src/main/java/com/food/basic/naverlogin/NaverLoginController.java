@@ -15,7 +15,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @RequiredArgsConstructor
-@RequestMapping("/oauth2")
+@RequestMapping("/oauth2/*")
 @Slf4j
 @Controller
 public class NaverLoginController {
