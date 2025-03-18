@@ -46,7 +46,7 @@ public class KakaoLoginController {
 		
 		log.info("인가코드 : " + url.toString());
 		
-		return "redirect:/" + url.toString();
+		return "redirect:" + url.toString();
 	}
 	
 	//스텝 2단계

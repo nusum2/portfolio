@@ -29,7 +29,7 @@ public class NaverLoginController {
 		
 		String url = naverLoginService.getNaverAuthorizeUri();
 		
-		return "redirect:/" + url;
+		return "redirect:" + url;
 	}
 	
 	//스텝2
