@@ -22,4 +22,4 @@
 - **Server :** Tomcat 9.0, amazon EC2
 - **Mapper :** Mybatis   
 
-## 기능설명 
+## 주요기능 
