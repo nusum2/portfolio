@@ -18,7 +18,7 @@
     <a class="p-2 text-dark" th:href="@{/oauth2/kakaologout}">로그아웃</a>
     </th:block>
     <th:block th:if="${session.naver_status != null}">
-    <span th:text="${session.naver_status}"></span>
+    <span th:text="${session.naver_status.Response.name}"></span>
 
     <a class="p-2 text-dark" th:href="@{/oauth2/naverlogout}">로그아웃</a>
     </th:block>
