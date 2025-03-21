@@ -62,8 +62,6 @@ public class NaverLoginController {
 			session.setAttribute("naver_status", naverResponse);
 			session.setAttribute("accessToken", naverToken.getAccess_token());
 			
-			log.info("네이버 계정 정보 : " + naverResponse);
-			
 			if(userService.existsUserInfo(sns_email) == null && userService.sns_user_check(sns_email) == null) {
 				SNSUserDto dto = new SNSUserDto();
 				dto.setId(naverResponse.getResponse().getId());
