@@ -30,7 +30,7 @@
                   <button type="button" class="btn btn-sm btn-outline-secondary" name="btn_direct_order" th:data-pro_num="${product.pro_num}">구매하기</button>
                   <button type="button" class="btn btn-sm btn-outline-secondary" name="btn_cart_add" th:data-pro_num="${product.pro_num}">장바구니</button>
                 </div>
-                <small class="text-muted">9 mins</small>
+                <small class="text-muted">판매중</small>
               </div>
             </div>
           </div>
@@ -175,7 +175,7 @@
 		//modal 2
 		$("button[name='btn_cart_add']").on("click", function() {
 
-			if(loginStatus == null || kakaoStatus == null || naverStatus == null) {
+			if(loginStatus == null && kakaoStatus == null && naverStatus == null) {
 				alert("로그인 후 이용해주세요.");
 				return false;
 			}else{
@@ -192,7 +192,7 @@
 		//구매하기
 		$("button[name='btn_direct_order']").on("click", function(){
 
-			if(loginStatus == null || kakaoStatus == null || naverStatus == null) {
+			if(loginStatus == null && kakaoStatus == null && naverStatus == null) {
 				alert("로그인 후 이용해주세요.");
 				return false;
 			}else{
@@ -207,7 +207,7 @@
 		//modal 구매하기
 		$("#order_process_popup_2").on("click", "button#btn_direct_buy", function(){
 
-			if(loginStatus == null || kakaoStatus == null || naverStatus == null) {
+			if(loginStatus == null && kakaoStatus == null && naverStatus == null) {
 				alert("로그인 후 이용해주세요.");
 				return false;
 			}else{
@@ -222,7 +222,7 @@
 		//장바구니 추가 modal2 pro_info_2.html id="btn_cart_add"
 		$("#order_process_popup_2").on("click", "button#btn_cart_add" ,function() {
 			
-			if(loginStatus == null || kakaoStatus == null || naverStatus == null) {
+			if(loginStatus == null && kakaoStatus == null && naverStatus == null) {
 				alert("로그인 후 이용해주세요.");
 				return false;
 			}else{
