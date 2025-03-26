@@ -205,7 +205,7 @@
 			
 		$("button#btn_cart_add").on("click", function(){
 			
-			if(loginStatus == null || kakaoStatus == null || naverStatus == null) {
+			if(loginStatus == null && kakaoStatus == null && naverStatus == null) {
 				alert("로그인 후 이용해주세요.");
 				return false;
 			}else{
@@ -355,7 +355,7 @@
 		//상품후기 modal
 		$("#btn_review_modal").on("click", function(){
 
-			if(loginStatus == null || kakaoStatus == null || naverStatus == null) {
+			if(loginStatus == null && kakaoStatus == null && naverStatus == null) {
 				alert("로그인 후 이용해주세요.");
 				return false;
 			}else{
@@ -597,7 +597,7 @@
 		//구매하기
 		$("button#btn_direct_order").on("click", function(){
 
-			if(loginStatus == null || kakaoStatus == null || naverStatus == null) {
+			if(loginStatus == null && kakaoStatus == null && naverStatus == null) {
 				alert("로그인 후 이용해주세요.");
 				return false;
 			}else{
