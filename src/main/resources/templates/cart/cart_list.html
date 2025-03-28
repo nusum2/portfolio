@@ -13,12 +13,6 @@
 	  	<div class=col-md-2>
         수량
         </div>
-        <div class=col-md-1>
-        적립
-        </div>
-        <div class=col-md-2>
-        배송비
-        </div>
         <div class=col-md-2>
         가격
         </div>
@@ -39,12 +33,6 @@
         <div class=col-md-2>
         	<input type="number" name="cart_amount" th:value="${cartproduct.cart_amount}" class="w-50">
         	<button type="button" class="btn btn-secondary" name="btn_cart_amount_change" th:data-cart_code="${cartproduct.cart_code}">수량변경</button>
-        </div>
-        <div class=col-md-1>
-        	0
-        </div>
-        <div class=col-md-2>
-        [기본배송] 조건
         </div>
         <div class=col-md-2>
         	<span th:text="${#numbers.formatInteger(cartproduct.pro_disprice * cartproduct.cart_amount, 3, 'COMMA') + '원'}"></span>
