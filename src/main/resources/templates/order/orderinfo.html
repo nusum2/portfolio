@@ -13,12 +13,6 @@
             <div class=col-md-2>
             수량
             </div>
-            <div class=col-md-1>
-            적립
-            </div>
-            <div class=col-md-2>
-            배송비
-            </div>
             <div class=col-md-3>
             가격
             </div>
@@ -36,12 +30,6 @@
             </div>
             <div class=col-md-2>
                 <span th:text="${cartproduct.cart_amount}"></span>
-            </div>
-            <div class=col-md-1>
-                0
-            </div>
-            <div class=col-md-2>
-            [기본배송] 조건
             </div>
             <div class=col-md-3>
                 <span th:text="${#numbers.formatInteger(cartproduct.pro_disprice * cartproduct.cart_amount, 3, 'COMMA') + '원'}"></span>
