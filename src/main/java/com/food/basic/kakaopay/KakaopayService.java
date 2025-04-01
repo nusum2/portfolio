@@ -29,7 +29,7 @@ public class KakaopayService {
     @Value("${cancel}")
     private String cancel;
     
-    @Value("${approval}")
+    @Value("${fail}")
     private String fail;
 
     private String tid;
@@ -42,9 +42,9 @@ public class KakaopayService {
     public ReadyResponse ready(String partnerOrderId, String partnerUserId, String itemName, int quantity, 
     		int totalAmount, int taxFreeAmount, int vatAmount) {
         
-    	log.info("도메인 테스트 : " + approval);
-    	log.info("도메인 테스트 : " + cancel);
-    	log.info("도메인 테스트 : " + fail);
+    	log.info("도메인 테스트 approval : " + approval);
+    	log.info("도메인 테스트 cancel : " + cancel);
+    	log.info("도메인 테스트 fail : " + fail);
     	
     	// Request header
         HttpHeaders headers = new HttpHeaders();

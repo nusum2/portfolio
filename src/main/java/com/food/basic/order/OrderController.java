@@ -45,9 +45,22 @@ public class OrderController {
 	@Value("${file.product.image.dir}")
 	private String uploadPath;
 	
+	@Value("${approval}")
+    private String approval;
+    
+    @Value("${cancel}")
+    private String cancel;
+    
+    @Value("${approval}")
+    private String fail;
+	
 	//주문정보
 	@GetMapping("/orderinfo")
 	public String orderinfo(@RequestParam(value = "type", defaultValue = "direct") String type, CartVO vo, Model model, HttpSession session) throws Exception {
+		
+		log.info("도메인 테스트 approval : " + approval);
+    	log.info("도메인 테스트 cancel : " + cancel);
+    	log.info("도메인 테스트 fail : " + fail);
 		
 		String u_id = ((UserVO) session.getAttribute("login_status")).getU_id();
 		vo.setU_id(u_id);

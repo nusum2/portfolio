@@ -2,7 +2,6 @@ package com.food.basic.kakaopay;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,30 +30,15 @@ public class KakaopayController {
 	private OrderVO vo;
 	private String u_id;
 	
-    @Value("${approval}")
-    private String approval;
-    
-    @Value("${cancel}")
-    private String cancel;
-    
-    @Value("${approval}")
-    private String fail;
-	
 	@GetMapping("/kakaoPayRequest")
 	public void kakaoPayRequest() {
-    	log.info("도메인 테스트 : " + approval);
-    	log.info("도메인 테스트 : " + cancel);
-    	log.info("도메인 테스트 : " + fail);
+
 	}
 	
 	
 	@ResponseBody
 	@GetMapping(value =  "/kakaoPay")
 	public ReadyResponse kakaoPay(OrderVO vo, HttpSession session) {
-		
-    	log.info("도메인 테스트 : " + approval);
-    	log.info("도메인 테스트 : " + cancel);
-    	log.info("도메인 테스트 : " + fail);
 		
 		//1)결제준비요청(ready)
 		/*
