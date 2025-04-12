@@ -52,8 +52,10 @@
                 <div class="card-body">
                     
                     <div class="form-group form-check">
+                        <th:block th:if="${session.login_status != null}">
                         <input type="checkbox" class="form-check-input" id="ordersame">
                         <label class="form-check-label" for="ordersame">주문자와 동일</label>
+                        </th:block>
                     </div>               
                     <div class="form-group row">
                         <label for="ord_name" class="col-sm-2 col-form-label">이름</label>

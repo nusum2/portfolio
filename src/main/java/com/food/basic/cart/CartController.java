@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.food.basic.common.util.FileManagerUtils;
+import com.food.basic.kakaologin.KakaoUserInfo;
+import com.food.basic.naverlogin.Response;
 import com.food.basic.user.UserVO;
 
 import jakarta.servlet.http.HttpSession;
@@ -34,14 +36,21 @@ public class CartController {
 	@GetMapping("/cart_add")
 	public ResponseEntity<String> cart_add(CartVO vo, HttpSession session) throws Exception {
 		
-		String u_id = ((UserVO) session.getAttribute("login_status")).getU_id();
-		vo.setU_id(u_id);
+		if(session.getAttribute("login_status") != null) {
+			String u_id = ((UserVO) session.getAttribute("login_status")).getU_id();
+			vo.setU_id(u_id);	
+		}else if(session.getAttribute("kakao_status") != null) {
+			String kakao_id = ((KakaoUserInfo) session.getAttribute("kakao_status")).getNickname();
+			vo.setKakao_id(kakao_id);
+		}else if(session.getAttribute("naver_status") != null) {
+			String naver_id = ((Response) session.getAttribute("naver_status")).getName();
+			vo.setNaver_id(naver_id);
+		}
 		
 		ResponseEntity<String> entity = null;
 		cartService.cart_add(vo);
 		
 		entity = new ResponseEntity<String>("success", HttpStatus.OK);
-		
 		
 		return entity;
 	}
@@ -50,12 +59,32 @@ public class CartController {
 	@GetMapping("/cart_list")
 	public void cart_list(HttpSession session, Model model) throws Exception {
 		
-		String u_id = ((UserVO) session.getAttribute("login_status")).getU_id();
+		if(session.getAttribute("login_status") != null) {
+			String u_id = ((UserVO) session.getAttribute("login_status")).getU_id();
+			
+			List<CartProductVO> cart_list = cartService.cart_list(u_id);
+			cart_list.forEach(vo -> vo.setPro_up_folder(vo.getPro_up_folder().replace("\\", "/")));
+			
+			model.addAttribute("cart_list", cart_list);
+		}else if(session.getAttribute("kakao_status") != null) {
+			String kakao_id = ((KakaoUserInfo) session.getAttribute("kakao_status")).getNickname();
+			log.info("카카오 아이디 : " + kakao_id);
+			
+			List<CartProductVO> cart_list = cartService.cart_list_kakao(kakao_id);
+			cart_list.forEach(vo -> vo.setPro_up_folder(vo.getPro_up_folder().replace("\\", "/")));
+			
+			model.addAttribute("cart_list", cart_list);
+		}else if(session.getAttribute("naver_status") != null) {
+			String naver_id = ((Response) session.getAttribute("naver_status")).getName();
+			log.info("네이버 아이디 : " + naver_id);
+			
+			List<CartProductVO> cart_list = cartService.cart_list_naver(naver_id);
+			cart_list.forEach(vo -> vo.setPro_up_folder(vo.getPro_up_folder().replace("\\", "/")));
+			
+			model.addAttribute("cart_list", cart_list);
+		}
 		
-		List<CartProductVO> cart_list = cartService.cart_list(u_id);
-		cart_list.forEach(vo -> vo.setPro_up_folder(vo.getPro_up_folder().replace("\\", "/")));
-		
-		model.addAttribute("cart_list", cart_list);
+			
 	}
 	
 	@GetMapping("/image_display")
@@ -89,9 +118,19 @@ public class CartController {
 	@GetMapping("/cart_empty")
 	public String cart_empty(HttpSession session) throws Exception {
 		
-		String u_id = ((UserVO) session.getAttribute("login_status")).getU_id();
-		
-		cartService.cart_empty(u_id);
+		//일반회원 로그인시
+		if(session.getAttribute("login_status") != null) {
+			String u_id = ((UserVO) session.getAttribute("login_status")).getU_id();
+			cartService.cart_empty(u_id);
+		//카카오 로그인시	
+		}else if(session.getAttribute("kakao_status") != null) {
+			String kakao_id = ((KakaoUserInfo) session.getAttribute("kakao_status")).getNickname();
+			cartService.cart_empty_kakao(kakao_id);
+		//네이버 로그인시	
+		}else if(session.getAttribute("naver_status") != null) {
+			String naver_id = ((Response) session.getAttribute("naver_status")).getName();
+			cartService.cart_empty_naver(naver_id);
+		}
 		
 		return "redirect:/cart/cart_list";
 	}

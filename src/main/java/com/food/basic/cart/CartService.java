@@ -31,7 +31,23 @@ public class CartService {
 		return cartMapper.cart_list(u_id);
 	}
 	
+	public List<CartProductVO> cart_list_kakao(String kakao_id) {
+		return cartMapper.cart_list_kakao(kakao_id);
+	}
+	
+	public List<CartProductVO> cart_list_naver(String naver_id) {
+		return cartMapper.cart_list_naver(naver_id);
+	}
+	
 	public void cart_empty(String u_id) {
 		cartMapper.cart_empty(u_id);
+	}
+	
+	public void cart_empty_kakao(String kakao_id) {
+		cartMapper.cart_empty_kakao(kakao_id);
+	}
+	
+	public void cart_empty_naver(String naver_id) {
+		cartMapper.cart_empty_naver(naver_id); 
 	}
 }

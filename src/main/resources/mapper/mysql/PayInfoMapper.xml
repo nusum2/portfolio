@@ -6,8 +6,18 @@ insert into payinfo(p_id, ord_code, u_id, paymethod, payinfo, p_disprice, p_stat
 values(null, #{ord_code}, #{u_id}, #{paymethod}, #{payinfo}, #{p_disprice}, #{p_status})
 </insert>
 
+<insert id="payInfo_insert_kakao" parameterType="PayInfoVO">
+insert into payinfo(p_id, ord_code, kakao_id, paymethod, payinfo, p_disprice, p_status)
+values(null, #{ord_code}, #{kakao_id}, #{paymethod}, #{payinfo}, #{p_disprice}, #{p_status})
+</insert>
+
+<insert id="payInfo_insert_naver" parameterType="PayInfoVO">
+insert into payinfo(p_id, ord_code, naver_id, paymethod, payinfo, p_disprice, p_status)
+values(null, #{ord_code}, #{naver_id}, #{paymethod}, #{payinfo}, #{p_disprice}, #{p_status})
+</insert>
+
 <select id="ord_pay_info" parameterType="Long" resultType="PayInfoVO">
-select p_id, ord_code, u_id, paymethod, p_disprice, p_status, payinfo, p_date
+select p_id, ord_code, u_id, kakao_id, naver_id, paymethod, p_disprice, p_status, payinfo, p_date
 from payinfo
 where ord_code = #{ord_code}
 </select>

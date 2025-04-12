@@ -2,10 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.food.basic.cart.CartMapper">
 <insert id="cart_add" parameterType="CartVO">
-insert into cart_t (cart_code, pro_num, u_id, cart_amount)
-values (null, #{pro_num}, #{u_id}, #{cart_amount})
+insert into cart_t (cart_code, pro_num, u_id, kakao_id, naver_id, cart_amount)
+values (null, #{pro_num}, #{u_id}, #{kakao_id}, #{naver_id}, #{cart_amount})
 ON DUPLICATE KEY UPDATE
-pro_num = #{pro_num}, u_id = #{u_id}, cart_amount = #{cart_amount}
+pro_num = #{pro_num}, u_id = #{u_id}, kakao_id = #{kakao_id}, naver_id = #{naver_id}, cart_amount = #{cart_amount}
 </insert>
 
 <select id="cart_list" parameterType="String" resultType="CartProductVO">
@@ -14,6 +14,22 @@ from cart_t c
 inner join product_t p
 on c.pro_num = p.pro_num
 where c.u_id = #{u_id}
+</select>
+
+<select id="cart_list_kakao" parameterType="String" resultType="CartProductVO">
+select c.kakao_id, p.pro_up_folder, p.pro_img, p.pro_disprice, p.pro_name, c.cart_code, p.pro_num, c.cart_amount
+from cart_t c
+inner join product_t p
+on c.pro_num = p.pro_num
+where c.kakao_id = #{kakao_id}
+</select>
+
+<select id="cart_list_naver" parameterType="String" resultType="CartProductVO">
+select c.naver_id, p.pro_up_folder, p.pro_img, p.pro_disprice, p.pro_name, c.cart_code, p.pro_num, c.cart_amount
+from cart_t c
+inner join product_t p
+on c.pro_num = p.pro_num
+where c.naver_id = #{naver_id}
 </select>
 
 
@@ -31,6 +47,18 @@ where cart_code = #{cart_code}
 <delete id="cart_empty" parameterType="String">
 delete from cart_t
 where u_id = #{u_id}
+and kakao_id = #{kakao_id}
+and naver_id = #{naver_id}
+</delete>
+
+<delete id="cart_empty_kakao" parameterType="String">
+delete from cart_t
+where kakao_id = #{kakao_id}
+</delete>
+
+<delete id="cart_empty_naver" parameterType="String">
+delete from cart_t
+where naver_id = #{naver_id}
 </delete>
 
 </mapper>

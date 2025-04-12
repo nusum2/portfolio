@@ -163,9 +163,14 @@
 </th:block>
 
 <th:block layout:fragment="script">
-<script>
+  <script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
+<script th:inline="javascript">
+  
 	$(document).ready(function(){
-			//주문내역 리스트
+
+    var loginStatus = /*[[${session.login_status}]]*/;
+    var kakaoStatus = /*[[${session.kakao_status}]]*/;
+    var naverStatus = /*[[${session.naver_status}]]*/;
       
       //쇼핑 계속하기
       $("button#btn_shopping_continue").on("click", function(){
@@ -185,39 +190,110 @@
         //주문상세정보 id="order_history_detail_info_popup"
       $("#order_history_detail_info_popup").modal('show');
       //$("popup_info").load("/admin/order/order_detail_info?ord_code=" + ord_code);
-      $.ajax({
-        url : '/order/order_history_detail',
-        type : 'get',
-        data : {ord_code : ord_code},
-        dataType : 'json',
-        success : function(result) {
-          console.log(result);
-  
-          // 주문자(수령인) 
-          $("#ord_name").val(result.ord_basic.ord_name);
-          $("#ord_phone").val(result.ord_basic.ord_phone);
-          $("#sample2_postcode").val(result.ord_basic.ord_zip_code);
-          $("#sample2_address").val(result.ord_basic.ord_addr);
-          $("#sample2_detailAddress").val(result.ord_basic.ord_deaddr);
-          $("#ord_desc").val(result.ord_basic.ord_desc);
-          
-          
-          // 주문상품정보
-          print_order_product_info(result.ord_pro_list, $("#order_product_info"), $("#order-product-template"));
-	  
-          console.log(result.payinfo.paymethod);
+      if(loginStatus != null) {
+        $.ajax({
+          url : '/order/order_history_detail',
+          type : 'get',
+          data : {ord_code : ord_code},
+          dataType : 'json',
+          success : function(result) {
+            console.log(result);
+    
+            // 주문자(수령인) 
+            $("#ord_name").val(result.ord_basic.ord_name);
+            $("#ord_phone").val(result.ord_basic.ord_phone);
+            $("#sample2_postcode").val(result.ord_basic.ord_zip_code);
+            $("#sample2_address").val(result.ord_basic.ord_addr);
+            $("#sample2_detailAddress").val(result.ord_basic.ord_deaddr);
+            $("#ord_desc").val(result.ord_basic.ord_desc);
+            
+            
+            // 주문상품정보
+            print_order_product_info(result.ord_pro_list, $("#order_product_info"), $("#order-product-template"));
       
-          // 결제정보
-          $("#paymethod").val(result.payinfo.paymethod);
-          $("#p_disprice").val(result.payinfo.p_disprice);
-          $("#u_id").val(result.payinfo.u_id);
-          $("#payinfo").val(result.payinfo.payinfo);
-          $("#p_status").val(result.payinfo.p_status);
-        },
-        error : function() {
-  
-        }
-      });
+            console.log(result.payinfo.paymethod);
+        
+            // 결제정보
+            $("#paymethod").val(result.payinfo.paymethod);
+            $("#p_disprice").val(result.payinfo.p_disprice);
+            $("#u_id").val(result.payinfo.u_id);
+            $("#payinfo").val(result.payinfo.payinfo);
+            $("#p_status").val(result.payinfo.p_status);
+          },
+          error : function() {
+    
+          }
+        });
+      }else if(kakaoStatus != null) {
+        $.ajax({
+          url : '/order/order_history_detail',
+          type : 'get',
+          data : {ord_code : ord_code},
+          dataType : 'json',
+          success : function(result) {
+            console.log(result);
+    
+            // 주문자(수령인) 
+            $("#ord_name").val(result.ord_basic.kakao_id);
+            $("#ord_phone").val(result.ord_basic.ord_phone);
+            $("#sample2_postcode").val(result.ord_basic.ord_zip_code);
+            $("#sample2_address").val(result.ord_basic.ord_addr);
+            $("#sample2_detailAddress").val(result.ord_basic.ord_deaddr);
+            $("#ord_desc").val(result.ord_basic.ord_desc);
+            
+            
+            // 주문상품정보
+            print_order_product_info(result.ord_pro_list, $("#order_product_info"), $("#order-product-template"));
+      
+            console.log(result.payinfo.paymethod);
+        
+            // 결제정보
+            $("#paymethod").val(result.payinfo.paymethod);
+            $("#p_disprice").val(result.payinfo.p_disprice);
+            $("#u_id").val(result.payinfo.kakao_id);
+            $("#payinfo").val(result.payinfo.payinfo);
+            $("#p_status").val(result.payinfo.p_status);
+          },
+          error : function() {
+    
+          }
+        });
+      }else if(naverStatus != null) {
+        $.ajax({
+          url : '/order/order_history_detail',
+          type : 'get',
+          data : {ord_code : ord_code},
+          dataType : 'json',
+          success : function(result) {
+            console.log(result);
+    
+            // 주문자(수령인) 
+            $("#ord_name").val(result.ord_basic.naver_id);
+            $("#ord_phone").val(result.ord_basic.ord_phone);
+            $("#sample2_postcode").val(result.ord_basic.ord_zip_code);
+            $("#sample2_address").val(result.ord_basic.ord_addr);
+            $("#sample2_detailAddress").val(result.ord_basic.ord_deaddr);
+            $("#ord_desc").val(result.ord_basic.ord_desc);
+            
+            
+            // 주문상품정보
+            print_order_product_info(result.ord_pro_list, $("#order_product_info"), $("#order-product-template"));
+      
+            console.log(result.payinfo.paymethod);
+        
+            // 결제정보
+            $("#paymethod").val(result.payinfo.paymethod);
+            $("#p_disprice").val(result.payinfo.p_disprice);
+            $("#u_id").val(result.payinfo.naver_id);
+            $("#payinfo").val(result.payinfo.payinfo);
+            $("#p_status").val(result.payinfo.p_status);
+          },
+          error : function() {
+    
+          }
+        });
+      }
+      
       }
     //Handlebar 작업 함수
 	  let print_order_product_info = function(order_product_data, target, template) {

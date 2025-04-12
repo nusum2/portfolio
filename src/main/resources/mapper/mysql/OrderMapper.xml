@@ -3,8 +3,8 @@
 <mapper namespace="com.food.basic.order.OrderMapper">
 
 <insert id="order_insert" parameterType="OrderVO">
-insert into order_t (ord_code, u_id, ord_name, ord_zip_code, ord_addr, ord_deaddr, ord_phone, ord_price, ord_desc)
-values(#{ord_code}, #{u_id}, #{ord_name}, #{ord_zip_code}, #{ord_addr}, #{ord_deaddr}, #{ord_phone}, #{ord_price}, #{ord_desc})
+insert into order_t (ord_code, u_id, kakao_id, naver_id, ord_name, ord_zip_code, ord_addr, ord_deaddr, ord_phone, ord_price, ord_desc)
+values(#{ord_code}, #{u_id}, #{kakao_id}, #{naver_id}, #{ord_name}, #{ord_zip_code}, #{ord_addr}, #{ord_deaddr}, #{ord_phone}, #{ord_price}, #{ord_desc})
 <selectKey keyProperty="ord_code" resultType="Long" order="AFTER">
 select last_insert_id()
 </selectKey>
@@ -19,8 +19,26 @@ on c.pro_num = p.pro_num
 where c.u_id = #{u_id}
 </insert>
 
+<insert id="orderDetail_insert_kakao" parameterType="map">
+insert into ordt_t(ord_code, pro_num, dt_amount, dt_price)
+select #{ord_code}, p.pro_num, c.cart_amount, p.pro_disprice
+from cart_t c
+inner join product_t p
+on c.pro_num = p.pro_num
+where c.kakao_id = #{kakao_id}
+</insert>
+
+<insert id="orderDetail_insert_naver" parameterType="map">
+insert into ordt_t(ord_code, pro_num, dt_amount, dt_price)
+select #{ord_code}, p.pro_num, c.cart_amount, p.pro_disprice
+from cart_t c
+inner join product_t p
+on c.pro_num = p.pro_num
+where c.naver_id = #{naver_id}
+</insert>
+
 <select id="order_info" parameterType="Long" resultType="OrderHistoryVO">
-select ord_code, u_id, ord_name, ord_zip_code, ord_addr, ord_deaddr, ord_phone, ord_price, ord_regdate, ord_desc
+select ord_code, u_id, kakao_id, naver_id, ord_name, ord_zip_code, ord_addr, ord_deaddr, ord_phone, ord_price, ord_regdate, ord_desc
 from order_t
 where ord_code = #{ord_code}
 </select>
@@ -43,6 +61,32 @@ on o.ord_code = ot.ord_code
 inner join product_t p
 on ot.pro_num = p.pro_num
 where o.u_id = #{u_id}
+order by o.ord_code desc
+</select>
+
+<select id="order_history_kakao" parameterType="String" resultType="com.food.basic.order.OrderHistoryVO">
+select o.ord_code, o.kakao_id, o.ord_name, o.ord_zip_code, o.ord_addr, o.ord_deaddr, o.ord_phone, o.ord_price, o.ord_desc, o.ord_regdate,
+ot.pro_num, ot.dt_amount, ot.dt_price,
+p.pro_name, p.pro_up_folder, p.pro_img, p.pro_disprice
+from order_t o 
+inner join ordt_t ot
+on o.ord_code = ot.ord_code
+inner join product_t p
+on ot.pro_num = p.pro_num
+where o.kakao_id = #{kakao_id}
+order by o.ord_code desc
+</select>
+
+<select id="order_history_naver" parameterType="String" resultType="com.food.basic.order.OrderHistoryVO">
+select o.ord_code, o.naver_id, o.ord_name, o.ord_zip_code, o.ord_addr, o.ord_deaddr, o.ord_phone, o.ord_price, o.ord_desc, o.ord_regdate,
+ot.pro_num, ot.dt_amount, ot.dt_price,
+p.pro_name, p.pro_up_folder, p.pro_img, p.pro_disprice
+from order_t o 
+inner join ordt_t ot
+on o.ord_code = ot.ord_code
+inner join product_t p
+on ot.pro_num = p.pro_num
+where o.naver_id = #{naver_id}
 order by o.ord_code desc
 </select>
 

@@ -12,6 +12,8 @@ public class CartVO {
 	private Long cart_code;
 	private int pro_num;
 	private String u_id;
+	private String kakao_id;
+	private String naver_id;
 	private int cart_amount;
 	private Date cart_date; //Carlendar, LocalDate, LocalTime, LocalDateTime
 }

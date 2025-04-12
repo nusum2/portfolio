@@ -41,15 +41,9 @@ public class KakaopayService {
     //1)결제준비요청(ready)
     public ReadyResponse ready(String partnerOrderId, String partnerUserId, String itemName, int quantity, 
     		int totalAmount, int taxFreeAmount, int vatAmount) {
-        
-    	log.info("도메인 테스트 approval : " + approval);
-    	log.info("도메인 테스트 cancel : " + cancel);
-    	log.info("도메인 테스트 fail : " + fail);
     	
     	// Request header
         HttpHeaders headers = new HttpHeaders();
-//        headers.add("Authorization", "DEV_SECRET_KEY " + kakaopaySecretKey);
-//        headers.setContentType(MediaType.APPLICATION_JSON);
         headers.set("Authorization", "SECRET_KEY " + kakaopaySecretKey);
 		headers.set("Content-type", "application/json;charset=utf-8");
 

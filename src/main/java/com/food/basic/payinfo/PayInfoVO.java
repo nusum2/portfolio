@@ -14,6 +14,8 @@ public class PayInfoVO {
 	private Integer p_id;
 	private Long ord_code;
 	private String u_id;
+	private String kakao_id;
+	private String naver_id;
 	private String paymethod;
 	private int p_disprice;
 	private String p_status;

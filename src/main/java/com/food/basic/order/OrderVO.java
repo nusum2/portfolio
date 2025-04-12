@@ -20,6 +20,8 @@ public class OrderVO {
 	
 	private Long ord_code;
 	private String u_id;
+	private String kakao_id;
+	private String naver_id;
 	private String ord_name;
 	private String ord_zip_code;
 	private String ord_addr;
