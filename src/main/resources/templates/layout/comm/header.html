@@ -12,6 +12,7 @@
     <span th:text="${session.login_status.u_name}"></span>
     <span>[[${session.login_status.u_email}]]</span>
     <a class="p-2 text-dark" th:href="@{/user/logout}">로그아웃</a>
+    <a class="p-2 text-dark" th:href="@{/user/mypage}">마이페이지</a>
     </th:block>
     <th:block th:if="${session.kakao_status != null}">
     <span th:text="${session.kakao_status.nickname}"></span>
@@ -23,8 +24,7 @@
     <span>[[${session.naver_status.Response.email}]]</span>
     <a class="p-2 text-dark" th:href="@{/oauth2/naverlogout}">로그아웃</a>
     </th:block>
-    <th:block th:if="${session.login_status != null or session.kakao_status != null or session.naver_status != null}">
-    <a class="p-2 text-dark" th:href="@{/user/mypage}">마이페이지</a>
+    <th:block th:if="${session.login_status != null or session.kakao_status != null or session.naver_status != null}">   
     <a class="p-2 text-dark" th:href="@{/order/order_history}">주문내역</a>
     <a class="p-2 text-dark" th:href="@{/cart/cart_list}">장바구니</a>  
     </th:block>  

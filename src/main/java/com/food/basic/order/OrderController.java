@@ -19,6 +19,7 @@ import com.food.basic.cart.CartService;
 import com.food.basic.cart.CartVO;
 import com.food.basic.common.util.FileManagerUtils;
 import com.food.basic.kakaologin.KakaoUserInfo;
+import com.food.basic.naverlogin.NaverResponse;
 import com.food.basic.naverlogin.Response;
 import com.food.basic.payinfo.PayInfoService;
 import com.food.basic.payinfo.PayInfoVO;
@@ -198,7 +199,7 @@ public class OrderController {
 			log.info("리스트 : " + order_history);
 		//네이버 로그인시	
 		}else if(session.getAttribute("naver_status") != null) {
-			String naver_id = ((Response) session.getAttribute("naver_status")).getName();
+			String naver_id = ((NaverResponse) session.getAttribute("naver_status")).getResponse().getName();
 			List<OrderHistoryVO> order_history = orderService.order_history_naver(naver_id);
 			order_history.forEach(vo -> vo.setPro_up_folder(vo.getPro_up_folder().replace("\\", "/")));
 			//페이징

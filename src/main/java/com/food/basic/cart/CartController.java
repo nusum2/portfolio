@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.food.basic.common.util.FileManagerUtils;
 import com.food.basic.kakaologin.KakaoUserInfo;
+import com.food.basic.naverlogin.NaverResponse;
 import com.food.basic.naverlogin.Response;
 import com.food.basic.user.UserVO;
 
@@ -75,7 +76,7 @@ public class CartController {
 			
 			model.addAttribute("cart_list", cart_list);
 		}else if(session.getAttribute("naver_status") != null) {
-			String naver_id = ((Response) session.getAttribute("naver_status")).getName();
+			String naver_id = ((NaverResponse) session.getAttribute("naver_status")).getResponse().getName();
 			log.info("네이버 아이디 : " + naver_id);
 			
 			List<CartProductVO> cart_list = cartService.cart_list_naver(naver_id);
