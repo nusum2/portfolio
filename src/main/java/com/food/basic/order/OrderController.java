@@ -20,7 +20,6 @@ import com.food.basic.cart.CartVO;
 import com.food.basic.common.util.FileManagerUtils;
 import com.food.basic.kakaologin.KakaoUserInfo;
 import com.food.basic.naverlogin.NaverResponse;
-import com.food.basic.naverlogin.Response;
 import com.food.basic.payinfo.PayInfoService;
 import com.food.basic.payinfo.PayInfoVO;
 import com.food.basic.user.UserService;
@@ -99,7 +98,7 @@ public class OrderController {
 		//네이버 로그인시
 		}else if(session.getAttribute("naver_status") != null) {
 			//네이버 로그인
-			String naver_id = ((Response) session.getAttribute("naver_status")).getName();
+			String naver_id = ((NaverResponse) session.getAttribute("naver_status")).getResponse().getName();
 			vo.setNaver_id(naver_id);
 			//주문내역
 			List<CartProductVO> cart_list = cartService.cart_list_naver(naver_id);
@@ -158,7 +157,7 @@ public class OrderController {
 			orderService.order_process_kakao(vo, kakao_id, "무통장입금", "미납", payinfo);
 		//네이버 로그인시
 		}else if(session.getAttribute("naver_status") != null) {
-			String naver_id = ((Response) session.getAttribute("naver_status")).getName();
+			String naver_id = ((NaverResponse) session.getAttribute("naver_status")).getResponse().getName();
 			vo.setNaver_id(naver_id);
 			//결제정보
 			String payinfo = pay_nobank + "/" + pay_nobank_user;

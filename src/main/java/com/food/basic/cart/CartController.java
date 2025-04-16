@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.food.basic.common.util.FileManagerUtils;
 import com.food.basic.kakaologin.KakaoUserInfo;
 import com.food.basic.naverlogin.NaverResponse;
-import com.food.basic.naverlogin.Response;
 import com.food.basic.user.UserVO;
 
 import jakarta.servlet.http.HttpSession;
@@ -44,7 +43,7 @@ public class CartController {
 			String kakao_id = ((KakaoUserInfo) session.getAttribute("kakao_status")).getNickname();
 			vo.setKakao_id(kakao_id);
 		}else if(session.getAttribute("naver_status") != null) {
-			String naver_id = ((Response) session.getAttribute("naver_status")).getName();
+			String naver_id = ((NaverResponse) session.getAttribute("naver_status")).getResponse().getName();
 			vo.setNaver_id(naver_id);
 		}
 		
@@ -129,7 +128,7 @@ public class CartController {
 			cartService.cart_empty_kakao(kakao_id);
 		//네이버 로그인시	
 		}else if(session.getAttribute("naver_status") != null) {
-			String naver_id = ((Response) session.getAttribute("naver_status")).getName();
+			String naver_id = ((NaverResponse) session.getAttribute("naver_status")).getResponse().getName();
 			cartService.cart_empty_naver(naver_id);
 		}
 		
