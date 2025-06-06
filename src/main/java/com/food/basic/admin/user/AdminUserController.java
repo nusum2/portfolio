@@ -92,8 +92,8 @@ public class AdminUserController {
 		model.addAttribute("pageMaker", pageDto);
 	}
 	
-	// 일반메서드를 호출 하는 경우에는 파라미터(매개변수)값을 제공해야 한다.
-	// 주소에 의하여 호출되는 메서드는 파라미터를 스프링이 관여하여, 객체를 먼저 생성한다. 그리고 사용자가 입력한 값이 setter메서드에의하여 객체에 저장된다.
+	//일반메서드를 호출 하는 경우에는 파라미터(매개변수)값을 제공해야 한다.
+	//주소에 의하여 호출되는 메서드는 파라미터를 스프링이 관여하여, 객체를 먼저 생성한다. 그리고 사용자가 입력한 값이 setter메서드에의하여 객체에 저장된다.
 	//매일발송 폼 (CKEditor 사용) - 구분 1.광고/이벤트 2.일반
 	@GetMapping("/mailingform")
 	public void mailingform(@ModelAttribute("vo") MailMngVO vo) {
