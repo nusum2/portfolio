@@ -114,9 +114,13 @@ public class AdminUserController {
 		emailService.sendMail(dto, emailArr);
 		
 		// 메일발송 횟수 업데이트
-		adminUserService.mailSendCountUpdate(vo.getIdx());
+		if(vo.getIdx() != null) { 
+			adminUserService.mailSendCountUpdate(vo.getIdx());
 		
-		rttr.addFlashAttribute("msg", "send");
+		    rttr.addFlashAttribute("msg", "send");
+		}else if(vo.getIdx() == null) {
+			rttr.addFlashAttribute("msg", "send");
+		}
 		
 		return "redirect:/admin/user/mailinglist";
 	}
