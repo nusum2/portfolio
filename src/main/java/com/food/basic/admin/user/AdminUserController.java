@@ -119,7 +119,7 @@ public class AdminUserController {
 		
 		    rttr.addFlashAttribute("msg", "send");
 		}else if(vo.getIdx() == null) {
-			rttr.addFlashAttribute("msg", "send");
+			rttr.addFlashAttribute("msg", "direct");
 		}
 		
 		return "redirect:/admin/user/mailinglist";
@@ -144,6 +144,7 @@ public class AdminUserController {
 		return "admin/user/mailingform"; //리다이렉트 사용 안할 경우에는 주소가 아니라 타임리프 파일명으로 해석된다.
 	}
 	
+	//메일 수정폼
 	@GetMapping("/mailingsendform")
 	public void mailsendform(int idx, Model model) throws Exception {
 		
@@ -152,6 +153,7 @@ public class AdminUserController {
 		model.addAttribute("vo", vo);
 	}
 	
+	//메일 수정
 	@PostMapping("/mailingedit")
 	public String mailingedit(@ModelAttribute("vo") MailMngVO vo, Model model) throws Exception {
 				
@@ -161,6 +163,15 @@ public class AdminUserController {
 		model.addAttribute("msg", "modify");
 		
 		return "admin/user/mailingsendform";
+	}
+	
+	//메일 내용 보기
+	@GetMapping("/mailingcontent")
+	public void mailingcontent(int idx, Model model) throws Exception {
+		
+		MailMngVO vo = adminUserService.getMailSendInfo(idx);
+		
+		model.addAttribute("vo", vo);
 	}
 	
 	//ckeditor 상품설명 이미지 업로드

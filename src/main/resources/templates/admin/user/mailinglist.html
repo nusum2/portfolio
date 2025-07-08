@@ -99,7 +99,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 									<button type="button" class="btn btn-primary" name="btn_mail_edit" th:data-idx="${mail.idx}">수정</button>
 									<button type="button" class="btn btn-danger" name="btn_mail_del" th:data-idx="${mail.idx}">삭제</button>
 								</td>
-								<td><button type="button" class="btn btn-danger" name="btn_mail_send" th:data-idx="${mail.idx}">보내기</button></td>
+								<td><button type="button" class="btn btn-danger" name="btn_mail_content" th:data-idx="${mail.idx}">자세히</button></td>
 							</tr>
 							</tbody></table>
               </div>
@@ -184,11 +184,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <script>
 
       $(document).ready(function() {
-			// 메일보내기 name="btn_mail_send"  actionForm 을 이용한 시작했던 목록의 페이지이동작업
-			$("button[name='btn_mail_send']").on("click", function() {
+			// 메일보내기 name="btn_mail_content"  actionForm 을 이용한 시작했던 목록의 페이지이동작업
+			$("button[name='btn_mail_content']").on("click", function() {
 				let idx = $(this).data("idx");
 
-				location.href = "/admin/user/mailingsendform?idx=" + idx;
+				location.href = "/admin/user/mailingcontent?idx=" + idx;
 			});
 
 			// 메일수정 name="btn_mail_edit"   actionForm 을 이용한 시작했던 목록의 페이지이동작업
