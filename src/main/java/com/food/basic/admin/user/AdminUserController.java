@@ -44,7 +44,7 @@ public class AdminUserController {
 	private String uploadCKPath;
 	
 	//https://www.onedaynet.co.kr 참고
-	//업로드 업데이트1
+	//업로드 업데이트2
 	
 	//회원목록
 	@GetMapping("/user_list")
