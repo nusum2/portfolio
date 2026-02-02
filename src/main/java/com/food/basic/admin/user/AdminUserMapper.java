@@ -11,6 +11,8 @@ public interface AdminUserMapper {
 	
 	//메일저장
 	void mailing_save(MailMngVO vo);
+	//메일삭제
+	void mail_delete(int idx);
 	//메일주소
 	String[] getAllMailAddress();
 	//메일 보낸 횟수

@@ -19,6 +19,11 @@ public class AdminUserService {
 		adminUserMapper.mailing_save(vo);
 	}
 	
+	public void mail_delete(int idx) {
+		
+		adminUserMapper.mail_delete(idx);
+	}
+	
 	public String[] getALLMailAddress() {
 		
 		return adminUserMapper.getAllMailAddress();

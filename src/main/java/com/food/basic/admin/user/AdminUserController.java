@@ -44,6 +44,7 @@ public class AdminUserController {
 	private String uploadCKPath;
 	
 	//https://www.onedaynet.co.kr 참고
+	//업로드 업데이트1
 	
 	//회원목록
 	@GetMapping("/user_list")
@@ -142,6 +143,15 @@ public class AdminUserController {
 		model.addAttribute("msg", "save");
 		
 		return "admin/user/mailingform"; //리다이렉트 사용 안할 경우에는 주소가 아니라 타임리프 파일명으로 해석된다.
+	}
+	
+	//메일삭제
+	@GetMapping("/mail_delete")
+	public String mail_delete(int idx, Criteria cri) throws Exception {
+		
+		adminUserService.mail_delete(idx);
+		
+		return "redirect:/admin/user/mailinglist" + cri.getListLink();
 	}
 	
 	//메일 수정폼

@@ -53,6 +53,11 @@ select last_insert_id()
 </selectKey>
 </insert>
 
+<delete id="mail_delete" parameterType="int">
+delete from mailing_t
+where m_idx = #{idx}
+</delete>
+
 <select id="getAllMailAddress" resultType="String">
 select u_email
 from user_t
