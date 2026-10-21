@@ -130,7 +130,7 @@ public class AdminOrderController {
 		
 		ResponseEntity<String> entity = null;
 		
-		//db연동
+		//db 연동
 		adminOrderService.order_basic_update(vo);
 		
 		entity = new ResponseEntity<String>("success", HttpStatus.OK);
