@@ -4,7 +4,7 @@
 
 <!-- 검색조건 -->
 <sql id="mysqlCriteria">
-<trim prefix="where" suffix="and" prefixOverrides="OR">
+<trim prefixOverrides="OR">
 <foreach collection="cri.typeArr" item="type">
 <trim prefix="OR">
 <choose>

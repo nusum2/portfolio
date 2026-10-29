@@ -106,8 +106,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
 									<select name="type">
 										<option th:selected="${''} == ${pageMaker.cri.type}">검색종류선택</option>
 										<option value="N" th:selected="${'N'} == ${pageMaker.cri.type}">주문자</option>
-										<option value="I" th:selected="${'I'} == ${pageMaker.cri.type}">주문번호</option>
-										<option value="C" th:selected="${'C'} == ${pageMaker.cri.type}">아이디</option>
+										<option value="C" th:selected="${'C'} == ${pageMaker.cri.type}">주문번호</option>
+										<option value="I" th:selected="${'I'} == ${pageMaker.cri.type}">아이디</option>
 										<!-- <option value="NC">주문자 or 아이디</option> -->
 									</select>
 									<input type="text" name="keyword" th:value="${pageMaker.cri.keyword}" />
