@@ -45,7 +45,7 @@ ord_code like concat('%',#{cri.keyword},'%')
 <sql id="period">
 <if test="start_date != null and !start_date.equals('') and end_date != null and !end_date.equals('')">
 <![CDATA[
-ord_regdate >= str_to_date(#{start_date}, '%Y-%m-%d') and ord_regdate < str_to_date(#{end_date}, '%Y-%m-%d') + 1 
+and ord_regdate >= str_to_date(#{start_date}, '%Y-%m-%d') and ord_regdate < str_to_date(#{end_date}, '%Y-%m-%d') + 1 
 ]]>
 </if>
 </sql>
@@ -62,8 +62,18 @@ select * from (
 select @rownum:=@rownum + 1 as rn, o.*
 from order_t o, (select @rownum:=0) r 
 order by ord_code desc) list 
-<include refid="mysqlCriteria"></include>
-<include refid="period"></include>
+<where>
+        <include refid="mysqlCriteria"/>
+
+        <if test="start_date != null and start_date != ''
+          and end_date != null and end_date != ''">
+            AND ord_regdate >= STR_TO_DATE(#{start_date}, '%Y-%m-%d')
+            AND ord_regdate &lt; DATE_ADD(
+                STR_TO_DATE(#{end_date}, '%Y-%m-%d'),
+                INTERVAL 1 DAY
+            )
+        </if>
+    </where>
 limit #{cri.amount} offset #{cri.startList}
 </select>
 
